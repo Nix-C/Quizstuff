@@ -1,6 +1,17 @@
 /** Imports **/
 
-@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+/* Fonts */
+@font-face {
+  font-family: "Lato";
+  src: url("./fonts/Lato/Lato-Regular.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("./fonts/Lato/Lato-Bold.ttf");
+  font-weight: bold;
+}
 
 /** Global Styles **/
 
@@ -22,7 +33,7 @@ a:hover {
 
 :root {
   --font-color: white;
-  --bg-color: black;
+  --bg-color: rgb(0, 70, 102);
   --alt-bg-color: rgb(0, 70, 102);
   --site-width: 1000px;
 }
@@ -30,6 +41,7 @@ a:hover {
 body {
   margin: 0;
   padding: 0;
+  position: relative;
   overflow-x: hidden;
   background-color: var(--bg-color);
   color: var(--font-color);
@@ -38,10 +50,17 @@ body {
 }
 
 header {
-  padding-bottom: 160px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  z-index: 3;
 }
 
-nav,
+header + * {
+  padding-top: 2rem;
+}
+
+header,
 footer {
   color: var(--font-color);
   background-color: rgb(0, 70, 102);
@@ -56,19 +75,14 @@ section {
   z-index: 2;
 }
 
-/** Navbar **/
-
 nav {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-
+  margin: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 3;
+  flex-wrap: wrap;
+  align-items: end;
+  /* justify-content: center; */
+  width: 100%;
+  max-width: var(--site-width);
 }
 
 .logo-container {
@@ -78,9 +92,10 @@ nav {
   align-items: center;
   padding: 1em;
   text-decoration: none;
+  margin-right: 1em;
 }
 .logo-container h1 {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .logo-container h1,
@@ -108,14 +123,13 @@ nav h4 {
 } */
 
 nav ul {
-  width: 100%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-evenly;
 
   text-decoration: none;
   list-style-type: none;
-  font-weight: bold;
+
+  gap: 1em;
 
   margin: 0px;
   padding: 20px 0px;
