@@ -37,6 +37,10 @@ body {
   background-size: contain;
 }
 
+header {
+  padding-bottom: 160px;
+}
+
 nav,
 footer {
   color: var(--font-color);
@@ -48,8 +52,6 @@ section {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  margin-top: 200px;
 
   z-index: 2;
 }
