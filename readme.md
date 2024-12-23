@@ -19,3 +19,4 @@ _NC 12/32/2024_
 - Move \<script\> tags below \<body\>.
 - Move wave-lines to body.
 - Replaced \<button\> elements with .button class.
+- Added alt text to images.
