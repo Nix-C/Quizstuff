@@ -16,7 +16,6 @@ _NC 12/32/2024_
 
 - Update current year in footer with JS.
 - Move \<li\> tags outside of \<a\> tags.
-- Move \<script\> tags below \<body\>.
 - Move wave-lines to body.
 - Replaced \<button\> elements with .button class.
 - Added alt text to images.
