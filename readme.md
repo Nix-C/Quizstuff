@@ -11,7 +11,7 @@ This is the main site for QuizStuff. Contains updates, downloads, and general FA
 
 ### Completed:
 
-_NC 12/32/2024_
+_NC 12/23/2024_
 
 - Update current year in footer with JS.
 - Move \<li\> tags outside of \<a\> tags.
@@ -19,3 +19,8 @@ _NC 12/32/2024_
 - Replaced \<button\> elements with .button class.
 - Added alt text to images.
 - Replaced google font import with local font files.
+
+_NC 12/26/2024_
+
+- Replace bg with css gradients and texture image.
+- Re-organize navigation + animations
