@@ -218,6 +218,7 @@ nav {
 
 /* Animated underline recipe */
 #header-links a:after {
+  position: absolute;
   content: "";
   display: block;
   width: 0%;
@@ -227,7 +228,7 @@ nav {
   height: 1px;
   transition: width 150ms ease-out;
 }
-a.current:after,
+#header-links a.current:after,
 #header-links a:hover:after {
   opacity: 1;
   width: 100%;
