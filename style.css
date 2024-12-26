@@ -1,3 +1,11 @@
+:root {
+  --font-color: white;
+  /*--bg-color: rgb(0, 70, 102);*/
+  --bg-color: rgb(13, 18, 28);
+  --alt-bg-color: black;
+  --site-width: 1000px;
+}
+
 /** Imports **/
 
 /* Fonts */
@@ -31,14 +39,6 @@ a:hover {
   opacity: 0.8;
 }
 
-:root {
-  --font-color: white;
-  /*--bg-color: rgb(0, 70, 102);*/
-  --bg-color: black;
-  --alt-bg-color: rgb(0, 70, 102);
-  --site-width: 1000px;
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -46,11 +46,64 @@ body {
   overflow-x: hidden;
   background-color: var(--bg-color);
   color: var(--font-color);
-  background-image: url("rm218-bb-07.jpg");
+  /* background-image: url("rm218-bb-07.jpg"); */
   background-size: 100% 100%;
   background-position: 0;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+/* Background canvas */
+#canvas {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Texture blending */
+#canvas:after {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
+  background-image: url("./assets/images/binding-dark.png");
+  mix-blend-mode: color-burn;
+  opacity: 50%;
+  z-index: 0;
+}
+
+/* Radial gradients */
+[id^="radial-"] {
+  position: fixed;
+  --size: 100px; /* Default size*/
+  width: var(--size);
+  height: var(--size);
+}
+
+#radial-1 {
+  opacity: 0.8;
+  --size: 150vw;
+  --pos: calc(var(--size) / 2vw);
+  top: -75vw;
+  left: -75vw;
+
+  background: radial-gradient(circle, #004b78 5%, transparent 60%);
+}
+
+#radial-2 {
+  opacity: 0.8;
+  --size: 150vw;
+  --pos: calc(var(--size) / 2vw);
+  right: -75vw;
+  bottom: -75vw;
+
+  background: radial-gradient(circle, #431235 5%, transparent 60%);
 }
 
 header {
@@ -67,7 +120,7 @@ header + * {
 header,
 footer {
   color: var(--font-color);
-  background-color: var(--bg-color);
+  background-color: var(--alt-bg-color);
 }
 
 section {
@@ -142,7 +195,6 @@ nav ul {
 
   margin: 0;
   padding: 0px;
-  background-color: var(--bg-color);
 }
 
 nav ul a {
