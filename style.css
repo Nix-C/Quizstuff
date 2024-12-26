@@ -3,13 +3,13 @@
 /* Fonts */
 @font-face {
   font-family: "Lato";
-  src: url("./fonts/Lato/Lato-Regular.ttf");
+  src: url("./assets/Lato/Lato-Regular.ttf");
   font-weight: normal;
 }
 
 @font-face {
   font-family: "Lato";
-  src: url("./fonts/Lato/Lato-Bold.ttf");
+  src: url("./assets/fonts/Lato/Lato-Bold.ttf");
   font-weight: bold;
 }
 
@@ -83,20 +83,26 @@ nav {
   margin: auto;
   display: flex;
   flex-wrap: wrap;
-  align-items: end;
+  align-items: center;
   /* justify-content: center; */
   width: 100%;
   max-width: var(--site-width);
+  padding: 1em;
+}
+
+.ostrich-icon {
+  height: 2.5em;
+  fill: red;
+  stroke: red;
 }
 
 .logo-container {
   display: flex;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 1em;
+  gap: 0.5em;
+  padding-right: 1em;
   text-decoration: none;
-  margin-right: 1em;
+  margin-right: 0.5em;
 }
 .logo-container h1 {
   font-size: 2rem;
@@ -128,15 +134,14 @@ nav h4 {
 
 nav ul {
   display: inline-flex;
-  align-items: center;
 
   text-decoration: none;
   list-style-type: none;
 
   gap: 1em;
 
-  margin: 0px 0px 0px 10px;
-  padding: 20px 0px;
+  margin: 0;
+  padding: 0px;
   background-color: var(--bg-color);
 }
 
@@ -154,7 +159,7 @@ nav ul a:after {
   bottom: 0;
   left: 0;
   background-color: currentColor;
-  height: 2px;
+  height: 1px;
   transition: width 150ms ease-out;
 }
 a.current:after,
