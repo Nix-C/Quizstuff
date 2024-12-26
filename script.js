@@ -12,3 +12,8 @@ const currentYear = new Date().getFullYear();
 document.querySelectorAll(".current-year").forEach((e) => {
   e.innerHTML = currentYear;
 });
+
+function toggleNavOpen() {
+  const body = document.querySelector("body");
+  body.classList.toggle("nav-open");
+}
