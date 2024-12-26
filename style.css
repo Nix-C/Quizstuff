@@ -1,11 +1,45 @@
+:root {
+  --font-color: white;
+  /*--bg-color: rgb(0, 70, 102);*/
+  --bg-color: rgb(13, 18, 28);
+  --alt-bg-color: rgb(7, 9, 12);
+  --site-width: 1000px;
+  --ul-height: 18rem;
+}
+
 /** Imports **/
 
-@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+/* Fonts */
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/Lato/Lato-Regular.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/fonts/Lato/Lato-Bold.ttf");
+  font-weight: bold;
+}
 
 /** Global Styles **/
 
 * {
   font-family: "Lato", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  /* background-image: url("rm218-bb-07.jpg"); */
+  background-size: 100% 100%;
+  background-position: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* Link color reset */
@@ -20,31 +54,104 @@ a:hover {
   opacity: 0.8;
 }
 
-:root {
-  --font-color: white;
-  --bg-color: black;
-  --alt-bg-color: rgb(0, 70, 102);
-  --site-width: 1000px;
+button.icon {
+  --size: 2rem;
+
+  height: var(--size);
+  background: unset;
+  border: none;
+  cursor: pointer;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  background-color: var(--bg-color);
-  color: var(--font-color);
-  background-image: url("wave-lines-vector-png-photo-15.png");
-  background-size: contain;
+.ham-icon {
+  height: inherit;
+  stroke: white;
+  stroke-width: 10px;
+}
+
+.ham-icon,
+.ham-icon path {
+  transition: transform 200ms ease, stroke-width 100ms ease;
+}
+.nav-open .ham-icon {
+  transform: rotate(-90deg);
+}
+.nav-open .ham-icon path:first-of-type {
+  transform: rotate(45deg) translate(20%, -20%);
+}
+.nav-open .ham-icon path:nth-of-type(2) {
+  stroke-width: 0px !important;
+}
+.nav-open .ham-icon path:last-of-type {
+  transform: rotate(-45deg) translate(-50%, -10%);
+}
+
+/* Background canvas */
+#canvas {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Texture blending */
+#canvas:after {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
+  background-image: url("./assets/images/binding-dark.png");
+  mix-blend-mode: color-burn;
+  opacity: 50%;
+  z-index: 0;
+}
+
+/* Radial gradients */
+[id^="radial-"] {
+  position: fixed;
+  --size: 100px; /* Default size*/
+  width: var(--size);
+  height: var(--size);
+}
+
+#radial-1 {
+  opacity: 0.8;
+  --size: 150vh;
+  top: -75vh;
+  left: -75vh;
+
+  background: radial-gradient(circle, #004b78 5%, transparent 60%);
+}
+
+#radial-2 {
+  opacity: 0.8;
+  --size: 150vh;
+  right: -75vh;
+  bottom: -75vh;
+
+  background: radial-gradient(circle, #431235 5%, transparent 60%);
 }
 
 header {
-  padding-bottom: 160px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  z-index: 3;
 }
 
-nav,
+header + * {
+  padding-top: 1rem;
+}
+
+header,
 footer {
   color: var(--font-color);
-  background-color: rgb(0, 70, 102);
+  background-color: var(--alt-bg-color);
 }
 
 section {
@@ -56,31 +163,33 @@ section {
   z-index: 2;
 }
 
-/** Navbar **/
-
 nav {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-
+  margin: auto;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 3;
+  /* justify-content: center; */
+  width: 100%;
+  max-width: var(--site-width);
+  padding: 0.5em 10px;
+}
+
+.ostrich-icon {
+  height: 2.5em;
+  fill: red;
+  stroke: red;
 }
 
 .logo-container {
   display: flex;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 1em;
+  gap: 0.5em;
+  padding-right: 1em;
   text-decoration: none;
+  margin-right: 0.5em;
 }
 .logo-container h1 {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .logo-container h1,
@@ -89,58 +198,38 @@ nav {
   padding: 0;
 }
 
-/* nav h1 {
-  margin: 0px;
-  padding-top: 10px;
-  width: 100%;
-  height: 40px;
-
-  text-align: center;
-}
-
-nav h4 {
-  margin: 0px;
-  padding: 10px;
-  width: 100%;
-
-  text-align: center;
-  background-color: black;
-} */
-
-nav ul {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+#header-links {
+  display: inline-flex;
 
   text-decoration: none;
   list-style-type: none;
-  font-weight: bold;
 
-  margin: 0px;
-  padding: 20px 0px;
-  background-color: var(--alt-bg-color);
+  gap: 1em;
+
+  margin: 0;
+  padding: 0px;
 }
 
-nav ul a {
+#header-links a {
   opacity: 1 !important; /* Shh it's fine */
   text-decoration: none;
   position: relative;
 }
 
 /* Animated underline recipe */
-nav ul a:after {
+#header-links a:after {
+  position: absolute;
   content: "";
   display: block;
   width: 0%;
   bottom: 0;
   left: 0;
   background-color: currentColor;
-  height: 2px;
+  height: 1px;
   transition: width 150ms ease-out;
 }
-a.current:after,
-nav ul a:hover:after {
+#header-links a.current:after,
+#header-links a:hover:after {
   opacity: 1;
   width: 100%;
 }
@@ -157,7 +246,7 @@ nav ul a:hover:after {
   padding: 30px;
   margin: 40px 10px 0 10px;
 
-  background-color: rgba(40, 40, 40, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .container-header {
@@ -205,7 +294,7 @@ footer {
   justify-content: space-evenly;
   text-align: center;
   padding: 5px;
-  background-color: var(--alt-bg-color);
+  background-color: var(--bg-color);
 }
 
 footer {
@@ -225,4 +314,43 @@ footer img {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .mobile-only {
+    display: initial;
+  }
+
+  nav {
+    justify-content: space-between;
+  }
+
+  #header-links-wrapper {
+    height: 0;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    transition: height 150ms ease-out;
+    background: var(--alt-bg-color);
+    overflow: hidden;
+  }
+
+  #header-links {
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 20px;
+    font-size: 1.5rem;
+  }
+  .nav-open #header-links-wrapper {
+    height: var(--ul-height);
+  }
+
+  #header-links li {
+    width: fit-content;
+    text-align: right;
+  }
 }
