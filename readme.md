@@ -18,3 +18,4 @@ _NC 12/32/2024_
 - Move wave-lines to body.
 - Replaced \<button\> elements with .button class.
 - Added alt text to images.
+- Replaced google font import with local font files.
