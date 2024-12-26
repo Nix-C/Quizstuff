@@ -1,0 +1,13 @@
+name: Pull Any Changes to Main
+
+on:
+  # Runs on pushes targeting default branch
+  push: 
+    branches: ["master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+#jobs:
+  
