@@ -17,3 +17,12 @@ function toggleNavOpen() {
   const body = document.querySelector("body");
   body.classList.toggle("nav-open");
 }
+
+const headerLinks = document.getElementById("header-links");
+const root = document.querySelector(":root");
+root.style.setProperty("--ul-height", `${headerLinks.clientHeight}px`);
+console.log(headerLinks.clientHeight);
+window.addEventListener("resize", () => {
+  root.style.setProperty("--ul-height", `${headerLinks.clientHeight}px`);
+  console.log(headerLinks.clientHeight);
+});
