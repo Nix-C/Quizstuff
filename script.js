@@ -21,8 +21,7 @@ function toggleNavOpen() {
 const headerLinks = document.getElementById("header-links");
 const root = document.querySelector(":root");
 root.style.setProperty("--ul-height", `${headerLinks.clientHeight}px`);
-console.log(headerLinks.clientHeight);
+
 window.addEventListener("resize", () => {
   root.style.setProperty("--ul-height", `${headerLinks.clientHeight}px`);
-  console.log(headerLinks.clientHeight);
 });
