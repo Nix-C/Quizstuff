@@ -19,7 +19,7 @@
 @font-face {
   font-family: "Lato";
   src: url("./assets/fonts/Lato/Lato-Bold.ttf");
-  font-weight: bold;
+  font-weight: bold 700;
 }
 
 /** Global Styles **/
