@@ -18,44 +18,7 @@
       <div id="radial-1"></div>
       <div id="radial-2"></div>
     </div>
-    <header id="header">
-      <nav>
-        <a href="/" class="logo-container">
-          <img
-            class="ostrich-icon"
-            src="/assets/images/ostritch_final_1.png"
-            alt="An ostrich wearing glasses."
-          />
-          <h1>QuizStuff</h1>
-        </a>
-        <div id="header-links-wrapper">
-          <ul id="header-links">
-            <li><a href="/">Overview</a></li>
-            <li><a href="/downloads.html">Downloads</a></li>
-            <!-- <li><a href="#">Changelog</a></li> -->
-            <li><a class="current" href="/faqs.html">FAQs</a></li>
-            <li>
-              <a
-                href="http://www.quizstuff.com/zencart/index.php?main_page=login&zenid=502e276d8dbff6ccf0d336295bd5ffdb"
-                >Store</a
-              >
-            </li>
-          </ul>
-        </div>
-        <button class="icon mobile-only" onclick="toggleNavOpen()">
-          <svg
-            class="ham-icon"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path style="stroke-miterlimit: 6" d="M 0 20 L 100 20" />
-            <path style="stroke-miterlimit: 6" d="M 0 50 L 100 50" />
-            <path style="stroke-miterlimit: 6" d="M 0 80 L 100 80" />
-          </svg>
-        </button>
-      </nav>
-    </header>
-
+    <?php include 'header.php'; ?>
     <main>
       <section class="container">
         <h1 class="container-header">OK, how does this all work?</h1>
