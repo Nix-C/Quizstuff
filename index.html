@@ -35,11 +35,38 @@
             <li><a href="downloads.html">Downloads</a></li>
             <!-- <li><a href="#">Changelog</a></li> -->
             <li><a href="faqs.html">FAQs</a></li>
-            <li>
-              <a
-                href="http://www.quizstuff.com/zencart/index.php?main_page=login&zenid=502e276d8dbff6ccf0d336295bd5ffdb"
-                >Store</a
-              >
+            <li class="dropdown">
+              <button onclick="toggleOpen(this)">
+                Store
+                <svg
+                  width="24px"
+                  height="24px"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  color="currentColor"
+                >
+                  <path
+                    d="M6 9L12 15L18 9"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </button>
+              <ul class="dropdown-content">
+                <li>
+                  <a href="/store/products.php">Products</a>
+                </li>
+                <li>
+                  <a href="/store/order-form.php">Order form</a>
+                </li>
+                <li>
+                  <a href="/store/shipping-info.php">Shipping policy</a>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
