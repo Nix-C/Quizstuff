@@ -154,13 +154,11 @@ footer {
   background-color: var(--alt-bg-color);
 }
 
-section {
+main {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  z-index: 2;
 }
 
 nav {
@@ -236,7 +234,7 @@ nav {
 
 /** Containers **/
 
-.container {
+section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -257,12 +255,12 @@ nav {
   color: white;
 }
 
-.container img {
+section img {
   height: 100px;
   margin-bottom: 20px;
 }
 
-.container #HIW {
+#HIW {
   margin: 30px 0px;
   height: 200px;
 }
