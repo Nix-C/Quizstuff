@@ -1,3 +1,4 @@
 # Ignore the "Art files" folder
 Art files/
 Downloads/
+store/config/database.php
