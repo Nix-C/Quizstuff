@@ -36,15 +36,15 @@
                 </svg>
               </button>
               <ul class="dropdown-content">
-                <li>
+                <!-- <li>
                   <a href="/store/products.php">Products</a>
-                </li>
+                </li> -->
                 <li>
                   <a href="/store/order-form.php">Order form</a>
                 </li>
-                <li>
+                <!-- <li>
                   <a href="/store/shipping-info.php">Shipping policy</a>
-                </li>
+                </li> -->
               </ul>
             </li>
           </ul>

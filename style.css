@@ -271,7 +271,7 @@ nav {
 }
 
 .dropdown .open svg {
-  transform: rotate(180deg);
+  transform: scaleY(-1);
 }
 
 .dropdown .open + ul {
