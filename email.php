@@ -45,7 +45,7 @@
 
           $response = "Thank you, " . $fname . "We will contact you shortly.\n Please check your email for your order confirmation and invoice.";
 
-          // header("Location http://msparenti.com/CCDCP/index.html");
+          // header("Location https://quizstuff.com");
       }
   }
  
