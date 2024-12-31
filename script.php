@@ -34,7 +34,7 @@
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
         // TCP port number
-        $mail->Port = 587;
+        $mail->Port = 465;
 
         // From
         $mail->setFrom(SEND_FROM, SEND_FROM_NAME);
