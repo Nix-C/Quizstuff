@@ -5,7 +5,7 @@
     if( empty($_POST['firstname']) || 
         empty($_POST['lastname']) || 
         empty($_POST['email']) || 
-        empty($_POST['phoone'])
+        empty($_POST['phone'])
       ){
 
         $response = "All fields are required.";
