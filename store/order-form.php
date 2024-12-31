@@ -46,7 +46,7 @@
     <main>
       <section class="container">
       <h1>Order Form</h1>
-        <form>
+        <form action="order.php" method="POST" enctype="multipart/form-data">
           <?php foreach($products as $product) : ?>
             <fieldset>
               <legend><?= $product['name'] ?></legend>
@@ -56,7 +56,7 @@
               <label>Quantity: <input type="number" name="quantity_<?= $product['id'] ?>" id="quantity_<?= $product['id'] ?>" min="0" max="100" steps="1" value="0"></label>
             </fieldset>
           <?php endforeach; ?>
-          <button>Submit Order</button>
+          <button action="submit" name="submit">Submit Order</button>
         </form>
       </section>
     </main>
