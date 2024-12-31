@@ -46,8 +46,42 @@
     <main>
       <section class="container">
       <h1>Order Form</h1>
-        <form action="order.php" method="POST" enctype="multipart/form-data">
-          <?php foreach($products as $product) : ?>
+      <p>Fill out the form below to place an order.</p>
+        <form action="email.php" method="POST" enctype="multipart/form-data">
+          <fieldset>
+            <legend>Name</legend>
+            <label for="name-first">First Name:
+              <input type="text" name="name-first" id="name-first" required>
+            </label>
+            <label for="name-last">Last Name:
+              <input type="text" name="name-last" id="name-last" required>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Address</legend>
+            <label for="address">Street Address:
+              <input type="text" name="address" id="address" required>
+            </label>
+            <label for="city">City:
+              <input type="text" name="city" id="city" required>
+            </label>
+            <label for="state">State:
+              <input type="text" name="state" id="state" required>
+            </label>
+            <label for="zip">Zip Code:
+              <input type="text" name="zip" id="zip" required>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Contact</legend>
+            <label for="email">Email:
+              <input type="email" name="email" id="email" required>
+            </label>
+            <label for="phone">Phone:
+              <input type="tel" name="phone" id="phone" required>
+            </label>
+          </fieldset>
+        <?php foreach($products as $product) : ?>
             <fieldset>
               <legend><?= $product['name'] ?></legend>
               <label>Price: $<?= $product['price'] ?></label>
