@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link
     rel="shortcut icon"
-    href="/assets/images/ostritch_final_1.png"
+    href="/assets/images/ostritch.ico"
     type="image/x-icon"
   />
   <link rel="stylesheet" href="/style.css" />
