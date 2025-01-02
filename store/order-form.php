@@ -6,33 +6,6 @@
   $sql = "SELECT * FROM products";
   $result = mysqli_query($conn, $sql);
   $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  // Spoof DB 🤡
-  // Product class
-  // class product {
-  //   public $name;
-  //   public $price;
-  //   public $description;
-  //   public $image;
-  //   public $id;
-
-  //   public function __construct($name, $price, $description, $image, $id) {
-  //     $this->name = $name;
-  //     $this->price = $price;
-  //     $this->description = $description;
-  //     $this->image = $image;
-  //     $this->id = $id;
-  //   }
-  // }
-
-
-  // Array of 5 products
-  // $products = [
-  //   new product('Chair Pads', 75.00, 'A chair pad', '', 1),
-  //   new product('Laptop', 215, 'A refurbished laptop with Quizstuff installed.', '', 2),
-  //   new product('USB Interface', 135.00, 'ProductDescription', '', 3),
-  //   new product('QuizMachine', 50, 'ProductDescription', '', 4),
-  //   new product('QuizMachine DQD', 75, 'ProductDescription', '', 5)
-  // ];
 ?>
 <!DOCTYPE html>
 <html lang="en">
