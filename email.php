@@ -1,5 +1,7 @@
 <?php
 
+require 'script.php';
+
   if (isset($_POST['submit'])) {
 
     if( empty($_POST['firstname']) || 
@@ -45,7 +47,7 @@
 
           $response = "Thank you, " . $fname . "We will contact you shortly.\n Please check your email for your order confirmation and invoice.";
 
-          // header("Location https://quizstuff.com");
+          header("Location https://dev.quizstuff.com");
       }
   }
  
