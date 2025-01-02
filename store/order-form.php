@@ -1,5 +1,5 @@
 <?php
-  include 'config/database.php';
+  include './config/database.php';
   $page_title = "Order Form";   // Page variables
 
   // Database connection
