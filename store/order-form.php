@@ -142,6 +142,7 @@
                     <?php if($product['id'] == $option['product_id']) : ?>
                       <label for="option_<?= $product['id'] ?>_<?= $option['id'] ?>"><?= $option['name'] ?>
                         <input type="checkbox" name="option_<?= $product['id'] ?>" id="option_<?= $product['id'] ?>_<?= $option['id'] ?>" value="<?= $option['name'] ?>">
+                        <span>$<?= $option['price'] ?></span>
                       </label>
                     <?php endif; ?>
                   <?php endforeach; ?>
