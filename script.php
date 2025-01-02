@@ -7,6 +7,8 @@
     require 'PHPMailer/src/Exception.php';
     require 'PHPMailer/src/PHPMailer.php';
     require 'PHPMailer/src/SMTP.php';
+    require '/usr/share/php/libphp-phpmailer/src/PHPMailer.php';
+    require '/usr/share/php/libphp-phpmailer/src/SMTP.php';
 
     require 'config.php';
 
