@@ -68,6 +68,6 @@
 
     }
 
-    sendMail($from, $subject2, $txt2);
+    //sendMail($from, $subject2, $txt2);
 
 ?>
