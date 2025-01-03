@@ -61,7 +61,7 @@
       <section class="container">
       <h1>Order Form</h1>
       <p>Fill out the form below to place an order.</p>
-        <form action="email.php" method="POST" enctype="multipart/form-data">
+        <form action="../email.php" method="POST" enctype="multipart/form-data">
           <h2>Customer Information</h2>
           <fieldset>
             <legend>Shipping Information</legend>
