@@ -29,7 +29,7 @@ require 'script.php';
 
         $address = $_POST['address'];
 
-        $phone = $_POST['city'];
+        $city = $_POST['city'];
 
         $state = $_POST['state'];
 
