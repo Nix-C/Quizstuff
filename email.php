@@ -4,22 +4,24 @@ require 'script.php';
 
   if (isset($_POST['submit'])) {
 
-    if( empty($_POST['firstname']) || 
-        empty($_POST['lastname']) || 
+    if( empty($_POST['name-first']) || 
+        empty($_POST['name-last']) || 
         empty($_POST['email']) || 
         empty($_POST['phone']) ||
         empty($_POST['address']) ||
         empty($_POST['city']) ||
         empty($_POST['state']) ||
-        empty($_POST['zip']) ||
-        empty($_POST['quantity_1']) ||
-        empty($_POST['quantity_2']) ||
-        empty($_POST['quantity_3']) ||
-        empty($_POST['quantity_4']) ||
-        empty($_POST['option_3'])
+        empty($_POST['zip'])
+        //empty($_POST['quantity_1']) ||
+        //empty($_POST['quantity_2']) ||
+        //empty($_POST['quantity_3']) ||
+        //empty($_POST['quantity_4']) ||
+        //empty($_POST['option_3'])
       ){
 
         $response = "All fields are required.";
+
+        echo $response;
 
       } else {
 
@@ -39,15 +41,15 @@ require 'script.php';
 
         $phone = $_POST['phone'];
 
-        $qb = $_POST['quantity_1'];
+        //$qb = $_POST['quantity_1'];
 
-        $pads = $_POST['quantity_2'];
+        //$pads = $_POST['quantity_2'];
 
-        $qm = $_POST['quantity_3'];
+        //$qm = $_POST['quantity_3'];
 
-        $qm_w_upgrades = $_POST['option_3'];
+        //$qm_w_upgrades = $_POST['option_3'];
 
-        $qm_5_usr = $_POST['quantity_4'];
+        //$qm_5_usr = $_POST['quantity_4'];
 
 
 
@@ -62,7 +64,7 @@ require 'script.php';
 
         $headers2 = "From: " . $to;
 
-        $txt = $fname . " " . $lname . " has submitted a form on Quizstuff.com. \n ******************************************************************** \n\n" . "Phone: " . $phone . "\n" . "Email: " . $from . "\n" . "Address: " . $address . "\n" . "City: " . $city . "\n" . "State: " . $state . "\n" . "Zip: " . $zip . "\n\n" . "Quiz Boxes: " . $qb . "\n" . "Pads: " . $pads . "\n" . "Quiz Machine (Software): " . $qm . "\n" . "Quiz Machine (Software) with Lifetime Upgrades: " . $qm_w_upgrades . "\n" . "Quiz Machine (5 Users): " . $qm_5_usr . "\n";
+        $txt = $fname . " " . $lname . " has submitted a form on Quizstuff.com. \n ******************************************************************** \n\n" . "Phone: " . $phone . "\n" . "Email: " . $from . "\n" . "Address: " . $address . "\n" . "City: " . $city . "\n" . "State: " . $state . "\n" . "Zip: " . $zip . "\n\n" /* . "Quiz Boxes: " . $qb . "\n" . "Pads: " . $pads . "\n" . "Quiz Machine (Software): " . $qm . "\n" . "Quiz Machine (Software) with Lifetime Upgrades: " . $qm_w_upgrades . "\n" . "Quiz Machine (5 Users): " . $qm_5_usr . "\n" */;
 
         $txt2 = "HTML INVOICE GOES HERE";
 
@@ -71,10 +73,10 @@ require 'script.php';
           sendMail($to, $subject, $txt, $headers);
 
           sendMail($from, $subject2, $txt2, $headers2);
-
-          $response = "Thank you, " . $fname . "We will contact you shortly.\n Please check your email for your order confirmation and invoice.";
-
-          header("Location https://dev.quizstuff.com");
+          
+          header("Location: https://dev.quizstuff.com");
+          
+          $response = "Thank you, " . $fname . " We will contact you shortly.\n Please check your email for your order confirmation and invoice.";
       }
   }
   else {
