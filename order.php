@@ -106,10 +106,9 @@ include 'store/config/database.php';
         $phone = $_POST['phone'];
 
 
-        // ↓↓↓ Need logic to get quantity of products ↓↓↓
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
-        // Getting quantity of products
+        // Getting quantity of products & create INVOICE
 
                     // Initialize arrays to store product and option quantities and total price
                     $quantities = [];
@@ -209,25 +208,8 @@ include 'store/config/database.php';
 
         $txt = $fname . " " . $lname . " has submitted a form on Quizstuff.com. \n ******************************************************************** \n\n" . "Phone: " . $phone . "\n" . "Email: " . $from . "\n" . "Address: " . $address . "\n" . "City: " . $city . "\n" . "State: " . $state . "\n" . "Zip: " . $zip . "\n\n" /* . "Quiz Boxes: " . $qb . "\n" . "Pads: " . $pads . "\n" . "Quiz Machine (Software): " . $qm . "\n" . "Quiz Machine (Software) with Lifetime Upgrades: " . $qm_w_upgrades . "\n" . "Quiz Machine (5 Users): " . $qm_5_usr . "\n" */;
 
-
-
         // Invoice
         $txt2 = $invoice;
-        // $txt2 = "
-        //   <body>
-        //     <h1> I am the invoice </h1>
-
-        //     <p>" . "Email: " . $from . "\n" . 
-        //       "Phone: " . $phone . 
-        //       "Address: " . $address . "\n" . 
-        //       "City: " . $city . "\n" . 
-        //       "State: " . $state . "\n" . 
-        //       "Zip: " . $zip . "\n\n " . 
-        //     "</p>
-            
-        //     <p> <b>Your total is: $</b> <span>" . number_format($total) . "</span> </p>
-        //   </body>
-        // ";
 
 
           // Send data to quizstuff@quizstuff.com
