@@ -108,34 +108,90 @@ include 'config/database.php';
 
         // ↓↓↓ Need logic to get quantity of products ↓↓↓
 
-        // foreach($products as $product) {
-
-        //     if($product['has_options']) {
-        //       foreach($product_options as $option) {
-        //         if($product['id'] == $option['product_id']) {
-        //           $item = $_POST['option_' . $product['id']];
-        //         }
-        //       }
-        //     }
-          
-        //     if($product['has_variants']) {
-        //       foreach($product_variants as $variant) {
-        //         if($product['id'] == $variant['product_id']) {
-        //           $item = $_POST['quantity_' . $product['id']];
-        //         }
-        //       }
-        //     }
-        //     else {
-        //       $item = $_POST['quantity_' . $product['id']];
-        //     }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        // Getting quantity of products
         
-        // }
-        
+                    // Initialize arrays to store product and option quantities and total price
+                    $quantities = [];
+                    $total_price = 0;
 
+                    // Start building HTML invoice
+                    $invoice = '<h1>Invoice</h1>';
+                    $invoice .= '<table border="1" cellspacing="0" cellpadding="5">';
+                    $invoice .= '<tr><th>Item</th><th>Quantity</th><th>Price</th><th>Total</th></tr>';
 
+                    foreach ($products as $product) {
+                        $product_id = $product['id'];
+                        $product_name = $product['name']; // Get product name
+                        $product_price = $product['price']; // Get product price
+                    
+                        // Initialize quantity for this product
+                        if (!isset($quantities[$product_id])) {
+                            $quantities[$product_id] = 0;
+                        }
+                      
+                        // Process product options as separate products
+                        if ($product['has_options']) {
+                            foreach ($product_options as $option) {
+                                if ($product_id == $option['product_id']) {
+                                    $option_id = $product_id . '_option_' . $option['id']; // Treat option as separate product
+                                    $option_name = $option['name']; // Get option name
+                                    $option_price = $option['price']; // Get option price
+                                
+                                    if (!isset($quantities[$option_id])) {
+                                        $quantities[$option_id] = 0;
+                                    }
+                                    $key = $option_name; // Match input name to option name
+                                    if (isset($_POST[$key])) {
+                                        $quantity = intval($_POST[$key]);
+                                        $quantities[$option_id] += $quantity; // Add option quantity
+                                        $total_price += $quantity * $option_price; // Add to total price
+                                    
+                                        // Add option to invoice
+                                        $invoice .= '<tr><td>' . htmlspecialchars($option_name) . '</td><td>' . $quantity . '</td><td>$' . number_format($option_price, 2) . '</td><td>$' . number_format($quantity * $option_price, 2) . '</td></tr>';
+                                    }
+                                }
+                            }
+                        }
+                      
+                        // Process product variants
+                        elseif ($product['has_variants']) {
+                            foreach ($product_variants as $variant) {
+                                if ($product_id == $variant['product_id']) {
+                                    $key = $product_name; // Match input name to product name
+                                    if (isset($_POST[$key])) {
+                                        $quantity = intval($_POST[$key]);
+                                        $quantities[$product_id] += $quantity; // Add variant quantity
+                                        $total_price += $quantity * $product_price; // Add to total price
+                                    
+                                        // Add variant to invoice
+                                        $invoice .= '<tr><td>' . htmlspecialchars($product_name) . '</td><td>' . $quantity . '</td><td>$' . number_format($product_price, 2) . '</td><td>$' . number_format($quantity * $product_price, 2) . '</td></tr>';
+                                    }
+                                }
+                            }
+                        } 
+                      
+                        // Process default quantity for products without options/variants
+                        else {
+                            $key = $product_name; // Match input name to product name
+                            if (isset($_POST[$key])) {
+                                $quantity = intval($_POST[$key]);
+                                $quantities[$product_id] += $quantity;
+                                $total_price += $quantity * $product_price; // Add to total price
+                            
+                                // Add product to invoice
+                                $invoice .= '<tr><td>' . htmlspecialchars($product_name) . '</td><td>' . $quantity . '</td><td>$' . number_format($product_price, 2) . '</td><td>$' . number_format($quantity * $product_price, 2) . '</td></tr>';
+                            }
+                        }
+                    }
 
-        // Calculate total price
-        $total = 1000000000;
+                    // Close the table and add total price
+                    $invoice .= '<tr><td colspan="3" align="right"><strong>Total:</strong></td><td><strong>$' . number_format($total_price, 2) . '</strong></td></tr>';
+                    $invoice .= '</table>';
+
+                    // Output invoice
+                    echo $invoice;
+
 
 
 
@@ -155,21 +211,22 @@ include 'config/database.php';
 
 
         // Invoice
-        $txt2 = "
-          <body>
-            <h1> I am the invoice </h1>
+        $txt2 = $invoice;
+        // $txt2 = "
+        //   <body>
+        //     <h1> I am the invoice </h1>
 
-            <p>" . "Email: " . $from . "\n" . 
-              "Phone: " . $phone . 
-              "Address: " . $address . "\n" . 
-              "City: " . $city . "\n" . 
-              "State: " . $state . "\n" . 
-              "Zip: " . $zip . "\n\n " . 
-            "</p>
+        //     <p>" . "Email: " . $from . "\n" . 
+        //       "Phone: " . $phone . 
+        //       "Address: " . $address . "\n" . 
+        //       "City: " . $city . "\n" . 
+        //       "State: " . $state . "\n" . 
+        //       "Zip: " . $zip . "\n\n " . 
+        //     "</p>
             
-            <p> <b>Your total is: $</b> <span>" . number_format($total) . "</span> </p>
-          </body>
-        ";
+        //     <p> <b>Your total is: $</b> <span>" . number_format($total) . "</span> </p>
+        //   </body>
+        // ";
 
 
           // Send data to quizstuff@quizstuff.com
@@ -181,7 +238,7 @@ include 'config/database.php';
           // Redirect to homepage after sending emails
           header("Location: https://dev.quizstuff.com");
           
-          $response = "Thank you, " . $fname . " We will contact you shortly.\n Please check your email for your order confirmation and invoice.";
+          //$response = "Thank you, " . $fname . " We will contact you shortly.\n Please check your email for your order confirmation and invoice.";
       }
   }
   else {
