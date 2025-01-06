@@ -2,7 +2,7 @@
 
 require 'script.php';
 
-include 'config/database.php';
+include 'store/config/database.php';
 
 
 
@@ -110,13 +110,14 @@ include 'config/database.php';
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         // Getting quantity of products
-        
+
                     // Initialize arrays to store product and option quantities and total price
                     $quantities = [];
                     $total_price = 0;
 
                     // Start building HTML invoice
-                    $invoice = '<h1>Invoice</h1>';
+                    $invoice = '<h1>Thank you for shopping at Quizstuff.com</h1>';
+                    $invoice .= "<h3>Your order confirmation is below.</h3>";
                     $invoice .= '<table border="1" cellspacing="0" cellpadding="5">';
                     $invoice .= '<tr><th>Item</th><th>Quantity</th><th>Price</th><th>Total</th></tr>';
 
@@ -141,7 +142,7 @@ include 'config/database.php';
                                     if (!isset($quantities[$option_id])) {
                                         $quantities[$option_id] = 0;
                                     }
-                                    $key = $option_name; // Match input name to option name
+                                    $key = 'option_' . $option_name; // Match input name to option name
                                     if (isset($_POST[$key])) {
                                         $quantity = intval($_POST[$key]);
                                         $quantities[$option_id] += $quantity; // Add option quantity
@@ -158,7 +159,7 @@ include 'config/database.php';
                         elseif ($product['has_variants']) {
                             foreach ($product_variants as $variant) {
                                 if ($product_id == $variant['product_id']) {
-                                    $key = $product_name; // Match input name to product name
+                                  $key = 'quantity_' . $product_name; // Match input name to product name
                                     if (isset($_POST[$key])) {
                                         $quantity = intval($_POST[$key]);
                                         $quantities[$product_id] += $quantity; // Add variant quantity
@@ -173,7 +174,7 @@ include 'config/database.php';
                       
                         // Process default quantity for products without options/variants
                         else {
-                            $key = $product_name; // Match input name to product name
+                          $key = 'quantity_' . $product_name; // Match input name to product name
                             if (isset($_POST[$key])) {
                                 $quantity = intval($_POST[$key]);
                                 $quantities[$product_id] += $quantity;
