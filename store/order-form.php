@@ -94,8 +94,8 @@
             </label>
           </fieldset>
 
-          <fieldset>
-            <legend>Payment Information</legend>
+          <!-- <fieldset>
+            <legend>Payment Address</legend>
             <label for="same-as-shipping">Same as shipping information:
               <input type="checkbox" name="same-as-shipping" id="same-as-shipping">
             </label>
@@ -121,15 +121,8 @@
               <label for="zip">Zip Code:
                 <input type="text" name="zip" id="zip" required>
               </label>
-              <legend>Contact</legend>
-              <label for="email">Email:
-                <input type="email" name="email" id="email" required>
-              </label>
-              <label for="phone">Phone:
-                <input type="tel" name="phone" id="phone" required>
-              </label>
             </div>
-          </fieldset>
+          </fieldset> -->
           <h2>Products</h2>
           <?php foreach($products as $product) : ?>
             <fieldset>
@@ -148,7 +141,9 @@
                   <?php endforeach; ?>
                 </fieldset>
               <?php endif; ?>
-              <span>Price: $<?= $product['price'] ?></span>
+              <?php if(!$product['has_variants']) : ?>
+                <span>Price: $<?= $product['price'] ?></span>
+              <?php endif?>
               <?php if($product['image']) : ?>
                 <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>"> 
               <?php endif; ?>
@@ -158,7 +153,7 @@
                   <?php if($product['id'] == $variant['product_id']) : ?>
                     <fieldset>
                       <legend><?= $variant['name'] ?></legend>
-                    <label>Quantity: <input type="number" name="quantity_<?= $product['id'] ?>" id="quantity_<?= $product['id'] ?>_<?= $variant['id'] ?>" min="0" max="100" steps="1" value="0"></label>
+                    <label>Quantity: <input type="number" name="quantity_<?= $product['id'] ?>" id="quantity_<?= $product['id'] ?>_<?= $variant['id'] ?>" min="0" max="100" steps="1" value="0"></label> <span>Price: $<?= $variant['price'] ? $variant['price'] : $product['price'] ?></span>
                   </fieldset>
                   <?php endif; ?>
                 <?php endforeach; ?>
@@ -176,4 +171,5 @@
 
     <?php include '../footer.php'; ?>
   </body>
+  <script src="order-form.js"></script>
 </html>
