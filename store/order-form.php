@@ -61,18 +61,19 @@
       <section class="container">
       <h1>Order Form</h1>
       <p>Fill out the form below to place an order.</p>
-        <form action="../order.php" method="POST" enctype="multipart/form-data">
+        <form id="order-form" action="../order.php" method="POST" enctype="multipart/form-data">
           <h2>Customer Information</h2>
           <fieldset>
-            <legend>Shipping Information</legend>
+            <legend>Name</legend>
             <label for="name-first">First Name:
               <input type="text" name="name-first" id="name-first" required>
             </label>
             <label for="name-last">Last Name:
               <input type="text" name="name-last" id="name-last" required>
             </label>
-
-            <legend>Address</legend>
+          </fieldset>
+          <fieldset>
+            <legend>Shipping Information</legend>
             <label for="address">Street Address:
               <input type="text" name="address" id="address" required>
             </label>
@@ -85,6 +86,8 @@
             <label for="zip">Zip Code:
               <input type="text" name="zip" id="zip" required>
             </label>
+          </fieldset>
+          <fieldset>
             <legend>Contact</legend>
             <label for="email">Email:
               <input type="email" name="email" id="email" required>
@@ -93,57 +96,14 @@
               <input type="tel" name="phone" id="phone" required>
             </label>
           </fieldset>
-
-          <!-- <fieldset>
-            <legend>Payment Address</legend>
-            <label for="same-as-shipping">Same as shipping information:
-              <input type="checkbox" name="same-as-shipping" id="same-as-shipping">
-            </label>
-
-            <div>
-              <label for="name-first">First Name:
-                <input type="text" name="name-first" id="name-first" required>
-              </label>
-              <label for="name-last">Last Name:
-                <input type="text" name="name-last" id="name-last" required>
-              </label>
-
-              <legend>Address</legend>
-              <label for="address">Street Address:
-                <input type="text" name="address" id="address" required>
-              </label>
-              <label for="city">City:
-                <input type="text" name="city" id="city" required>
-              </label>
-              <label for="state">State:
-                <input type="text" name="state" id="state" required>
-              </label>
-              <label for="zip">Zip Code:
-                <input type="text" name="zip" id="zip" required>
-              </label>
-            </div>
-          </fieldset> -->
           <h2>Products</h2>
           <?php foreach($products as $product) : ?>
             <fieldset>
               <legend><?= $product['name'] ?></legend>
               <p><?= $product['description'] ?></p>
-              <?php if($product['has_options']) : ?>
-                <fieldset>
-                  <legend>Options</legend>
-                  <?php foreach($product_options as $option) : ?>
-                    <?php if($product['id'] == $option['product_id']) : ?>
-                      <label for="option_<?= $product['id'] ?>_<?= $option['id'] ?>"><?= $option['name'] ?>
-                        <input type="checkbox" name="option_<?= $product['id'] ?>" id="option_<?= $product['id'] ?>_<?= $option['id'] ?>" value="<?= $option['name'] ?>">
-                        <span>+$<?= $option['price'] ?></span>
-                      </label>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                </fieldset>
-              <?php endif; ?>
               <?php if(!$product['has_variants']) : ?>
                 <span>Price: $<?= $product['price'] ?></span>
-              <?php endif?>
+              <?php endif; ?>
               <?php if($product['image']) : ?>
                 <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>"> 
               <?php endif; ?>
@@ -153,18 +113,50 @@
                   <?php if($product['id'] == $variant['product_id']) : ?>
                     <fieldset>
                       <legend><?= $variant['name'] ?></legend>
-                    <label>Quantity: <input type="number" name="quantity_<?= $product['id'] ?>" id="quantity_<?= $product['id'] ?>_<?= $variant['id'] ?>" min="0" max="100" steps="1" value="0"></label> <span>Price: $<?= $variant['price'] ? $variant['price'] : $product['price'] ?></span>
+                    <label>Quantity: 
+                      <input 
+                        type="number"  
+                        id="variant_<?= $product['id'] ?>_<?= $variant['id'] ?>" 
+                        name="variant_<?= $product['id'] ?>_<?= $variant['id'] ?>" 
+                        min="0" max="100" step="1" value="0"
+                      >
+                    </label> <span>Price: $<?= $variant['price'] ? $variant['price'] : $product['price'] ?></span>
                   </fieldset>
                   <?php endif; ?>
                 <?php endforeach; ?>
               <?php else: ?>
-                <label>Quantity: <input type="number" name="quantity_<?= $product['id'] ?>" id="quantity_<?= $product['id'] ?>" min="0" max="100" steps="1" value="0"></label>  
+                <label>Quantity: 
+                  <input 
+                    type="number" 
+                    id="product_<?= $product['id'] ?>" 
+                    name="product_<?= $product['id'] ?>" 
+                    min="0" max="100" step="1" value="0"
+                  ></label>
+                <?php if($product['has_options']) : ?>
+                  <fieldset>
+                    <legend>Options</legend>
+                    <?php foreach($product_options as $option) : ?>
+                      <?php if($product['id'] == $option['product_id']) : ?>
+                        <label for="option_<?= $product['id'] ?>_<?= $option['id'] ?>"><?= $option['name'] ?>
+                          <input 
+                            type="checkbox" 
+                            id="option_<?= $product['id'] ?>_<?= $option['id'] ?>"
+                            name="option_<?= $product['id'] ?>_<?= $option['id'] ?>" 
+                            value="true"
+                          >
+                          <span>+$<?= $option['price'] ?></span>
+                        </label>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  </fieldset>
+                <?php endif; ?>
               <?php endif; ?>
 
               <!-- <button action="add" name="add">Add to Cart</button> -->
             </fieldset>
           <?php endforeach; ?>
-          <button action="submit" name="submit">Submit Order</button>
+          <button type="submit" name="submit">Submit Order</button>
+          <p id="submit-message"></p>
         </form>
       </section>
     </main>
