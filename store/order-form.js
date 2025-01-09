@@ -71,6 +71,7 @@ function formatOrderData(formData) {
           if (lineItemIndex === -1) {
             lineItemIndex = orderData.lineItems.push({
               id: productId,
+              quantity: type === "variant" ? null : value,
             });
             lineItemIndex = lineItemIndex - 1;
           }
