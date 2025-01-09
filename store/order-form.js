@@ -94,7 +94,7 @@ function formatOrderData(formData) {
   return orderData;
 }
 
-// 🤖
+// Camelize string 🤖
 function camelize(str) {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
