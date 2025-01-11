@@ -3,8 +3,8 @@
   include 'config/database.php';
 
   // Get orderData object from the request body (which is a string in JSON format)
-  $orderData = json_decode(file_get_contents('php://input')); 
-
+  $orderData = json_decode(file_get_contents('php://input'));
+  
   // Do something here!
   $shippingInfo = $orderData->shippingInfo;
   $lineItems = $orderData->lineItems;
@@ -120,9 +120,10 @@
   </tr>
   <?php foreach($lineItems as $lineItem) : ?>
     <?php // Get product data 
-      $filtered_products = array_filter($products, function($value ) use ($lineItem) {
+      $filtered_products = array_filter($products, function($value) use ($lineItem) {
         return $value['id'] == $lineItem->id;
       });
+
       $product_data = reset($filtered_products);
       $product_data = json_decode(json_encode($product_data));
 
@@ -168,7 +169,7 @@
     <td 
       style="text-align: right"
       colspan="3"
-    >Total: $<?= $total ?>
+    >Total: $<?= $total->currency ?>
     </td>
   </tr>
 </table>
