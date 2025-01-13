@@ -74,8 +74,9 @@
           </fieldset>
           <fieldset>
             <legend>Shipping Information</legend>
-            <label for="address">Street Address:
-              <input type="text" name="address" id="address" required>
+            <label>Street Address:
+              <input type="text" name="address-1" id="address-1" required>
+              <input type="text" name="address-2" id="address-2">
             </label>
             <label for="city">City:
               <input type="text" name="city" id="city" required>

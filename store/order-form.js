@@ -7,7 +7,7 @@ orderForm.addEventListener("submit", async function (event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const orderData = formatOrderData(formData);
-  // console.log(orderData);
+  console.log(orderData);
 
   await sendOrderData(orderData)
     .then((response) => {
@@ -24,10 +24,12 @@ orderForm.addEventListener("submit", async function (event) {
 });
 
 function formatOrderData(formData) {
+  // Declare input types
   const validAddressTypes = [
     "name-first",
     "name-last",
-    "address",
+    "address-1",
+    "address-2",
     "city",
     "state",
     "zip",
@@ -35,8 +37,11 @@ function formatOrderData(formData) {
     "phone",
   ];
   const validLineItemTypes = ["product", "variant", "option"];
+
+  // Empty orderData
   let orderData = { shippingInfo: {}, lineItems: [] };
 
+  // Process formData
   for (let [key, value] of formData.entries()) {
     /**
      * Input name format: type_productId_typeId
@@ -46,50 +51,40 @@ function formatOrderData(formData) {
      */
     const [type, productId, typeId] = key.split("_");
 
-    // Evaluate form inputs (ignore bad inputs)
     if (validAddressTypes.includes(type)) {
+      // Capture address inputs
       orderData.shippingInfo[camelize(type)] = value;
-    } else if (validLineItemTypes.includes(type)) {
-      if (value > 0 || value == "true") {
-        // Find index of existing product in lineItems
-        let lineItemIndex = orderData.lineItems.findIndex(
-          (lineItem) => lineItem.id === productId
-        );
-
-        // If option is checked and product exists, add option to product
-        if (type === "option" && lineItemIndex !== -1) {
-          // If options array does not exist, create it
-          if (!orderData.lineItems[lineItemIndex]["options"]) {
-            orderData.lineItems[lineItemIndex]["options"] = [];
-          }
-          orderData.lineItems[lineItemIndex]["options"].push({
-            id: typeId,
-            checked: value === "true",
-          });
-        } else if (type === "product" || type === "variant") {
-          // If product does not exist, add new line item
-          if (lineItemIndex === -1) {
-            lineItemIndex = orderData.lineItems.push({
-              id: productId,
-              quantity: type === "variant" ? null : value,
-            });
-            lineItemIndex = lineItemIndex - 1;
-          }
-
-          // Add variant to line item
-          if (type === "variant") {
-            // If variants array does not exist, create it
-            if (!orderData.lineItems[lineItemIndex]["variants"]) {
-              orderData.lineItems[lineItemIndex]["variants"] = [];
-            }
-            orderData.lineItems[lineItemIndex]["variants"].push({
-              id: typeId,
-              quantity: value,
-            });
-          }
-        }
-      }
+    } else if (
+      validLineItemTypes.includes(type) &&
+      (value > 0 || value == "true")
+    ) {
+      // Capture line items
+      const newLineItem = {
+        productId: productId,
+        variantId: type === "variant" ? typeId : null,
+        optionId: type === "option" ? typeId : null,
+        quantity: type === "option" ? "0" : value,
+      };
+      orderData.lineItems.push(newLineItem);
     }
+  }
+
+  // Update option quantities so the number of product quantities
+  for (optionItem of orderData.lineItems.filter(
+    (lineItem) => lineItem.optionId !== null
+  )) {
+    let quantity = 0;
+    for (productItem of orderData.lineItems.filter(
+      (lineItem) =>
+        // A lineitem with a matching productId and a NULL option id
+        // (Not an option item)
+        lineItem.productId == optionItem.productId && lineItem.optionId == null
+    )) {
+      // Add product quantity to total
+      quantity += parseInt(productItem.quantity);
+    }
+    // Assign quantity to option
+    optionItem.quantity = quantity.toString();
   }
 
   return orderData;
@@ -105,7 +100,7 @@ function camelize(str) {
 }
 
 async function sendOrderData(orderData) {
-  const response = await fetch("/store/js-test.php", {
+  const response = await fetch("/store/process-order.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -129,20 +124,11 @@ async function sendOrderData(orderData) {
   },
   "line-items": [
     {
-      "id": 1,
-      "quantity": 1,
-      "variants": [
-        {
-          "id": 1,
-          "quantity": 1
-        }
-      ],
-      "options": [
-        {
-          "id": 1,
-          "checked": false
-        }
-      ]
+      {productId: '1', variantId: null, optionId: null, quantity: '1'},
+      {productId: '2', variantId: '1', optionId: null, quantity: '2'},
+      {productId: '2', variantId: '3', optionId: null, quantity: '1'},
+      {productId: '3', variantId: null, optionId: null, quantity: '1'},
+      {productId: '3', variantId: null, optionId: '1', quantity: '1'},
     }
   ]
 }
