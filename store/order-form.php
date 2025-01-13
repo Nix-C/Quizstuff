@@ -63,43 +63,97 @@
       <p>Fill out the form below to place an order.</p>
         <form id="order-form">
           <h2>Customer Information</h2>
-          <fieldset>
-            <legend>Name</legend>
-            <label for="name-first">First Name:
+          <fieldset class="above">
+            <!-- <legend>Name</legend> -->
+            <label for="name-first">First Name
               <input type="text" name="name-first" id="name-first" required>
             </label>
-            <label for="name-last">Last Name:
+            <label for="name-last">Last Name
               <input type="text" name="name-last" id="name-last" required>
             </label>
           </fieldset>
-          <fieldset>
-            <legend>Shipping Information</legend>
-            <label>Street Address:
+          <fieldset class="above">
+            <!-- <legend>Shipping Information</legend> -->
+            <label>Address Line 1
               <input type="text" name="address-1" id="address-1" required>
+            </label>
+            <label>Address Line 2
               <input type="text" name="address-2" id="address-2">
             </label>
-            <label for="city">City:
+            <label for="city">City
               <input type="text" name="city" id="city" required>
             </label>
-            <label for="state">State:
-              <input type="text" name="state" id="state" required>
+            <label for="state">State
+            <select name="state" id="state">
+              <option value="" disabled selected>Select a state</option>
+              <option value="AL">AL</option>
+              <option value="AK">AK</option>
+              <option value="AZ">AZ</option>
+              <option value="AR">AR</option>
+              <option value="CA">CA</option>
+              <option value="CO">CO</option>
+              <option value="CT">CT</option>
+              <option value="DE">DE</option>
+              <option value="FL">FL</option>
+              <option value="GA">GA</option>
+              <option value="HI">HI</option>
+              <option value="ID">ID</option>
+              <option value="IL">IL</option>
+              <option value="IN">IN</option>
+              <option value="IA">IA</option>
+              <option value="KS">KS</option>
+              <option value="KY">KY</option>
+              <option value="LA">LA</option>
+              <option value="ME">ME</option>
+              <option value="MD">MD</option>
+              <option value="MA">MA</option>
+              <option value="MI">MI</option>
+              <option value="MN">MN</option>
+              <option value="MS">MS</option>
+              <option value="MO">MO</option>
+              <option value="MT">MT</option>
+              <option value="NE">NE</option>
+              <option value="NV">NV</option>
+              <option value="NH">NH</option>
+              <option value="NJ">NJ</option>
+              <option value="NM">NM</option>
+              <option value="NY">NY</option>
+              <option value="NC">NC</option>
+              <option value="ND">ND</option>
+              <option value="OH">OH</option>
+              <option value="OK">OK</option>
+              <option value="OR">OR</option>
+              <option value="PA">PA</option>
+              <option value="RI">RI</option>
+              <option value="SC">SC</option>
+              <option value="SD">SD</option>
+              <option value="TN">TN</option>
+              <option value="TX">TX</option>
+              <option value="UT">UT</option>
+              <option value="VT">VT</option>
+              <option value="VA">VA</option>
+              <option value="WA">WA</option>
+              <option value="WV">WV</option>
+              <option value="WI">WI</option>
+              <option value="WY">WY</option>
+            </select>
             </label>
-            <label for="zip">Zip Code:
+            <label for="zip">Zip Code
               <input type="text" name="zip" id="zip" required>
             </label>
           </fieldset>
-          <fieldset>
-            <legend>Contact</legend>
-            <label for="email">Email:
+          <fieldset class="above">
+            <!-- <legend>Contact</legend> -->
+            <label for="email">Email
               <input type="email" name="email" id="email" required>
             </label>
-            <label for="phone">Phone:
+            <label for="phone">Phone
               <input type="tel" name="phone" id="phone" required>
             </label>
           </fieldset>
           <h2>Products</h2>
           <?php foreach($products as $product) : ?>
-            <fieldset>
+            <fieldset class="form--product">
               <legend><?= $product['name'] ?></legend>
               <p><?= $product['description'] ?></p>
               <?php if(!$product['has_variants']) : ?>
@@ -121,7 +175,7 @@
                         name="variant_<?= $product['id'] ?>_<?= $variant['id'] ?>" 
                         min="0" max="100" step="1" value="0"
                       >
-                    </label> <span>Price: $<?= $variant['price'] ? $variant['price'] : $product['price'] ?></span>
+                    </label> <span>Price $<?= $variant['price'] ? $variant['price'] : $product['price'] ?></span>
                   </fieldset>
                   <?php endif; ?>
                 <?php endforeach; ?>

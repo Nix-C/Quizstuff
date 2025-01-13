@@ -1,6 +1,6 @@
 <?php
   include 'config/database.php';
-  include 'generate-invoice.php';
+  // include 'generate-invoice.php';
   $OK = true; // Make false if something is wrong
 
   // Get orderData object from the request body (which is a string in JSON format)
@@ -91,15 +91,14 @@
         return $option->id == $lineItem->optionId;
       });
       
-    } else {
+    } else if(isset($lineItem->variantId)){
       // Let variant target override product target
       $target = array_filter($variantData, function ($variant) use ($lineItem) {
         return $variant->id == $lineItem->variantId && $variant->price != null;
       });
 
-      $target = !empty($target) ? $target : $target_product;
-
     }
+    $target = !empty($target) ? $target : $target_product;
     $target = array_values($target)[0];
     $target_product = array_values($target_product)[0];
 
@@ -177,11 +176,11 @@
   }
 
   // Step 4 - Call generate-invoice.php (pass $orderId)
-  $invoice = generateInvoice($orderId);
-  if(is_null($invoice)){
-    echo "Error: Invoice could not be generated";
-    $OK = false;
-  }
+  // $invoice = generateInvoice($orderId);
+  // if(is_null($invoice)){
+  //   echo "Error: Invoice could not be generated";
+  //   $OK = false;
+  // }
 
   // Step 5 - Send mail with invoice body
   // if(is_null(sendMail($invoice))){

@@ -9,20 +9,27 @@ orderForm.addEventListener("submit", async function (event) {
   const orderData = formatOrderData(formData);
   console.log(orderData);
 
-  await sendOrderData(orderData)
-    .then((response) => {
-      if (response.ok) {
-        submitMessage.innerHTML = "Order submitted successfully.";
-      } else {
+  if (orderData.lineItems.length > 0) {
+    await sendOrderData(orderData)
+      .then((response) => {
+        if (response.ok) {
+          submitMessage.innerHTML = "Order submitted successfully.";
+          submitMessage.classList = "success";
+        } else {
+          submitMessage.innerHTML = "Order failed to submit.";
+          submitMessage.classList = "failure";
+        }
+      })
+      .catch((error) => {
         submitMessage.innerHTML = "Order failed to submit.";
-      }
-    })
-    .catch((error) => {
-      submitMessage.innerHTML = "Order failed to submit.";
-      console.error(error);
-    });
+        submitMessage.classList = "failure";
+        console.error(error);
+      });
+  } else {
+    submitMessage.innerHTML = "Please add products.";
+    submitMessage.classList = "failure";
+  }
 });
-
 function formatOrderData(formData) {
   // Declare input types
   const validAddressTypes = [
