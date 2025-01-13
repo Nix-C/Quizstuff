@@ -28,7 +28,8 @@ function formatOrderData(formData) {
   const validAddressTypes = [
     "name-first",
     "name-last",
-    "address",
+    "address-1",
+    "address-2",
     "city",
     "state",
     "zip",

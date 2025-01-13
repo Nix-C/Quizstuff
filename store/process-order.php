@@ -7,7 +7,6 @@
   // Get orderData object from the request body (which is a string in JSON format)
   $orderData = json_decode(file_get_contents('php://input')); 
 
-  // Do something here!
   $shippingInfo = $orderData->shippingInfo;
   $lineItems = $orderData->lineItems;
 
@@ -40,15 +39,15 @@
 
   // TODO: Add address_2
   // Step 1 - Push order to DB (return order ID)
-  $sql = "INSERT INTO orders (name_first, name_last, address_1, city, state, zip, phone, email, total_price) 
+  $sql = "INSERT INTO orders (name_first, name_last, address_1, address_2, city, state, zip, phone, email, total_price) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ssssssssd", 
       $shippingInfo->nameFirst, 
       $shippingInfo->nameLast, 
-      $shippingInfo->address, 
-      // $shippingInfo->address_2,
+      $shippingInfo->address1, 
+      $shippingInfo->address2,
       $shippingInfo->city, 
       $shippingInfo->state, 
       $shippingInfo->zip, 
