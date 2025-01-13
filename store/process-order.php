@@ -37,10 +37,9 @@
 
   $total = 100.00;
 
-  // TODO: Add address_2
   // Step 1 - Push order to DB (return order ID)
   $sql = "INSERT INTO orders (name_first, name_last, address_1, address_2, city, state, zip, phone, email, total_price) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ssssssssd", 
