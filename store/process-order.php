@@ -42,7 +42,7 @@
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("ssssssssd", 
+  $stmt->bind_param("sssssssssd", 
       $shippingInfo->nameFirst, 
       $shippingInfo->nameLast, 
       $shippingInfo->address1, 
