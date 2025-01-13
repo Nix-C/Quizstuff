@@ -1,4 +1,3 @@
-<!-- // This is a test file for the order-form.php' js submission -->
 <?php
   include 'config/database.php';
   include 'generate-invoice.php';
@@ -107,17 +106,8 @@
     // Get item data
     $p = floatval($target->price);
     $q = floatval($lineItem->quantity);
-
-    // // Assign name
-    // if(isset($lineItem->optionId)){
-    //   $lineItem->name = "Option: " . $target->name;
-    // } else if(isset($lineItem->variantId)) {
-    //   $lineItem->name = $target_product->name . " - " . $target->name;
-    // } else {
-    //   $lineItem->name = $target->name;
-    // }
-
     $total_p = $p * $q;
+
     // Assign prices
     $lineItem->price = $p;
     $lineItem->totalPrice = $total_p;
@@ -207,4 +197,3 @@
     http_response_code(500);
   }
 ?>
-<?= print_r($invoice) ?>
