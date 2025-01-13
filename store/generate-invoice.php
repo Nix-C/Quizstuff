@@ -23,18 +23,25 @@
       $lineItems = mysqli_fetch_all($result_items, MYSQLI_ASSOC);
 
       // Get $orderData
-      $sql_get_order = "SELECT * FROM orders WHERE id = ${orderId};"
-      $result_order = mysqli_query($conn, $sql_get_items);
+      $sql_get_order = "SELECT * FROM orders WHERE id = ${orderId};";
+      $result_order = mysqli_query($conn, $sql_get_order);
       $orderData = mysqli_fetch_all($result_order, MYSQLI_ASSOC);
 
       // Process $lineItems and $orderData to HTML table
       // 🔥
+
+      // For testing 🚧
+      echo print_r($lineItems) . "<br>" . "<br>";
+      echo print_r($orderData) . "<br>" . "<br>";
 
       return "An invoice";
     } else {
       echo "ERROR: No order_id provided.";
       return null;
     }
+    
   }
-  
+
+  // For testing 🚧
+  echo print_r(generateInvoice(1));
 ?>
