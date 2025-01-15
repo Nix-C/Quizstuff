@@ -1,6 +1,5 @@
 <?php
   function sendOrderInvoice($invoice){
-
     //Use HTML Variable
     ob_start();
   ?>
@@ -12,13 +11,17 @@
 
   //This is the name of the HTML Variable
   $userEmail = ob_get_clean();
+
   // 🚧 For testing, remove when done. 🚧
   echo $userEmail;
 
+  // Replace true with sendmail
+  if(true) {
+    return true;
+  }
 }
   // 🚧 For testing, remove when done. 🚧
   include 'generate-invoice.php';
   $invoice = generateInvoice(1);
   echo sendOrderInvoice($invoice);
-
 ?>
