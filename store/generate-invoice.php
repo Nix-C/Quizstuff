@@ -97,5 +97,5 @@
   }
 
   // For testing 🚧
-  echo print_r(generateInvoice(1));
+  // echo print_r(generateInvoice(1));
 ?>
