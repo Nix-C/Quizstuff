@@ -2,7 +2,7 @@
 
 include 'generate-invoice.php';
 
-function sendOrderInvoice(){
+function sendOrderInvoice($invoice){
 
     //Use HTML Variable
     ob_start();
