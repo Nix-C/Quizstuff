@@ -11,7 +11,7 @@ function sendUserInvoice($invoice){
 
 
 <body>
-    <h1>Quizstuff Invoice</h1>
+    <h1>Quizstuff Invoice Copy</h1>
     <?php $invoice ?>
 </body>
 
