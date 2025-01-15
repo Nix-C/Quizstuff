@@ -183,7 +183,7 @@
   // }
 
   // Step 5 - Send mail with invoice body
-  // if(is_null(sendMail($invoice))){
+  // if(is_null(sendUserInvoice($invoice))){
   //   $OK = false;
   // }
   
