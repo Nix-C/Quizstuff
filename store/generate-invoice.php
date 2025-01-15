@@ -22,48 +22,78 @@
       $result_items = mysqli_query($conn, $sql_get_items);
       $lineItems = mysqli_fetch_all($result_items, MYSQLI_ASSOC);
 
+
       // Get $orderData
       $sql_get_order = "SELECT * FROM orders WHERE id = ${orderId};";
       $result_order = mysqli_query($conn, $sql_get_order);
       $orderData = mysqli_fetch_all($result_order, MYSQLI_ASSOC);
+      // For some reason this is an array of arrays
+      // ...They both are, but $lineItems doesn't seem to care.
+      $orderData = $orderData[0]; 
 
       // Process $lineItems and $orderData to HTML table
-      // 🔥
+      ob_start();
+      ?>
+      <div id="invoice">
+        <table>
+        <tr>
+          <th>Product Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+        <?php foreach($lineItems as $lineItem) : ?>
+          <?php 
+            if($lineItem["option_name"]){
+              $name = $lineItem["option_name"];
+            } else {
+              $name = $lineItem["variant_name"] ?
+              $lineItem["product_name"] . " - " . $lineItem["variant_name"] : 
+              $lineItem["product_name"];
+            }
+          ?>
+          <tr>
+            <td><?= $name ?></td>
+            <td><?= $lineItem["quantity"] ?></td>
+            <td><?= $lineItem["price"] ?></td>
+            <td><?= $lineItem["total_price"] ?></td>
+          </tr>
+        <?php endforeach ?>
+        <tr>
+          <td colspan="3" align="right">
+            <strong>Total:</strong>
+          </td>
+          <td><strong><?= $orderData["total_price"] ?></strong></td>
+        </tr>
+        </table>
+        <div>
+          <label><strong>Name: </strong>
+            <?= $orderData["name_first"] . " " . $orderData["name_last"] ?>
+          </label><br>
+          <label><strong>Address: </strong><br>
+            <span>
+              <?= $orderData["address_1"] ?><br>
+              <?= $orderData["address_2"] ? $orderData["address_2"] . "<br>" : ""?>
+              <?= $orderData["city"] ?>, <?= $orderData["state"] ?> <?= $orderData["zip"] ?>
+            </span>
+          </label><br>
+        </div>
+      </div>
+      <?php 
+      $invoice = ob_get_clean();
       
-      // Start building HTML invoice
-      $invoice = '<h1>Invoice</h1>';
-      $invoice .= '<table border="1" cellspacing="0" cellpadding="5">';
-      $invoice .= '<tr><th>Item</th><th>Quantity</th><th>Price</th><th>Total</th></tr>';
-
-      // Process $lineItems to build rows
-      foreach ($lineItems as $item) {
-          $name = htmlspecialchars($item['product_name'] ?: $item['variant_name'] ?: $item['option_name']);
-          $quantity = intval($item['quantity']);
-          $price = floatval($item['price']);
-          $total = floatval($item['total_price']);
-
-          $invoice .= "<tr><td>{$name}</td><td>{$quantity}</td><td>$" . number_format($price, 2) . "</td><td>$" . number_format($total, 2) . "</td></tr>";
-      }
-
-      // Calculate total price
-      $total_price = array_sum(array_column($lineItems, 'total_price'));
-
-      // Add total row
-      $invoice .= '<tr><td colspan="3" align="right"><strong>Total:</strong></td><td><strong>$' . number_format($total_price, 2) . '</strong></td></tr>';
-      $invoice .= '</table>';
-
-      return $invoice;
-
       // For testing 🚧
-      //echo print_r($lineItems) . "<br>" . "<br>";
-      //echo print_r($orderData) . "<br>" . "<br>";
+      // echo print_r($lineItems) . "<br>" . "<br>";
+      // echo print_r($orderData) . "<br>" . "<br>";
 
       //return "An invoice";
+      return $invoice;
+
     } else {
       echo "ERROR: No order_id provided.";
       return null;
     }
-    
+
   }
 
   // For testing 🚧
