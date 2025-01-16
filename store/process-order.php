@@ -177,15 +177,15 @@
 
   // Step 4 - Call generate-invoice.php (pass $orderId)
   // $invoice = generateInvoice($orderId);
-  // if(is_null($invoice)){
-  //   echo "Error: Invoice could not be generated";
-  //   $OK = false;
-  // }
+  if(is_null($invoice)){
+    echo "Error: Invoice could not be generated";
+    $OK = false;
+  }
 
   // Step 5 - Send mail with invoice body
-  // if(is_null(sendUserInvoice($invoice))){
-  //   $OK = false;
-  // }
+  if(is_null(sendUserInvoice($invoice))){
+    $OK = false;
+  }
   
 
 

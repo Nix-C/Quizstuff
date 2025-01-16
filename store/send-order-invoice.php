@@ -50,8 +50,10 @@
   // 🚧 For testing, remove when done. 🚧
   echo $userEmail;
 
-  // Replace true with sendmail
-  if(true) {
+  
+  if(
+    true // Replace true with sendmail
+  ) {
     return true;
   }
 }

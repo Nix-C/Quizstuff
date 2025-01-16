@@ -1,8 +1,6 @@
 <?php
-
-include 'generate-invoice.php';
-
-function sendUserInvoice($invoice){
+  function sendUserInvoice($invoice){
+    $currentYear = date("Y");
 
     //Use HTML Variable
     ob_start();
@@ -38,7 +36,7 @@ function sendUserInvoice($invoice){
         </div>
         <!-- Footer -->
         <div style="background-color: #121212; color: #aaaaaa; padding: 10px; text-align: center; font-size: 12px;">
-            &copy; 2025 Quizstuff.com. All rights reserved.
+            &copy; <?= $currentYear ?> Quizstuff.com. All rights reserved.
         </div>
     </div>
 </body>
@@ -53,5 +51,8 @@ function sendUserInvoice($invoice){
     $userEmail = ob_get_clean();
 
 }
-
+  // 🚧 For testing, remove when done. 🚧
+  include 'generate-invoice.php';
+  $invoice = generateInvoice(1);
+  echo sendUserInvoice($invoice);
 ?>
