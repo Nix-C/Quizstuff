@@ -1,5 +1,5 @@
 <?php
-  function sendUserInvoice($invoice){
+  function sendUserInvoice($invoice, $orderId, $userEmail){
     $currentYear = date("Y");
 
     //Use HTML Variable
@@ -30,7 +30,7 @@
             
             <!-- $invoice -->
             <?= $invoice ?>
-            
+            <p>Order ID: <?= $orderId ?>
             <!-- Payment instructions -->
             <p style="margin: 0 0 10px;">Please make the payment by check. We will contact you with more payment information. <br> If you have any questions, feel free to contact us at <strong>quizstuff@quizstuff.com</strong>.</p>
         </div>
@@ -42,17 +42,23 @@
 </body>
 </html>
 
-
-
-
 <?php
-
     //This is the name of the HTML Variable
     $userEmail = ob_get_clean();
 
-}
+    // 🚧 For testing, remove when done. 🚧
+    echo $userEmail;
+
+    
+    if(
+      true // Replace true with sendmail
+    ) {
+      return true;
+    }
+
+  }
   // 🚧 For testing, remove when done. 🚧
   include 'generate-invoice.php';
   $invoice = generateInvoice(1);
-  echo sendUserInvoice($invoice);
+  echo sendUserInvoice($invoice, 1, "johndoe@example.com");
 ?>

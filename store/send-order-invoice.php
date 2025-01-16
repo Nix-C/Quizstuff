@@ -1,5 +1,5 @@
 <?php
-  function sendOrderInvoice($invoice){
+  function sendOrderInvoice($invoice, $orderId){
 
     $currentYear = date("Y");
 
@@ -13,14 +13,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Quizstuff Order #<?= $orderId?></title>
 </head>
 <body style="margin: 0; padding: 20px; background: radial-gradient(circle at top left, #004b78 5%, transparent), radial-gradient(circle at bottom right, #431235 5%, rgb(13, 18, 28)); font-family: Arial, sans-serif; color: #ffffff; line-height: 1.5; border: 8px solid transparent;">
     <img src="https://dev.quizstuff.com/assets/images/ostritch_final_1.png" alt="Logo" style="position: absolute; top: 10px; left: 10px; width: 80px; height: auto; max-width: 100%; max-height: 100%; border-radius: 4px;">
     <div style="width: 100%; max-width: 600px; margin: 20px auto; background-color: #1E1E1E; border: 1px solid #333; border-radius: 8px; overflow: hidden; position: relative;">
         <!-- Header -->
         <div style="background-color: #007BFF; color: #ffffff; padding: 20px; position: relative;">
-            <div style="text-align: center; font-size: 24px; font-weight: bold;">Quizstuff Invoice Copy</div>
+            <div style="text-align: center; font-size: 24px; font-weight: bold;">Quizstuff Order #<?= $orderId?></div>
         </div>
         <!-- Body -->
         <div style="padding: 20px;">
@@ -29,7 +29,7 @@
             
             <!-- $invoice -->
             <?= $invoice ?>
-            
+            <br>
             <!-- Payment instructions -->
             <p style="margin: 0 0 10px;">Do not forget to contact the client with more payment information.</p>
         </div>
@@ -60,5 +60,5 @@
   // 🚧 For testing, remove when done. 🚧
   include 'generate-invoice.php';
   $invoice = generateInvoice(1);
-  echo sendOrderInvoice($invoice);
+  echo sendOrderInvoice($invoice, 1);
 ?>
