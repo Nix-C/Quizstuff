@@ -1,5 +1,8 @@
 <?php
   function sendOrderInvoice($invoice){
+
+    $currentYear = date("Y");
+
     //Use HTML Variable
     ob_start();
   ?>
@@ -32,7 +35,7 @@
         </div>
         <!-- Footer -->
         <div style="background-color: #121212; color: #aaaaaa; padding: 10px; text-align: center; font-size: 12px;">
-            &copy; 2025 Quizstuff.com. All rights reserved.
+            &copy; <?= $currentYear ?> Quizstuff.com. All rights reserved.
         </div>
     </div>
 </body>
