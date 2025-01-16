@@ -1,7 +1,9 @@
 <?php
+  require_once '../script.php';
+
   function sendUserInvoice($invoice, $orderId, $userEmail){
     $currentYear = date("Y");
-
+    $subject = "Quizstuff Invoice ID#${orderId}";
     //Use HTML Variable
     ob_start();
 ?>
@@ -30,7 +32,7 @@
             
             <!-- $invoice -->
             <?= $invoice ?>
-            <p>Order ID: <?= $orderId ?>
+            <p>Order ID#<?= $orderId ?>
             <!-- Payment instructions -->
             <p style="margin: 0 0 10px;">Please make the payment by check. We will contact you with more payment information. <br> If you have any questions, feel free to contact us at <strong>quizstuff@quizstuff.com</strong>.</p>
         </div>
@@ -44,14 +46,15 @@
 
 <?php
     //This is the name of the HTML Variable
-    $userEmail = ob_get_clean();
+    $emailContent = ob_get_clean();
 
     // 🚧 For testing, remove when done. 🚧
-    echo $userEmail;
+    echo $emailContent;
 
     
     if(
-      true // Replace true with sendmail
+      // TODO: Replace true with sendmail
+      sendMail($userEmail, $subject, $emailContent)
     ) {
       return true;
     }
@@ -60,5 +63,5 @@
   // 🚧 For testing, remove when done. 🚧
   include 'generate-invoice.php';
   $invoice = generateInvoice(1);
-  echo sendUserInvoice($invoice, 1, "johndoe@example.com");
+  echo sendUserInvoice($invoice, 1, "nixc.web@gmail.com");
 ?>

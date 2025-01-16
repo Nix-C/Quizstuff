@@ -4,12 +4,12 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
 
-    //require_once 'PHPMailer/src/Exception.php';
-    //require_once 'PHPMailer/src/PHPMailer.php';
-    //require_once 'PHPMailer/src/SMTP.php';
-    require_once '/usr/share/php/libphp-phpmailer/src/Exception.php';
-    require_once '/usr/share/php/libphp-phpmailer/src/PHPMailer.php';
-    require_once '/usr/share/php/libphp-phpmailer/src/SMTP.php';
+    require_once 'PHPMailer/src/Exception.php';
+    require_once 'PHPMailer/src/PHPMailer.php';
+    require_once 'PHPMailer/src/SMTP.php';
+    // require_once '/usr/share/php/libphp-phpmailer/src/Exception.php';
+    // require_once '/usr/share/php/libphp-phpmailer/src/PHPMailer.php';
+    // require_once '/usr/share/php/libphp-phpmailer/src/SMTP.php';
 
     require 'config.php';
 

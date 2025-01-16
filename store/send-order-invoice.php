@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quizstuff Order #<?= $orderId?></title>
+    <title>Quizstuff Order ID#<?= $orderId?></title>
 </head>
 <body style="margin: 0; padding: 20px; background: radial-gradient(circle at top left, #004b78 5%, transparent), radial-gradient(circle at bottom right, #431235 5%, rgb(13, 18, 28)); font-family: Arial, sans-serif; color: #ffffff; line-height: 1.5; border: 8px solid transparent;">
     <img src="https://dev.quizstuff.com/assets/images/ostritch_final_1.png" alt="Logo" style="position: absolute; top: 10px; left: 10px; width: 80px; height: auto; max-width: 100%; max-height: 100%; border-radius: 4px;">
@@ -52,13 +52,13 @@
 
   
   if(
-    true // Replace true with sendmail
+    true // TODO: Replace true with sendmail
   ) {
     return true;
   }
 }
-  // 🚧 For testing, remove when done. 🚧
-  include 'generate-invoice.php';
-  $invoice = generateInvoice(1);
-  echo sendOrderInvoice($invoice, 1);
+  // // 🚧 For testing, remove when done. 🚧
+  // include 'generate-invoice.php';
+  // $invoice = generateInvoice(1);
+  // echo sendOrderInvoice($invoice, 1);
 ?>
