@@ -31,7 +31,7 @@
             <?= $invoice ?>
             <br>
             <!-- Payment instructions -->
-            <p style="margin: 0 0 10px;">Do not forget to contact the client with more payment information.</p>
+            <p style="margin: 0 0 10px;">Do not forget to contact the client with more payment information (where to send the check).</p>
         </div>
         <!-- Footer -->
         <div style="background-color: #121212; color: #aaaaaa; padding: 10px; text-align: center; font-size: 12px;">
@@ -45,14 +45,17 @@
   <?php
 
   //This is the name of the HTML Variable
-  $userEmail = ob_get_clean();
+  $emailContent = ob_get_clean();
 
   // 🚧 For testing, remove when done. 🚧
   echo $userEmail;
 
+  $storeEmail = "quizstuff@quizstuff.com";
+  $subject = "Quizstuff Order #". $orderId;
   
   if(
-    true // TODO: Replace true with sendmail
+    // TODO: Replace true with sendmail
+    sendMail($storeEmail, $subject, $emailContent)
   ) {
     return true;
   }
