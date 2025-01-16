@@ -157,7 +157,7 @@
               <legend><?= $product['name'] ?></legend>
               <p><?= $product['description'] ?></p>
               <?php if(!$product['has_variants']) : ?>
-                <span>Price: $<?= $product['price'] ?></span>
+                <p>Price: $<?= $product['price'] ?> ea.</p>
               <?php endif; ?>
               <?php if($product['image']) : ?>
                 <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>"> 
@@ -175,7 +175,7 @@
                         name="variant_<?= $product['id'] ?>_<?= $variant['id'] ?>" 
                         min="0" max="100" step="1" value="0"
                       >
-                    </label> <span>Price $<?= $variant['price'] ? $variant['price'] : $product['price'] ?></span>
+                    </label> <p>Price $<?= $variant['price'] ? $variant['price'] : $product['price'] ?> ea.</p>
                   </fieldset>
                   <?php endif; ?>
                 <?php endforeach; ?>
@@ -186,7 +186,9 @@
                     id="product_<?= $product['id'] ?>" 
                     name="product_<?= $product['id'] ?>" 
                     min="0" max="100" step="1" value="0"
-                  ></label>
+                  >
+                  <button>+</button>/<button>-</button>
+                </label>
                 <?php if($product['has_options']) : ?>
                   <fieldset>
                     <legend>Options</legend>
@@ -199,7 +201,7 @@
                             name="option_<?= $product['id'] ?>_<?= $option['id'] ?>" 
                             value="true"
                           >
-                          <span>+$<?= $option['price'] ?></span>
+                          <span>+$<?= $option['price'] ?> ea.</span>
                         </label>
                       <?php endif; ?>
                     <?php endforeach; ?>
@@ -210,7 +212,7 @@
               <!-- <button action="add" name="add">Add to Cart</button> -->
             </fieldset>
           <?php endforeach; ?>
-          <button type="submit" name="submit">Submit Order</button>
+          <button type="submit" class="button" name="submit">Submit Order</button>
           <p id="submit-message"></p>
         </form>
       </section>

@@ -324,8 +324,13 @@ section img {
   }
 }
 
+button {
+  color: currentColor;
+}
+
 .button {
-  border: solid currentColor 2px;
+  border: solid currentColor 1px;
+  background-color: transparent;
   padding: 0.5em 1.2em;
   cursor: pointer;
   text-decoration: none;
@@ -339,7 +344,7 @@ footer {
   justify-content: space-evenly;
   text-align: center;
   padding: 5px;
-  background-color: var(--bg-color);
+  background-color: var(--alt-bg-color);
 }
 
 footer {
@@ -379,7 +384,19 @@ label.above,
 }
 
 .form--product {
-  background-color: var(--bg-color);
+  border: currentColor 1px solid;
+}
+
+input,
+select {
+  background: #ffffff0f;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  color: inherit;
+}
+
+option {
+  background-color: var(--alt-bg-color);
 }
 
 #submit-message {
