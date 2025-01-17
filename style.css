@@ -43,6 +43,10 @@ body {
   background-attachment: fixed;
 }
 
+h1 {
+  font-size: 2rem;
+}
+
 /* Link color reset */
 a,
 a:active,
@@ -51,7 +55,8 @@ a:hover {
   color: currentColor;
 }
 
-a:hover {
+a:hover,
+button:hover {
   opacity: 0.8;
 }
 
@@ -328,6 +333,7 @@ button {
   color: currentColor;
 }
 
+button,
 .button {
   border: solid currentColor 1px;
   background-color: transparent;
@@ -369,7 +375,19 @@ footer img {
 /* Forms */
 fieldset {
   border: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+form > fieldset {
   margin-bottom: 1rem;
+}
+
+fieldset .full-row {
+  width: 100%;
 }
 
 legend {
@@ -381,6 +399,10 @@ legend {
 label.above,
 .above label {
   display: inline-grid;
+}
+
+.customer-info {
+  max-width: 500px;
 }
 
 .form--product {
@@ -395,11 +417,56 @@ select {
   color: inherit;
 }
 
+input[type="number"] {
+  margin-top: 5px;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px currentColor solid;
+  text-align: center;
+}
+
+/* Hide spinner in WebKit browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide spinner in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.qty--label {
+  display: inline-flex;
+  gap: 0.2em;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.button--input {
+  display: inline-flex;
+  width: 0.8rem;
+  height: 0.8rem;
+  padding: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  line-height: 1px;
+
+  color: var(--card-bg-color);
+  background-color: var(--font-color);
+  border-color: var(--font-color);
+}
+
 option {
   background-color: var(--alt-bg-color);
 }
 
 #submit-message {
+}
+
+#est-total {
+  margin-bottom: 0;
 }
 
 #submit-message.success {

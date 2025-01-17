@@ -3,6 +3,15 @@
 // Select form and prevent submission default
 const orderForm = document.querySelector("#order-form");
 const submitMessage = document.querySelector("#submit-message");
+
+// // Track form changes to update total est price
+// orderForm.addEventListener("change", async function (event) {
+//   const [type, productId, variantId] = event.target.id.split("_");
+//   if (type === "product") {
+//     console.log("Update total");
+//   }
+// });
+
 orderForm.addEventListener("submit", async function (event) {
   event.preventDefault();
   const formData = new FormData(event.target);
@@ -13,8 +22,16 @@ orderForm.addEventListener("submit", async function (event) {
     await sendOrderData(orderData)
       .then((response) => {
         if (response.ok) {
-          submitMessage.innerHTML = "Order submitted successfully.";
-          submitMessage.classList = "success";
+          // submitMessage.innerHTML = "Order submitted successfully.";
+          // submitMessage.classList = "success";
+          replaceContent(
+            orderForm,
+            `
+            <h2>Thank You</h2>
+            <p>Your order has been successfully submitted.</p>
+            <button onclick="location.reload();">Create New Order</button>
+            `
+          );
         } else {
           submitMessage.innerHTML = "Order failed to submit.";
           submitMessage.classList = "failure";
@@ -30,6 +47,31 @@ orderForm.addEventListener("submit", async function (event) {
     submitMessage.classList = "failure";
   }
 });
+
+function replaceContent(el, newContent) {
+  el.insertAdjacentHTML("afterEnd", newContent);
+  el.remove();
+}
+
+function incrementQty(inputId) {
+  const input = document.getElementById(inputId);
+  const value = parseInt(input.value);
+  const max = parseInt(input.max);
+  if (value + 1 <= max) {
+    input.value = value + 1;
+    input.dispatchEvent(new Event("change", { bubbles: true })); // Manually trigger change
+  }
+}
+function decrementQty(inputId) {
+  const input = document.getElementById(inputId);
+  const value = parseInt(input.value);
+  const min = parseInt(input.min);
+  if (value - 1 >= min) {
+    input.value = value - 1;
+    input.dispatchEvent(new Event("change", { bubbles: true })); // Manually trigger change
+  }
+}
+
 function formatOrderData(formData) {
   // Declare input types
   const validAddressTypes = [
