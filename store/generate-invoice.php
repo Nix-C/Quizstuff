@@ -55,15 +55,15 @@
           <tr>
             <td><?= $name ?></td>
             <td><?= $lineItem["quantity"] ?></td>
-            <td><?= $lineItem["price"] ?></td>
-            <td><?= $lineItem["total_price"] ?></td>
+            <td>$<?= $lineItem["price"] ?></td>
+            <td>$<?= $lineItem["total_price"] ?></td>
           </tr>
         <?php endforeach ?>
         <tr>
           <td colspan="3" align="right">
             <strong>Total:</strong>
           </td>
-          <td><strong><?= $orderData["total_price"] ?></strong></td>
+          <td><strong>$<?= $orderData["total_price"] ?></strong></td>
         </tr>
         </table>
         <div>
@@ -72,20 +72,22 @@
           </label><br>
           <label><strong>Address: </strong><br>
             <span>
-              <?= $orderData["address_1"] ?><br>
-              <?= $orderData["address_2"] ? $orderData["address_2"] . "<br>" : ""?>
+              <?= $orderData["address_1"] ?>
+              <?= $orderData["address_2"] ? $orderData["address_2"] : ""?> <br>
               <?= $orderData["city"] ?>, <?= $orderData["state"] ?> <?= $orderData["zip"] ?>
             </span>
           </label><br>
+          <label><strong>Phone:</strong>
+            <span> <?= $orderData["phone"] ?> </span>
+          </label><br>
+          <label><strong>Email:</strong>
+            <?= $orderData["email"] ?>
+          </label>
         </div>
       </div>
       <?php 
       $invoice = ob_get_clean();
       
-      // For testing 🚧
-      // echo print_r($lineItems) . "<br>" . "<br>";
-      // echo print_r($orderData) . "<br>" . "<br>";
-
       //return "An invoice";
       return $invoice;
 
@@ -97,5 +99,5 @@
   }
 
   // For testing 🚧
-  echo print_r(generateInvoice(1));
+  // echo print_r(generateInvoice(1));
 ?>

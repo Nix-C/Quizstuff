@@ -1,6 +1,7 @@
 <?php
   include 'config/database.php';
-  // include 'generate-invoice.php';
+  include 'generate-invoice.php';
+  include 'send-order-invoice.php';
   $OK = true; // Make false if something is wrong
 
   // Get orderData object from the request body (which is a string in JSON format)
@@ -176,16 +177,16 @@
   }
 
   // Step 4 - Call generate-invoice.php (pass $orderId)
-  // $invoice = generateInvoice($orderId);
-  // if(is_null($invoice)){
-  //   echo "Error: Invoice could not be generated";
-  //   $OK = false;
-  // }
+  $invoice = generateInvoice($orderId);
+  if(is_null($invoice)){
+    echo "Error: Invoice could not be generated";
+    $OK = false;
+  }
 
   // Step 5 - Send mail with invoice body
-  // if(is_null(sendUserInvoice($invoice))){
-  //   $OK = false;
-  // }
+  if(is_null(sendOrderInvoice($invoice, $orderId))){
+    $OK = false;
+  }
   
 
 
