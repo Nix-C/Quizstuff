@@ -3,6 +3,7 @@
   /*--bg-color: rgb(0, 70, 102);*/
   --bg-color: rgb(13, 18, 28);
   --alt-bg-color: rgb(7, 9, 12);
+  --card-bg-color: #171318;
   --site-width: 1000px;
   --ul-height: 18rem;
 }
@@ -19,7 +20,7 @@
 @font-face {
   font-family: "Lato";
   src: url("./assets/fonts/Lato/Lato-Bold.ttf");
-  font-weight: bold;
+  font-weight: bold 700;
 }
 
 /** Global Styles **/
@@ -154,13 +155,11 @@ footer {
   background-color: var(--alt-bg-color);
 }
 
-section {
+main {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  z-index: 2;
 }
 
 nav {
@@ -234,9 +233,55 @@ nav {
   width: 100%;
 }
 
+.dropdown {
+  position: relative;
+}
+
+.dropdown button {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: currentColor;
+  cursor: pointer;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown button svg {
+  stroke: currentColor;
+  height: 1em;
+  width: 1em;
+  transition: transform 150ms ease-out;
+}
+
+.dropdown ul {
+  display: none;
+  list-style: none;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  gap: 0.5em;
+  background-color: var(--alt-bg-color);
+  border: 1px solid var(--font-color);
+  padding: 0.5em;
+  z-index: 1;
+}
+
+.dropdown .open svg {
+  transform: scaleY(-1);
+}
+
+.dropdown .open + ul {
+  display: block;
+}
+
 /** Containers **/
 
-.container {
+section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -257,12 +302,12 @@ nav {
   color: white;
 }
 
-.container img {
+section img {
   height: 100px;
   margin-bottom: 20px;
 }
 
-.container #HIW {
+#HIW {
   margin: 30px 0px;
   height: 200px;
 }
@@ -279,8 +324,13 @@ nav {
   }
 }
 
+button {
+  color: currentColor;
+}
+
 .button {
-  border: solid currentColor 2px;
+  border: solid currentColor 1px;
+  background-color: transparent;
   padding: 0.5em 1.2em;
   cursor: pointer;
   text-decoration: none;
@@ -294,7 +344,7 @@ footer {
   justify-content: space-evenly;
   text-align: center;
   padding: 5px;
-  background-color: var(--bg-color);
+  background-color: var(--alt-bg-color);
 }
 
 footer {
@@ -314,6 +364,49 @@ footer img {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Forms */
+fieldset {
+  border: none;
+  margin-bottom: 1rem;
+}
+
+legend {
+  padding-inline: 0;
+  font-size: 1.2rem;
+}
+
+/* Label above input */
+label.above,
+.above label {
+  display: inline-grid;
+}
+
+.form--product {
+  border: currentColor 1px solid;
+}
+
+input,
+select {
+  background: #ffffff0f;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  color: inherit;
+}
+
+option {
+  background-color: var(--alt-bg-color);
+}
+
+#submit-message {
+}
+
+#submit-message.success {
+  color: greenyellow;
+}
+#submit-message.failure {
+  color: red;
 }
 
 .mobile-only {

@@ -1,64 +1,19 @@
+<?php
+  $page_title = "QuizStuff";
+?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      href="./assets/images/ostritch_final_1.png"
-      type="image/x-icon"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <title>QuizStuff</title>
-  </head>
+  <?php include 'head.php'; ?>
 
   <body>
     <div id="canvas">
       <div id="radial-1"></div>
       <div id="radial-2"></div>
     </div>
-    <header id="header">
-      <nav>
-        <a href="index.html" class="logo-container">
-          <img
-            class="ostrich-icon"
-            src="./assets/images/ostritch_final_1.png"
-            alt="An ostrich wearing glasses."
-          />
-          <h1>QuizStuff</h1>
-        </a>
-        <div id="header-links-wrapper">
-          <ul id="header-links">
-            <li><a class="current" href="index.html">Overview</a></li>
-            <li><a href="downloads.html">Downloads</a></li>
-            <!-- <li><a href="#">Changelog</a></li> -->
-            <li><a href="faqs.html">FAQs</a></li>
-            <li>
-              <a
-                href="http://www.quizstuff.com/zencart/index.php?main_page=login&zenid=502e276d8dbff6ccf0d336295bd5ffdb"
-                >Store</a
-              >
-            </li>
-          </ul>
-        </div>
-        <button class="icon mobile-only" onclick="toggleNavOpen()">
-          <svg
-            class="ham-icon"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path style="stroke-miterlimit: 6" d="M 0 20 L 100 20" />
-            <path style="stroke-miterlimit: 6" d="M 0 50 L 100 50" />
-            <path style="stroke-miterlimit: 6" d="M 0 80 L 100 80" />
-          </svg>
-        </button>
-      </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
-    <section>
-      <div class="container">
+    <main>
+      <section class="container">
         <h1 class="container-header">Latest Updates</h1>
 
         <p class="container-text">
@@ -80,9 +35,9 @@
           interface boxes. Thank you for your patience as we have purchased all
           the material and anticipate the program to work soon after testing.
         </p>
-      </div>
+      </section>
 
-      <div class="container">
+      <section class="container">
         <h1 class="container-header">Are Your Clone Pads Falling Apart?</h1>
 
         <p class="container-text">
@@ -90,9 +45,9 @@
           glue for longer life). Cost is dependent on what needs to be done. A
           proposal for costs will be sent for approval.
         </p>
-      </div>
+      </section>
 
-      <div class="container">
+      <section class="container">
         <h1 class="container-header">Pads Are Being Made As Fast As We Can</h1>
 
         <p class="container-text">
@@ -106,9 +61,9 @@
           interface boxes. We CANNOT guarantee the pads to work with any other
           equipment.
         </p>
-      </div>
+      </section>
 
-      <div class="container">
+      <section class="container">
         <h1 class="container-header">Laptops For Sale</h1>
 
         <p class="container-text">
@@ -122,9 +77,9 @@
           class="button"
           >Visit Store</a
         >
-      </div>
+      </section>
 
-      <div class="container">
+      <section class="container">
         <h1 class="container-header">Disclaimers</h1>
 
         <ul class="container-text">
@@ -158,26 +113,9 @@
           </li>
           <br />
         </ul>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <footer>
-      <div class="footer-links">
-        <h1>Church of The Nazarene Links</h1>
-        <a
-          href="https://nazarene.org/who-we-are/organization/ministries/nazarene-youth-international"
-          target="_blank"
-          >Nazarene Youth International</a
-        >
-
-        <a
-          href="http://www.nazquizzing.org/pages/37-tournament-web-sites"
-          target="_blank"
-          >Nazarene Quizzing Tournaments</a
-        >
-      </div>
-      <img src="Ostrich 1.jpg" alt="A crazy ostrich with a jetpack!" />
-      <small>© 2008-<span class="current-year">2023</span> QuizStuff</small>
-    </footer>
+    <?php include 'footer.php'; ?>
   </body>
 </html>

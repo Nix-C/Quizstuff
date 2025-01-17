@@ -1,63 +1,17 @@
+<?php
+  $page_title = "FAQs";
+?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      href="./assets/images/ostritch_final_1.png"
-      type="image/x-icon"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <title>FAQs - QuizStuff</title>
-  </head>
+  <?php include 'head.php'; ?>
   <body>
     <div id="canvas">
       <div id="radial-1"></div>
       <div id="radial-2"></div>
     </div>
-    <header id="header">
-      <nav>
-        <a href="index.html" class="logo-container">
-          <img
-            class="ostrich-icon"
-            src="./assets/images/ostritch_final_1.png"
-            alt="An ostrich wearing glasses."
-          />
-          <h1>QuizStuff</h1>
-        </a>
-        <div id="header-links-wrapper">
-          <ul id="header-links">
-            <li><a href="index.html">Overview</a></li>
-            <li><a href="downloads.html">Downloads</a></li>
-            <!-- <li><a href="#">Changelog</a></li> -->
-            <li><a class="current" href="faqs.html">FAQs</a></li>
-            <li>
-              <a
-                href="http://www.quizstuff.com/zencart/index.php?main_page=login&zenid=502e276d8dbff6ccf0d336295bd5ffdb"
-                >Store</a
-              >
-            </li>
-          </ul>
-        </div>
-        <button class="icon mobile-only" onclick="toggleNavOpen()">
-          <svg
-            class="ham-icon"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path style="stroke-miterlimit: 6" d="M 0 20 L 100 20" />
-            <path style="stroke-miterlimit: 6" d="M 0 50 L 100 50" />
-            <path style="stroke-miterlimit: 6" d="M 0 80 L 100 80" />
-          </svg>
-        </button>
-      </nav>
-    </header>
-
-    <section>
-      <div class="container">
+    <?php include 'header.php'; ?>
+    <main>
+      <section class="container">
         <h1 class="container-header">OK, how does this all work?</h1>
 
         <p class="container-text">
@@ -94,16 +48,16 @@
           practice with QMServer. See the download section for the User Manual.
         </p>
 
-        <img id="HIW" src="HIW.gif" alt="Hardware diagram." />
+        <img id="HIW" src="/assets/images/HIW.gif" alt="Hardware diagram." />
 
         <a
           href="http://www.quizstuff.com/zencart/index.php?main_page=login&zenid=502e276d8dbff6ccf0d336295bd5ffdb"
           class="button"
           >Order Equippment</a
         >
-      </div>
+      </section>
 
-      <div class="container">
+      <section class="container">
         <h1 class="container-header">USB Interface Box And Pads</h1>
 
         <p class="container-text">
@@ -127,9 +81,9 @@
           class="button"
           >Order Equippment</a
         >
-      </div>
+      </section>
 
-      <div class="container">
+      <section class="container">
         <h1 class="container-header">Some Common Issues</h1>
 
         <p class="container-text">
@@ -175,26 +129,9 @@
           For more support please contact us at <u>quizstuff@quizstuff.com</u>.
           <br /><br /><br />
         </p>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <footer>
-      <div class="footer-links">
-        <h1>Church of The Nazarene Links</h1>
-        <a
-          href="https://nazarene.org/who-we-are/organization/ministries/nazarene-youth-international"
-          target="_blank"
-          >Nazarene Youth International</a
-        >
-
-        <a
-          href="http://www.nazquizzing.org/pages/37-tournament-web-sites"
-          target="_blank"
-          >Nazarene Quizzing Tournaments</a
-        >
-      </div>
-      <img src="Ostrich 1.jpg" alt="A crazy ostrich with a jetpack!" />
-      <small>© 2008-<span class="current-year">2023</span> QuizStuff</small>
-    </footer>
+    <?php include 'footer.php'; ?>
   </body>
 </html>
