@@ -1,8 +1,5 @@
 <?php
-
-  require 'generate-invoice.php';
-  require 'process-order.php';
-
+  require_once '../script.php';
   function sendOrderInvoice($invoice, $orderId, $qsEmail){
 
     $currentYear = date("Y");
@@ -31,12 +28,13 @@
         <div style="padding: 20px;">
             <p style="margin: 0 0 20px;">A client has placed an order. Please find their invoice details below:</p>
             
-            
             <!-- $invoice -->
             <?= $invoice ?>
             <br>
             <!-- Payment instructions -->
             <p style="margin: 0 0 10px;">Do not forget to contact the client with more payment information (where to send the check).</p>
+            <p><strong>NOTE: Order total + shipping cost needs to be calculated and sent to the client.</strong></p>
+
         </div>
         <!-- Footer -->
         <div style="background-color: #121212; color: #aaaaaa; padding: 10px; text-align: center; font-size: 12px;">
@@ -56,16 +54,12 @@
   //echo $userEmail;
 
   
-  if(
-    // TODO: Replace true with sendmail
-    sendMail($qsEmail, $subject, $emailContent)
-  ) {
+  if(sendMail($qsEmail, $subject, $emailContent)) {
     return true;
-    sendMail($qsEmail, $subject, $emailContent);
   }
 }
   // // 🚧 For testing, remove when done. 🚧
   // include 'generate-invoice.php';
   // $invoice = generateInvoice(1);
-  // echo sendOrderInvoice($invoice, 1);
+  // echo sendOrderInvoice($invoice, 1, "nixc.web@gmail.com");
 ?>
