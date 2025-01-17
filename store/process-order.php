@@ -184,11 +184,21 @@
   }
 
   // Step 5 - Send mail with invoice body
-  if(is_null(sendOrderInvoice($invoice, $orderId))){
+  $qsEmail = "quizstuff@quizstuff.com";
+  if(is_null(sendOrderInvoice($invoice, $orderId, $qsEmail))){
     $OK = false;
   }
-  
+  else {
+    sendOrderInvoice($invoice, $orderId, $qsEmail);
+  }
 
+  $userEmail = $shippingInfo->email;
+  if(is_null(sendUserInvoice($invoice, $orderId, $userEmail))){
+    $OK = false;
+  }
+  else {
+    sendOrderInvoice($invoice, $orderId, $userEmail);
+  }
 
   // Send a 200 OK HTTP status code
   if($OK) {

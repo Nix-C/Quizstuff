@@ -1,7 +1,12 @@
 <?php
-  function sendOrderInvoice($invoice, $orderId){
+
+  require 'generate-invoice.php';
+  require 'process-order.php';
+
+  function sendOrderInvoice($invoice, $orderId, $qsEmail){
 
     $currentYear = date("Y");
+    $subject = "Quizstuff Order #". $orderId;
 
     //Use HTML Variable
     ob_start();
@@ -48,16 +53,15 @@
   $emailContent = ob_get_clean();
 
   // 🚧 For testing, remove when done. 🚧
-  echo $userEmail;
+  //echo $userEmail;
 
-  $storeEmail = "quizstuff@quizstuff.com";
-  $subject = "Quizstuff Order #". $orderId;
   
   if(
     // TODO: Replace true with sendmail
-    sendMail($storeEmail, $subject, $emailContent)
+    sendMail($qsEmail, $subject, $emailContent)
   ) {
     return true;
+    sendMail($qsEmail, $subject, $emailContent);
   }
 }
   // // 🚧 For testing, remove when done. 🚧
