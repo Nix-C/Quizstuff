@@ -4,3 +4,4 @@ Downloads/
 store/config/database.php
 config.php
 test.php
+.env

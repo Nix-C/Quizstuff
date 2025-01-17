@@ -187,7 +187,7 @@
                     name="product_<?= $product['id'] ?>" 
                     min="0" max="100" step="1" value="0"
                   >
-                  <button>+</button>/<button>-</button>
+                  
                 </label>
                 <?php if($product['has_options']) : ?>
                   <fieldset>
