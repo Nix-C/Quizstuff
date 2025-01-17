@@ -1,5 +1,7 @@
 <?php
   require_once '../script.php';
+  require 'generate-invoices.php';
+  require 'process-order.php';
 
   function sendUserInvoice($invoice, $orderId, $userEmail){
     $currentYear = date("Y");
@@ -49,20 +51,19 @@
     $emailContent = ob_get_clean();
 
     // 🚧 For testing, remove when done. 🚧
-    echo $emailContent;
-
-    $subject = "You're order has been placed!";
+    //echo $emailContent;
     
     if(
       // TODO: Replace true with sendmail
       sendMail($userEmail, $subject, $emailContent)
     ) {
       return true;
+      sendMail($userEmail, $subject, $emailContent);
     }
 
   }
   // 🚧 For testing, remove when done. 🚧
-  include 'generate-invoice.php';
-  $invoice = generateInvoice(1);
-  echo sendUserInvoice($invoice, 1, "nixc.web@gmail.com");
+  //include 'generate-invoice.php';
+  //$invoice = generateInvoice(1);
+  //echo sendUserInvoice($invoice, 1, "nixc.web@gmail.com");
 ?>
