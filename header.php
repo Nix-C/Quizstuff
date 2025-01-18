@@ -12,7 +12,6 @@
           <ul id="header-links">
             <li><a href="/">Overview</a></li>
             <li><a href="/downloads.php">Downloads</a></li>
-            <!-- <li><a href="#">Changelog</a></li> -->
             <li><a href="/faqs.php">FAQs</a></li>
             <li class="dropdown">
               <button onclick="toggleOpen(this)">

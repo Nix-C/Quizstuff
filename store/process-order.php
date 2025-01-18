@@ -1,7 +1,8 @@
 <?php
-  include 'config/database.php';
-  include 'generate-invoice.php';
-  include 'send-order-invoice.php';
+  require_once 'config/database.php';
+  require_once 'generate-invoice.php';
+  require_once 'send-order-invoice.php';
+  require_once 'send-user-invoice.php';
   $OK = true; // Make false if something is wrong
 
   // Get orderData object from the request body (which is a string in JSON format)
@@ -184,10 +185,17 @@
   }
 
   // Step 5 - Send mail with invoice body
-  if(is_null(sendOrderInvoice($invoice, $orderId))){
+  $qsEmail = "quizstuff@quizstuff.com";
+  if(!sendOrderInvoice($invoice, $orderId, $qsEmail)){
+    echo "Error: Invoice could not be sent to admin.";
     $OK = false;
   }
-  
+
+  $userEmail = $shippingInfo->email;
+  if(!sendUserInvoice($invoice, $orderId, $userEmail)){
+    echo "Error: Invoice could not be sent to customer.";
+    $OK = false;
+  }
 
 
   // Send a 200 OK HTTP status code
