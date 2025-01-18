@@ -53,7 +53,7 @@
         </p>
 
         <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-        <a href="assets/downloads/QuizMachine4.2Installer.ex" class="button">Download &nbsp;&nbsp; 4.2.L55</a>
+        <a href="assets/downloads/QuizMachine4.2Installer.exe" class="button">Download &nbsp;&nbsp; 4.2.L55</a>
       </section>
 
       <section class="container">
