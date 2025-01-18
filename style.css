@@ -67,6 +67,8 @@ button.icon {
   background: unset;
   border: none;
   cursor: pointer;
+
+  padding: 0;
 }
 
 .ham-icon {
@@ -271,9 +273,9 @@ nav {
   flex-direction: column;
   gap: 0.5em;
   background-color: var(--alt-bg-color);
-  border: 1px solid var(--font-color);
   padding: 0.5em;
   z-index: 1;
+  width: max-content;
 }
 
 .dropdown .open svg {
@@ -460,9 +462,6 @@ input[type="number"] {
 
 option {
   background-color: var(--alt-bg-color);
-}
-
-#submit-message {
 }
 
 #est-total {
