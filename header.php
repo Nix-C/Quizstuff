@@ -10,9 +10,11 @@
         </a>
         <div id="header-links-wrapper">
           <ul id="header-links">
+            <!-- <h3 class="mobile-only nav-heading">General</h3> -->
             <li><a href="/">Overview</a></li>
             <li><a href="/downloads.php">Downloads</a></li>
             <li><a href="/faqs.php">FAQs</a></li>
+            <!-- <h3 class="mobile-only nav-heading">Store</h3> -->
             <li class="dropdown">
               <button onclick="toggleOpen(this)">
                 Store
@@ -39,7 +41,7 @@
                   <a href="/store/products.php">Products</a>
                 </li> -->
                 <li>
-                  <a href="/store/order-form.php">Order form</a>
+                  <a href="/store/order-form.php">Order Equipment</a>
                 </li>
                 <!-- <li>
                   <a href="/store/shipping-info.php">Shipping policy</a>

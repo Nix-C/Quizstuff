@@ -22,12 +22,14 @@ function toggleOpen(element) {
   element.classList.toggle("open");
 }
 
+const header = document.getElementById("header");
 const headerLinks = document.getElementById("header-links");
 const root = document.querySelector(":root");
 root.style.setProperty("--ul-height", `${headerLinks.clientHeight}px`);
-
+root.style.setProperty("--header-height", `${header.clientHeight}px`);
 window.addEventListener("resize", () => {
   root.style.setProperty("--ul-height", `${headerLinks.clientHeight}px`);
+  root.style.setProperty("--header-height", `${header.clientHeight}px`);
 });
 
 // Add .current class to header link matching current

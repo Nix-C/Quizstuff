@@ -6,6 +6,7 @@
   --card-bg-color: #171318;
   --site-width: 1000px;
   --ul-height: 18rem;
+  --header-height: 3rem;
 }
 
 /** Imports **/
@@ -223,21 +224,24 @@ nav {
 }
 
 /* Animated underline recipe */
-#header-links a:after {
-  position: absolute;
-  content: "";
-  display: block;
-  width: 0%;
-  bottom: 0;
-  left: 0;
-  background-color: currentColor;
-  height: 1px;
-  transition: width 150ms ease-out;
-}
-#header-links a.current:after,
-#header-links a:hover:after {
-  opacity: 1;
-  width: 100%;
+
+@media screen and (min-width: 600px) {
+  #header-links a:after {
+    position: absolute;
+    content: "";
+    display: block;
+    width: 0%;
+    bottom: 0;
+    left: 0;
+    background-color: currentColor;
+    height: 1px;
+    transition: width 150ms ease-out;
+  }
+  #header-links a.current:after,
+  #header-links a:hover:after {
+    opacity: 1;
+    width: 100%;
+  }
 }
 
 .dropdown {
@@ -269,7 +273,7 @@ nav {
   display: none;
   list-style: none;
   position: absolute;
-  display: none;
+
   flex-direction: column;
   gap: 0.5em;
   background-color: var(--alt-bg-color);
@@ -444,6 +448,7 @@ input[type="number"] {
   gap: 0.2em;
   flex-direction: row;
   align-items: flex-end;
+  justify-content: end;
 }
 
 .button--input {
@@ -490,26 +495,66 @@ option {
 
   #header-links-wrapper {
     height: 0;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: var(--header-height);
     right: 0;
+    left: 0;
     transition: height 150ms ease-out;
     background: var(--alt-bg-color);
     overflow: hidden;
   }
 
   #header-links {
+    width: -moz-available;
+    width: fill-available;
+    width: -webkit-fill-available;
+
     flex-direction: column;
-    align-items: flex-end;
+
     padding: 20px;
     font-size: 1.5rem;
   }
-  .nav-open #header-links-wrapper {
-    height: var(--ul-height);
+
+  #header-links a {
+    display: inherit;
+    width: inherit;
   }
 
-  #header-links li {
-    width: fit-content;
-    text-align: right;
+  .nav-open #header-links-wrapper {
+    height: 100%;
+  }
+
+  #header-links li:not(:has(button)),
+  #header-links button {
+    /* width: fit-content; */
+    border-bottom: 1px solid currentColor;
+    padding: 0.5rem;
+  }
+
+  .nav-heading {
+    border-bottom: solid 1px currentColor;
+    font-size: 0.8em;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: inherit;
+    opacity: 0.8;
+  }
+
+  .dropdown {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  /* .dropdown > button {
+    display: none;
+  } */
+
+  .dropdown ul {
+    /* display: initial; */
+    position: initial;
+    padding: unset;
+    width: inherit;
   }
 }
