@@ -172,7 +172,7 @@
           <?php foreach($products as $product) : ?>
             <fieldset class="form--product">
               <legend><?= $product['name'] ?></legend>
-              <p><?= $product['description'] ?></p>
+              <p><?= nl2br($product['description']) ?></p>
               <?php if(!$product['has_variants']) : ?>
                 <span>Price: $<?= $product['price'] ?> ea.</span>
               <?php endif; ?>
