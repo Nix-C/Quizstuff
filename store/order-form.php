@@ -14,15 +14,14 @@
     return $product['has_variants'];
   });
 
+  
   // Extract product ids
   $ids_with_variants = array_map(function($product) {
     return $product['id'];
   }, $with_variants);
 
-
-  if(!empty($ids_with_variants)) {
-    $tempArray = array_fill(0, count($ids_with_variants), '?');
-    $placeholders = implode(',', $tempArray);
+  if(count($ids_with_variants) > 0) {
+    $placeholders = implode(',', array_fill(0, count($ids_with_variants), '?'));
     $query = "SELECT * FROM product_variants WHERE product_id IN ($placeholders)";
     $stmt = $conn->prepare($query);
     $stmt->bind_param(str_repeat('i', count($ids_with_variants)), ...$ids_with_variants);
@@ -34,7 +33,6 @@
   } else {
     $product_variants = null;
   }
-
 
   // Get product options
   $with_options = array_filter($products, function($product) {
@@ -48,7 +46,6 @@
   if(!empty($ids_with_options)){
     $placeholders = implode(',', array_fill(0, count($ids_with_options), '?'));
     $query = "SELECT * FROM product_options WHERE product_id IN ($placeholders)";
-    echo $query;
     $stmt = $conn->prepare($query);
     $stmt->bind_param(str_repeat('i', count($ids_with_options)), ...$ids_with_options);
     $stmt->execute();
@@ -60,9 +57,6 @@
     $product_options = null;
   }
  
-
-  
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -16,7 +16,7 @@
             <li><a href="/faqs.php">FAQs</a></li>
             <!-- <h3 class="mobile-only nav-heading">Store</h3> -->
             <li class="dropdown">
-              <button onclick="toggleOpen(this)">
+              <button class="dropdown-toggle">
                 Store
                 <svg
                   width="24px"

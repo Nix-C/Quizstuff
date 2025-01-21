@@ -282,12 +282,16 @@ nav {
   width: max-content;
 }
 
-.dropdown .open svg {
+.dropdown.open svg {
   transform: scaleY(-1);
 }
 
-.dropdown .open + ul {
-  display: block;
+.dropdown.open ul {
+  display: flex;
+}
+
+.dropdown-content li {
+  padding: 0.3em 0.1em;
 }
 
 /** Containers **/
@@ -382,9 +386,9 @@ footer img {
 fieldset {
   border: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  align-items: center;
+
   gap: 0.5rem;
 }
 
@@ -409,6 +413,7 @@ label.above,
 
 .customer-info {
   max-width: 500px;
+  flex-direction: row;
 }
 
 .form--product {
@@ -448,7 +453,6 @@ input[type="number"] {
   gap: 0.2em;
   flex-direction: row;
   align-items: flex-end;
-  justify-content: end;
 }
 
 .button--input {
@@ -556,5 +560,6 @@ option {
     position: initial;
     padding: unset;
     width: inherit;
+    gap: 1em;
   }
 }
