@@ -40,9 +40,9 @@ CREATE TABLE `quizstuff`.`product_variants`(
 
 /* Insert product variants */
 INSERT INTO `quizstuff`.`product_variants` (`product_id`, `name`,`variant_type`, `price`, `weight`, `image`, `description`) VALUES
-(2, 'Red', 'Color', NULL, NULL, NULL, NULL),
-(2, 'Blue', 'Color', NULL, NULL, NULL, NULL),
-(2, 'Green', 'Color', NULL, NULL, NULL, NULL);
+(3, 'Red', 'Color', NULL, NULL, NULL, NULL),
+(3, 'Blue', 'Color', NULL, NULL, NULL, NULL),
+(3, 'Green', 'Color', NULL, NULL, NULL, NULL);
 
 /* Product Options */
 CREATE TABLE `quizstuff`.`product_options`(
