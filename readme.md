@@ -1,6 +1,6 @@
-# QuizStuff Website
+# Quizstuff Website
 
-This is the main site for QuizStuff. Contains updates, downloads, and general FAQ.
+This is the main site for Quizstuff. Contains updates, downloads, and general FAQ.
 
 ## Fix Tracker
 

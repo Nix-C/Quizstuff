@@ -302,7 +302,11 @@ section {
   justify-content: center;
   flex-direction: column;
 
+  width: -moz-available;
+  width: fill-available;
+  width: -webkit-fill-available;
   max-width: var(--site-width);
+
   padding: 30px;
   margin: 40px 10px 0 10px;
 
