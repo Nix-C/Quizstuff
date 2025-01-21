@@ -1,6 +1,7 @@
 // Select form and prevent submission default
-const orderForm = document.querySelector("#order-form");
-const submitMessage = document.querySelector("#submit-message");
+const orderForm = document.getElementById("order-form");
+const submitMessage = document.getElementById("submit-message");
+const submitButton = document.getElementById("button--submit");
 
 // // Track form changes to update total est price
 // orderForm.addEventListener("change", async function (event) {
@@ -17,6 +18,8 @@ orderForm.addEventListener("submit", async function (event) {
   console.log(orderData);
 
   if (orderData.lineItems.length > 0) {
+    submitButton.disabled = true;
+    submitButton.innerText = "Submitting...";
     await sendOrderData(orderData)
       .then((response) => {
         if (response.ok) {
@@ -30,12 +33,17 @@ orderForm.addEventListener("submit", async function (event) {
             <button onclick="location.reload();">Create New Order</button>
             `
           );
+          window.scrollTo(0, 0);
         } else {
+          submitButton.disabled = false;
+          submitButton.innerText = "Submit Order";
           submitMessage.innerHTML = "Order failed to submit.";
           submitMessage.classList = "failure";
         }
       })
       .catch((error) => {
+        submitButton.disabled = false;
+        submitButton.innerText = "Submit Order";
         submitMessage.innerHTML = "Order failed to submit.";
         submitMessage.classList = "failure";
         console.error(error);

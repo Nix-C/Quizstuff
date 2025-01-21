@@ -57,7 +57,8 @@ a:hover {
 }
 
 a:hover,
-button:hover {
+button:hover,
+button:disabled {
   opacity: 0.8;
 }
 

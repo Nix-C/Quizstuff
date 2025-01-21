@@ -244,7 +244,7 @@
               <!-- <button action="add" name="add">Add to Cart</button> -->
             </fieldset>
           <?php endforeach; ?>
-          <button type="submit" class="button" name="submit">Submit Order</button>
+          <button type="submit" id="button--submit" class="button" name="submit">Submit Order</button>
           <!-- <p id="est-total">Estimated Total: $<span id="est-total--value">0.00</span></p>
           <small>(Pre shipping) -->
           <p id="submit-message"></p>
