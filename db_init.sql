@@ -18,7 +18,11 @@ CREATE TABLE `quizstuff`.`products`(
 
 /* Insert core products */
 INSERT INTO `quizstuff`.`products` (`name`, `model`, `has_variants`, `has_options`, `price`, `weight`, `image`, `description`, `flat_shipping`) VALUES 
+<<<<<<< Updated upstream
 ('Quizstuff Hardware Bundle', NULL, FALSE, FALSE, 360.00, 0.00, NULL, 'Includes one USB Interface Box and three strings of Chair Pads. Flat rate of $15.95 shipping via USPS.', 15.95 ),
+=======
+('Quizstuff Hardware Bundle', NULL, FALSE, FALSE, 360.00, 0.00, NULL, 'Includes one USB Interface Box and three strings of Chair Pads.\nFlat rate of $15.95 shipping via USPS (separate from list price).', 15.95 ),
+>>>>>>> Stashed changes
 ('USB Interface Box', 'v0.9', FALSE, FALSE, 135.00, 0.00, NULL, 'USB Interface Box connects up to 3 strings of pads to a computer.\nUse QuizMachine software on Microsoft operating systems. Windows 7,8,10 all versions only.\nNo power cord required. Power is supplied via the USB port on the computer.', NULL),
 ('Chair Pads (5 Per String)', 'v18', TRUE, FALSE, 75.00, 0.00, NULL, 'NOTICE: Pads are being made as quickly as possible (within a 4-6 weeks provided parts are available) as another person is helping. Please contact me for more information.\nPads - strings of 5 pads. Colors: Red, Blue (old yellow) and Green.\nThese are intended to work with QuizMachine and either the USB or Parallel port interface boxes from Quizstuff, but we cannot necessarily guarantee the strings to work with other quiz equipment. Use with other equipment at your own risk.\nMade with Naugahyde leather and all sides sewn together professionally.', NULL),
 ('QuizMachine (1 User)', 'v5.4.J30', FALSE, FALSE, 75.00, 0.00, NULL, 'Single registration - includes lifetime upgrades.\nThe software called QuizMachine used in Nazarene style bible quizzing. Detects which person jumps, keeps score, records all options for the rounds.\nScores can be exported to QMServer (included) to tally overall quiz stats.\nScoresheets can be printed.', NULL),
