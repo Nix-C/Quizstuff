@@ -1,5 +1,5 @@
 <?php
-  require_once 'config/database.php';
+  require_once './config/database.php';
   require_once 'generate-invoice.php';
   require_once 'send-order-invoice.php';
   require_once 'send-user-invoice.php';

@@ -168,6 +168,9 @@ main {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  min-height: calc(
+    90vh - var(--header-height)
+  ); /* Keep footer at bottom and out of sight */
 }
 
 nav {
