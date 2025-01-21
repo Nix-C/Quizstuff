@@ -6,7 +6,7 @@
             src="/assets/images/ostritch_final_1.png"
             alt="An ostrich wearing glasses."
           />
-          <h1>QuizStuff</h1>
+          <h1>Quizstuff</h1>
         </a>
         <div id="header-links-wrapper">
           <ul id="header-links">

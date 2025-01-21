@@ -17,5 +17,5 @@
     src="/assets/images/Ostrich 1.jpg"
     alt="A crazy ostrich with a jetpack!"
   />
-  <small>© 2008-<span class="current-year">2023</span> QuizStuff</small>
+  <small>© 2008-<span class="current-year">2023</span> Quizstuff</small>
 </footer>

@@ -1,5 +1,5 @@
 <?php
-  $page_title = "QuizStuff";
+  $page_title = "Quizstuff";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +86,7 @@
           <li>
             <u>Windows 11 has not yet been fully tested</u>. If you attempt to
             use it for QuizMachine please know that some privacy options may not
-            allow you to download from our QuizStuff site until changed. More
+            allow you to download from our Quizstuff site until changed. More
             information to follow.
           </li>
           <br />
