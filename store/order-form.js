@@ -1,5 +1,3 @@
-// console.log("Order form ready");
-
 // Select form and prevent submission default
 const orderForm = document.querySelector("#order-form");
 const submitMessage = document.querySelector("#submit-message");

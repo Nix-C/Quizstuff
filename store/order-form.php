@@ -1,5 +1,7 @@
 <?php
   include 'config/database.php';
+  // $env = parse_ini_file('../.env');
+  // $CAPTCHA_KEY = $env['CAPTCHA_KEY'];
   $page_title = "Order Form";
 
   // Get products from database
