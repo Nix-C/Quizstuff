@@ -19,7 +19,11 @@ CREATE TABLE `quizstuff`.`products`(
 /* Insert core products */
 INSERT INTO `quizstuff`.`products` (`name`, `model`, `has_variants`, `has_options`, `price`, `weight`, `image`, `description`, `flat_shipping`) VALUES 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ('Quizstuff Hardware Bundle', NULL, FALSE, FALSE, 360.00, 0.00, NULL, 'Includes one USB Interface Box and three strings of Chair Pads. Flat rate of $15.95 shipping via USPS.', 15.95 ),
+=======
+('Quizstuff Hardware Bundle', NULL, FALSE, FALSE, 360.00, 0.00, NULL, 'Includes one USB Interface Box and three strings of Chair Pads.\nFlat rate of $15.95 shipping via USPS (separate from list price).', 15.95 ),
+>>>>>>> Stashed changes
 =======
 ('Quizstuff Hardware Bundle', NULL, FALSE, FALSE, 360.00, 0.00, NULL, 'Includes one USB Interface Box and three strings of Chair Pads.\nFlat rate of $15.95 shipping via USPS (separate from list price).', 15.95 ),
 >>>>>>> Stashed changes
