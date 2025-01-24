@@ -1,7 +1,7 @@
 <?php 
   
   function generateInvoice($orderId){
-    include './config/database.php';
+    require './config/database.php';
     if($orderId){
 
       // Get $lineItems 
