@@ -26,7 +26,7 @@
           cables.
           <br /><br />
           The pads (see links for ordering the correct pads or new ones from
-          QuizStuff) connect to the interface box which the connects to the
+          Quizstuff) connect to the interface box which the connects to the
           computer's USB or parallel port. QuizMachine reads the data from the
           pads to determine which quizzer was the first to jump.
           <br /><br />

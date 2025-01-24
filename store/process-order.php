@@ -1,6 +1,8 @@
 <?php
-  include 'config/database.php';
-  // include 'generate-invoice.php';
+  require_once './config/database.php';
+  require_once 'generate-invoice.php';
+  require_once 'send-order-invoice.php';
+  require_once 'send-user-invoice.php';
   $OK = true; // Make false if something is wrong
 
   // Get orderData object from the request body (which is a string in JSON format)
@@ -111,6 +113,8 @@
     $lineItem->price = $p;
     $lineItem->totalPrice = $total_p;
     $total += $total_p;
+
+    $target = null;
   }
 
 
@@ -176,17 +180,24 @@
   }
 
   // Step 4 - Call generate-invoice.php (pass $orderId)
-  // $invoice = generateInvoice($orderId);
-  // if(is_null($invoice)){
-  //   echo "Error: Invoice could not be generated";
-  //   $OK = false;
-  // }
+  $invoice = generateInvoice($orderId);
+  if(is_null($invoice)){
+    echo "Error: Invoice could not be generated";
+    $OK = false;
+  }
 
   // Step 5 - Send mail with invoice body
-  // if(is_null(sendUserInvoice($invoice))){
-  //   $OK = false;
-  // }
-  
+  $qsEmail = "quizstuff@quizstuff.com";
+  if(!sendOrderInvoice($invoice, $orderId, $qsEmail)){
+    echo "Error: Invoice could not be sent to admin.";
+    $OK = false;
+  }
+
+  $userEmail = $shippingInfo->email;
+  if(!sendUserInvoice($invoice, $orderId, $userEmail)){
+    echo "Error: Invoice could not be sent to customer.";
+    $OK = false;
+  }
 
 
   // Send a 200 OK HTTP status code

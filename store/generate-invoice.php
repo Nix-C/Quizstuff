@@ -1,6 +1,7 @@
 <?php 
+  
   function generateInvoice($orderId){
-    include 'config/database.php';
+    require './config/database.php';
     if($orderId){
 
       // Get $lineItems 
@@ -12,10 +13,10 @@
           oi.quantity,
           oi.price,
           (oi.quantity * oi.price) AS total_price
-      FROM quizstuff.order_items oi
-      LEFT JOIN quizstuff.products p ON oi.product_id = p.id
-      LEFT JOIN quizstuff.product_variants pv ON oi.variant_id = pv.id
-      LEFT JOIN quizstuff.product_options po ON oi.option_id = po.id
+      FROM ${DB_NAME}.order_items oi
+      LEFT JOIN ${DB_NAME}.products p ON oi.product_id = p.id
+      LEFT JOIN ${DB_NAME}.product_variants pv ON oi.variant_id = pv.id
+      LEFT JOIN ${DB_NAME}.product_options po ON oi.option_id = po.id
       WHERE oi.order_id = ${orderId};
       ";
 
@@ -55,15 +56,15 @@
           <tr>
             <td><?= $name ?></td>
             <td><?= $lineItem["quantity"] ?></td>
-            <td><?= $lineItem["price"] ?></td>
-            <td><?= $lineItem["total_price"] ?></td>
+            <td>$<?= $lineItem["price"] ?></td>
+            <td>$<?= $lineItem["total_price"] ?></td>
           </tr>
         <?php endforeach ?>
         <tr>
           <td colspan="3" align="right">
             <strong>Total:</strong>
           </td>
-          <td><strong><?= $orderData["total_price"] ?></strong></td>
+          <td><strong>$<?= $orderData["total_price"] ?></strong></td>
         </tr>
         </table>
         <div>
@@ -72,20 +73,22 @@
           </label><br>
           <label><strong>Address: </strong><br>
             <span>
-              <?= $orderData["address_1"] ?><br>
-              <?= $orderData["address_2"] ? $orderData["address_2"] . "<br>" : ""?>
+              <?= $orderData["address_1"] ?>
+              <?= $orderData["address_2"] ? $orderData["address_2"] : ""?> <br>
               <?= $orderData["city"] ?>, <?= $orderData["state"] ?> <?= $orderData["zip"] ?>
             </span>
           </label><br>
+          <label><strong>Phone:</strong>
+            <span> <?= $orderData["phone"] ?> </span>
+          </label><br>
+          <label><strong>Email:</strong>
+            <?= $orderData["email"] ?>
+          </label>
         </div>
       </div>
       <?php 
       $invoice = ob_get_clean();
       
-      // For testing 🚧
-      // echo print_r($lineItems) . "<br>" . "<br>";
-      // echo print_r($orderData) . "<br>" . "<br>";
-
       //return "An invoice";
       return $invoice;
 
@@ -97,5 +100,5 @@
   }
 
   // For testing 🚧
-  echo print_r(generateInvoice(1));
+  // echo print_r(generateInvoice(1));
 ?>

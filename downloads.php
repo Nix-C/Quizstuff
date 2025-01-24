@@ -24,7 +24,7 @@
 
         <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
         <a
-          href="http://www.quizstuff.com/zencart/index.php?main_page=login"
+          href="https://quizstuff.com/store/order-form.php"
           class="button"
         >
           Purchase &nbsp;&nbsp; 5.4.J30</a
@@ -41,7 +41,7 @@
         </p>
 
         <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-        <a href="#" class="button">Download &nbsp;&nbsp; 5.4.J3</a>
+        <a href="assets/downloads/QuizMachine5.4InstallerJ30.exe" class="button">Download &nbsp;&nbsp; 5.4.J3</a>
       </section>
 
       <section class="container">
@@ -53,7 +53,7 @@
         </p>
 
         <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-        <a href="#" class="button">Download &nbsp;&nbsp; 4.2.L55</a>
+        <a href="assets/downloads/QuizMachine4.2Installer.exe" class="button">Download &nbsp;&nbsp; 4.2.L55</a>
       </section>
 
       <section class="container">
@@ -66,7 +66,7 @@
         </p>
 
         <img src="/assets/images/pdf-file.png" alt="PDF icon." />
-        <a href="#" class="button">Download the User Manual</a>
+        <a href="assets/downloads/Quizmachine Users Guide v.4.0.0.pdf" class="button">Download the User Manual</a>
       </section>
     </main>
 
