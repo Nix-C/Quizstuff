@@ -13,10 +13,10 @@
           oi.quantity,
           oi.price,
           (oi.quantity * oi.price) AS total_price
-      FROM quizstuff.order_items oi
-      LEFT JOIN quizstuff.products p ON oi.product_id = p.id
-      LEFT JOIN quizstuff.product_variants pv ON oi.variant_id = pv.id
-      LEFT JOIN quizstuff.product_options po ON oi.option_id = po.id
+      FROM ${DB_NAME}.order_items oi
+      LEFT JOIN ${DB_NAME}.products p ON oi.product_id = p.id
+      LEFT JOIN ${DB_NAME}.product_variants pv ON oi.variant_id = pv.id
+      LEFT JOIN ${DB_NAME}.product_options po ON oi.option_id = po.id
       WHERE oi.order_id = ${orderId};
       ";
 
