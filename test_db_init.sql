@@ -1,8 +1,8 @@
 /* Create the database and tables for the Quizstuff application */
-CREATE DATABASE `quizstuff`;
+CREATE DATABASE `test_quizstuff`;
 
 /* Product Table */
-CREATE TABLE `quizstuff`.`products`(
+CREATE TABLE `test_quizstuff`.`products`(
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Product ID',
   `name` VARCHAR(255) NOT NULL COMMENT 'Product name',
   `model` VARCHAR(255) NULL COMMENT 'Model number',
@@ -17,7 +17,7 @@ CREATE TABLE `quizstuff`.`products`(
 ) ENGINE = InnoDB COMMENT = 'Product details';
 
 /* Insert core products */
-INSERT INTO `quizstuff`.`products` (`name`, `model`, `has_variants`, `has_options`, `price`, `weight`, `image`, `description`, `flat_shipping`) VALUES 
+INSERT INTO `test_quizstuff`.`products` (`name`, `model`, `has_variants`, `has_options`, `price`, `weight`, `image`, `description`, `flat_shipping`) VALUES 
 ('Quizstuff Hardware Bundle', NULL, FALSE, FALSE, 360.00, 0.00, NULL, 'Includes one USB Interface Box and three strings of Chair Pads.\nFlat rate of $15.95 shipping via USPS (separate from list price).', 15.95 ),
 ('USB Interface Box', 'v0.9', FALSE, FALSE, 135.00, 0.00, NULL, 'USB Interface Box connects up to 3 strings of pads to a computer.\nUse QuizMachine software on Microsoft operating systems. Windows 7,8,10 all versions only.\nNo power cord required. Power is supplied via the USB port on the computer.', NULL),
 ('Chair Pads (5 Per String)', 'v18', TRUE, FALSE, 75.00, 0.00, NULL, 'NOTICE: Pads are being made as quickly as possible (within a 4-6 weeks provided parts are available) as another person is helping. Please contact me for more information.\nPads - strings of 5 pads. Colors: Red, Blue (old yellow) and Green.\nThese are intended to work with QuizMachine and either the USB or Parallel port interface boxes from Quizstuff, but we cannot necessarily guarantee the strings to work with other quiz equipment. Use with other equipment at your own risk.\nMade with Naugahyde leather and all sides sewn together professionally.', NULL),
@@ -25,7 +25,7 @@ INSERT INTO `quizstuff`.`products` (`name`, `model`, `has_variants`, `has_option
 ('QuizMachine DQD (5 Users)', 'v5.4.J30', FALSE, FALSE, 75.00, 0.00, NULL, 'DISTRICT DIRECTORS ONLY!\n5 registrations - includes lifetime upgrades.\nThe software called QuizMachine used in Nazarene style bible quizzing. Detects which person jumps, keeps score, records all options for the rounds.\nScores can be exported to QMServer (included) to tally overall quiz stats.\nScoresheets can be printed.', NULL);
 
 /* Product Variants */
-CREATE TABLE `quizstuff`.`product_variants`(
+CREATE TABLE `test_quizstuff`.`product_variants`(
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Variant ID',
   `product_id` INT NOT NULL COMMENT 'Product ID',
   `name` VARCHAR(255) NOT NULL COMMENT 'Variant name',
@@ -39,13 +39,13 @@ CREATE TABLE `quizstuff`.`product_variants`(
 ) ENGINE = InnoDB COMMENT = 'Product variant details';
 
 /* Insert product variants */
-INSERT INTO `quizstuff`.`product_variants` (`product_id`, `name`,`variant_type`, `price`, `weight`, `image`, `description`) VALUES
+INSERT INTO `test_quizstuff`.`product_variants` (`product_id`, `name`,`variant_type`, `price`, `weight`, `image`, `description`) VALUES
 (3, 'Red', 'Color', NULL, NULL, NULL, NULL),
 (3, 'Blue', 'Color', NULL, NULL, NULL, NULL),
 (3, 'Green', 'Color', NULL, NULL, NULL, NULL);
 
 /* Product Options */
-CREATE TABLE `quizstuff`.`product_options`(
+CREATE TABLE `test_quizstuff`.`product_options`(
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Option ID',
   `product_id` INT NOT NULL COMMENT 'Product ID',
   `product_reference_id` INT NULL COMMENT 'Reference product ID',
@@ -59,7 +59,7 @@ CREATE TABLE `quizstuff`.`product_options`(
 /* Insert product options */
 
 /* Orders */
-CREATE TABLE `quizstuff`.`orders`(
+CREATE TABLE `test_quizstuff`.`orders`(
    `id` INT NOT NULL AUTO_INCREMENT,
    `name_first` VARCHAR(255) NOT NULL,
    `name_last` VARCHAR(255) NOT NULL,
@@ -79,11 +79,11 @@ CREATE TABLE `quizstuff`.`orders`(
 ) ENGINE = InnoDB COMMENT = 'Orders';
 
 /* Insert sample order */
-/* INSERT INTO `quizstuff`.`orders` (`name_first`, `name_last`, `address_1`, `address_2`, `city`, `state`, `zip`, `phone`, `email`, `total_price`)
+/* INSERT INTO `test_quizstuff`.`orders` (`name_first`, `name_last`, `address_1`, `address_2`, `city`, `state`, `zip`, `phone`, `email`, `total_price`)
 VALUES ('John', 'Doe', '123 Main St', 'Apt 4B', 'Anytown', 'NY', '12345', '1234567890', 'john.doe@example.com', 435.00); */
 
 /* Order Items */
-CREATE TABLE `quizstuff`.`order_items`(
+CREATE TABLE `test_quizstuff`.`order_items`(
    `id` INT NOT NULL AUTO_INCREMENT,
    `order_id` INT NOT NULL,
    `product_id` INT NOT NULL,
@@ -100,6 +100,6 @@ CREATE TABLE `quizstuff`.`order_items`(
 ) ENGINE = InnoDB COMMENT = 'Order items; Get by order_id';
 
 /* Insert sample order items */
-/* INSERT INTO `quizstuff`.`order_items` (`order_id`, `product_id`, `variant_id`, `option_id`, `quantity`, `price`, `total_price`) VALUES 
+/* INSERT INTO `test_quizstuff`.`order_items` (`order_id`, `product_id`, `variant_id`, `option_id`, `quantity`, `price`, `total_price`) VALUES 
 	!! Values here !!
  */

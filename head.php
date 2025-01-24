@@ -1,5 +1,5 @@
 <?php
-  $page_title = strcmp($page_title, "QuizStuff") ? $page_title . " | QuizStuff" : "QuizStuff";
+  $page_title = strcmp($page_title, "Quizstuff") ? $page_title . " | Quizstuff" : "Quizstuff";
 ?>
 
 <head>
