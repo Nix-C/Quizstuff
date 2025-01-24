@@ -113,6 +113,8 @@
     $lineItem->price = $p;
     $lineItem->totalPrice = $total_p;
     $total += $total_p;
+
+    $target = null;
   }
 
 
