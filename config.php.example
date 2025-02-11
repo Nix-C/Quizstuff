@@ -7,4 +7,6 @@ define('SEND_FROM', "quizstuff@quizstuff.com");
 define('SEND_FROM_NAME', "Quizstuff");
 define('REPLY_TO', "quizstuff@quizstuff.com");
 define('REPLY_TO_NAME', "Quizstuff");
+define('QM_HOOK_SECRET', "secret");
+define('GH_API_TOKEN', "token");
 ?>
