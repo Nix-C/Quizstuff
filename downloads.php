@@ -1,5 +1,6 @@
 <?php
   $page_title = "Downloads";
+  $assetData = json_decode(file_get_contents("qm-version.json") ?? '{"version": "","asset_url": ""}');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +16,7 @@
         <h1 class="container-header">Purchase QuizMachine</h1>
 
         <p class="container-text">
-          QuizMachine version 5.4.J30 is now available for download. This
+          QuizMachine version <?= $assetData->version ?> is now available for download. This
           program is required for the USB Interface Boxes. MicroSoft Operating
           System version 10 is preferred.
           <u>The cost for QuizMachine is $75</u>. This includes a lifetime of
@@ -27,7 +28,7 @@
           href="https://quizstuff.com/store/order-form.php"
           class="button"
         >
-          Purchase &nbsp;&nbsp; 5.4.J30</a
+          Purchase &nbsp;&nbsp; <?= $assetData->version ?></a
         >
       </section>
 
@@ -35,13 +36,13 @@
         <h1 class="container-header">Download A Free Trial</h1>
 
         <p class="container-text">
-          QuizMachine version 5.4.J30 is now available for download. This
+          QuizMachine version <?= $assetData->version ?> is now available for download. This
           program is required for the USB Interface Boxes. MicroSoft Operating
           System version 10 is preferred.
         </p>
 
         <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-        <a href="assets/downloads/QuizMachine5.4InstallerJ30.exe" class="button">Download &nbsp;&nbsp; 5.4.J3</a>
+        <a href="<?= $assetData->asset_url ?>" class="button">Download &nbsp;&nbsp; <?= $assetData->version ?></a>
       </section>
 
       <section class="container">
