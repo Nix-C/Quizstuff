@@ -1,0 +1,16 @@
+{
+  "installers": [
+    {
+      "architecture": "x64",
+      "os": "windows",
+      "sha1sum": "12345",
+      "url": "/installers/QuizMachine6.2.1Installerr39.exe"
+    },
+    {
+      "architecture": "x64",
+      "sha1sum": "12345",
+      "os": "linux",
+      "url": "/installers/QuizMachine6.2.1Installerr39.deb"
+    }
+  ]
+}
