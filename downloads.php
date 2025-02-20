@@ -57,7 +57,7 @@
       </section>
 
       <section class="container">
-        <h1 class="container-header">Download for Windows</h1>
+        <h1 class="container-header">Download For Windows</h1>
 
         <p class="container-text">
           ⚠️ A blurb about availablity for windows.
@@ -115,7 +115,7 @@
       
 
       <section class="container">
-        <h1 class="container-header">Download A Free User Manual</h1>
+        <h1 class="container-header">Download a Free User Manual</h1>
 
         <p class="container-text">
           QuizMachine User Manual (PDF) Version 4.0.0 includes instructions for
