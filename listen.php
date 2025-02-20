@@ -62,7 +62,7 @@
         $installerData = [];
         foreach ($assets as $asset) {
           if(str_ends_with($asset->name, ".exe") || str_ends_with($asset->name, ".deb")) {
-            // Download asset
+            // Download asset & get returned asset path + sha1sum
             ['assetPath' => $assetPath, 'sha1' => $sha1Value] = downloadAsset($asset);
             
             if($assetPath != null) {
@@ -143,6 +143,4 @@
   } else {
     http_response_code(404); // Bad request
   }
-
-
 ?>
