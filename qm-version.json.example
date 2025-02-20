@@ -1,4 +1,18 @@
 {
-  "version": " 5.4-J30",
-  "asset_url": "/assets/downloads/QuizMachine5.4InstallerJ30.exe"
+  "installers": [
+    {
+      "architecture": "x64",
+      "os": "windows",
+      "sha1sum": "fb3935b3e079061de85a000de3de781d6e3a68ad",
+      "version": "5.4-J30",
+      "url": "/installers/QuizMachine5.4InstallerJ30.exe"
+    },
+    {
+      "architecture": "x32",
+      "os": "windows",
+      "sha1sum": "fb3935b3e079061de85a000de3de781d6e3a68ad",
+      "version": "4.2-L55",
+      "url": "/installers/QuizMachine4.2Installer.exe"
+    }
+  ]
 }
