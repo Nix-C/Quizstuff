@@ -76,18 +76,28 @@
 
               if(
                 str_ends_with($asset->name, ".exe")
-                && preg_match('/-([^-.]+)\.exe/i', $asset->name, $matches)
               ){ // Windows 10, 11
+                // Parse filename
+                $parts = explode('-', pathinfo($asset->name, PATHINFO_FILENAME));
+                list(, $ver, $installVer, $arch) = $parts;
+
                 $os = "windows";
-                $arch = $matches[1] ? $matches[1] : "unrecognized"; # TODO: UPDATE THIS!
+                $version = $ver . "-" . $installVer;
               } else if (
                 str_ends_with($asset->name, ".deb")
-                && preg_match('/-([^-.]+)\.deb/i', $asset->name, $matches)
               ) { // Linux AMD/Intel Ubuntu
+                // Parse filename
+                $parts = explode('_', pathinfo($asset->name, PATHINFO_FILENAME));
+                list(, $versionString) = $parts;
+
+                $parts = explode('-', $versionString);
+                list($ver, $installVer, $arch) = $parts;
+
                 $os = "linux";
-                $arch = $matches[1] ? $matches[1] : "unrecognized";
+                $version = $ver . "-" . $installVer;
               } else {
                 $arch = "unknown";
+                $version = "unkown";
                 $os = "unknown";
                 $OK = FALSE;
                 echo "ERROR: Unknown installer: " . $asset->name . "\n";
@@ -96,6 +106,7 @@
               // Push to installers
               array_push($installerData, (object) [
                 'architecture' => $arch,
+                'version' => $version,
                 'os' => $os,
                 'sha1sum' => $sha1Value,
                 'url' => $assetPath
