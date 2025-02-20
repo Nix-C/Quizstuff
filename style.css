@@ -321,8 +321,32 @@ section {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+.downloads-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.download-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.download-card--icon {
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.download-card--icon--small {
+  height: 50px;
+}
+
 .container-header {
   color: white;
+  text-align: center;
 }
 
 .container-text {

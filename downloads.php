@@ -1,6 +1,27 @@
 <?php
   $page_title = "Downloads";
-  $assetData = json_decode(file_get_contents("qm-version.json") ?? '{"version": "","asset_url": ""}');
+  $assetData = json_decode(file_get_contents("qm-version.json") ?? '{"installers": []}');
+  // Get installer data.
+  $x64InstallerData = array_filter($assetData->installers, function($installerData) {
+    return isset($installerData->architecture) && $installerData->architecture === "x64";
+  });
+  $x64InstallerData = reset($x64InstallerData);
+  
+  $x32InstallerData = array_filter($assetData->installers, function($installerData) {
+    return isset($installerData->architecture) && $installerData->architecture === "x32";
+  });
+  $x32InstallerData = reset($x32InstallerData);
+  
+  $amd64InstallerData = array_filter($assetData->installers, function($installerData) {
+    return isset($installerData->architecture) && $installerData->architecture === "amd64";
+  });
+  $amd64InstallerData = reset($amd64InstallerData);
+
+  $arm64InstallerData = array_filter($assetData->installers, function($installerData) {
+    return isset($installerData->architecture) && $installerData->architecture === "arm64";
+  });
+  $arm64InstallerData = reset($arm64InstallerData);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,46 +37,82 @@
         <h1 class="container-header">Purchase QuizMachine</h1>
 
         <p class="container-text">
-          QuizMachine version <?= $assetData->version ?> is now available for download. This
-          program is required for the USB Interface Boxes. MicroSoft Operating
-          System version 10 is preferred.
-          <u>The cost for QuizMachine is $75</u>. This includes a lifetime of
-          free upgrades!
+          ⚠️ A blurb about purchasing QuizMachine and how user keys work.
         </p>
 
-        <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
+        <div class="downloads-container">
+          <img class="download-card--icon--small" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
+          <p>or</p>
+          <img class="download-card--icon--small" src="/assets/images/ubuntu-logo.svg" alt="Ubuntu icon." />
+          <p>or</p>
+          <img class="download-card--icon--small" src="/assets/images/raspberry-pi.svg" alt="Raspberry Pi icon." />
+        </div>
+
         <a
           href="https://quizstuff.com/store/order-form.php"
           class="button"
         >
-          Purchase &nbsp;&nbsp; <?= $assetData->version ?></a
-        >
+          Purchase QuizMachine
+        </a>
       </section>
 
       <section class="container">
-        <h1 class="container-header">Download A Free Trial</h1>
+        <h1 class="container-header">Download for Windows</h1>
 
         <p class="container-text">
-          QuizMachine version <?= $assetData->version ?> is now available for download. This
-          program is required for the USB Interface Boxes. MicroSoft Operating
-          System version 10 is preferred.
+          ⚠️ A blurb about availablity for windows.
         </p>
-
-        <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-        <a href="<?= $assetData->asset_url ?>" class="button">Download &nbsp;&nbsp; <?= $assetData->version ?></a>
+        <?php if ($x64InstallerData || $x32InstallerData) : ?>
+          <div class="downloads-container">
+            <?php if ($x64InstallerData) : ?>
+              <div class="download-card">
+                <h4>Windows 10, 11 (x64)</h4>
+                <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
+                <a href="<?= $x64InstallerData->url ?>" class="button">Download &nbsp; <?= $x64InstallerData->version ?></a>
+              </div>
+            <?php endif ?>
+            <?php if ($x32InstallerData) : ?>
+              <div class="download-card">
+                <h4>Windows 7, 8 (x86)</h4>
+                <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
+                <a href="<?= $x32InstallerData->url ?>" class="button">Download &nbsp; <?= $x32InstallerData->version ?></a>
+              </div>
+            <?php endif ?>
+          </div>
+        <?php else : ?>
+            <h4>Current unavailable.</h4>
+          <?php endif ?>
       </section>
 
-      <section class="container">
-        <h1 class="container-header">Download A Free Trial</h1>
+      
+        <section class="container">
+          <h1 class="container-header">Download For Linux</h1>
 
-        <p class="container-text">
-          QuizMachine version 4.2.L55 (2014) is available for Windows 7
-          computers.
-        </p>
-
-        <img src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-        <a href="assets/downloads/QuizMachine4.2Installer.exe" class="button">Download &nbsp;&nbsp; 4.2.L55</a>
-      </section>
+          <p class="container-text">
+            ⚠️ A blurb about availability for linux.
+          </p>
+          <?php if ($amd64InstallerData || $arm64InstallerData) : ?>
+            <div class="downloads-container">
+              <?php if ($amd64InstallerData) : ?>
+                <div class="download-card">
+                  <h4>Ubuntu 24.04 LTS+ (amd64)</h4>
+                  <img src="/assets/images/ubuntu-logo.svg" alt="Ubuntu icon." />
+                  <a href="<?= $amd64InstallerData->url ?>" class="button">Download &nbsp; <?= $amd64InstallerData->version ?></a>
+                </div>
+              <?php endif ?>
+              <?php if ($arm64InstallerData) : ?>
+                <div class="download-card">
+                  <h4>Raspberry Pi (arm64)</h4>
+                  <img class="download-card--icon" src="/assets/images/raspberry-pi.svg" alt="Raspberry Pi icon." />
+                  <a href="<?= $arm64InstallerData->url ?>" class="button">Download &nbsp; <?= $arm64InstallerData->version ?></a>
+                </div>
+              <?php endif ?>
+            </div>
+          <?php else : ?>
+            <h4>Current unavailable.</h4>
+          <?php endif ?>
+        </section>
+      
 
       <section class="container">
         <h1 class="container-header">Download A Free User Manual</h1>
