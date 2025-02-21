@@ -36,9 +36,9 @@
       <section class="container">
         <h1 class="container-header">Purchase QuizMachine</h1>
 
-        <p class="container-text">
+        <!-- <p class="container-text">
           ⚠️ A blurb about purchasing QuizMachine and how user keys work.
-        </p>
+        </p> -->
 
         <div class="downloads-container">
           <img class="download-card--icon--small" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
@@ -59,9 +59,9 @@
       <section class="container">
         <h1 class="container-header">Download For Windows</h1>
 
-        <p class="container-text">
+        <!-- <p class="container-text">
           ⚠️ A blurb about availablity for windows.
-        </p>
+        </p> -->
         <?php if ($x64InstallerData || $x32InstallerData) : ?>
           <div class="downloads-container">
             <?php if ($x64InstallerData) : ?>
@@ -88,9 +88,9 @@
         <section class="container">
           <h1 class="container-header">Download For Linux</h1>
 
-          <p class="container-text">
+          <!-- <p class="container-text">
             ⚠️ A blurb about availability for linux.
-          </p>
+          </p> -->
           <?php if ($amd64InstallerData || $arm64InstallerData) : ?>
             <div class="downloads-container">
               <?php if ($amd64InstallerData) : ?>
