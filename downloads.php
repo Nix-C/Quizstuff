@@ -7,10 +7,10 @@
   });
   $x64InstallerData = reset($x64InstallerData);
   
-  $x32InstallerData = array_filter($assetData->installers, function($installerData) {
-    return isset($installerData->architecture) && $installerData->architecture === "x32";
+  $x64InstallerData = array_filter($assetData->installers, function($installerData) {
+    return isset($installerData->architecture) && $installerData->architecture === "x64";
   });
-  $x32InstallerData = reset($x32InstallerData);
+  $x64InstallerData = reset($x64InstallerData);
   
   $amd64InstallerData = array_filter($assetData->installers, function($installerData) {
     return isset($installerData->architecture) && $installerData->architecture === "amd64";
@@ -35,11 +35,10 @@
     <main>
       <section class="container">
         <h1 class="container-header">Purchase QuizMachine</h1>
-
-        <!-- <p class="container-text">
-          ⚠️ A blurb about purchasing QuizMachine and how user keys work.
-        </p> -->
-
+        <p class="container-text">
+          To unlock all features of QuizMachine, you'll need to purchase user key. This includes a lifetime of free upgrades!
+        </p>
+        <p>Not ready to buy? Download a version of QuizMachine to try with limited functionality.</p>
         <div class="downloads-container">
           <img class="download-card--icon--small" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
           <p>or</p>
@@ -52,8 +51,9 @@
           href="https://quizstuff.com/store/order-form.php"
           class="button"
         >
-          Purchase QuizMachine
+        Purchase Key 
         </a>
+        
       </section>
 
       <section class="container">
@@ -62,23 +62,36 @@
         <!-- <p class="container-text">
           ⚠️ A blurb about availablity for windows.
         </p> -->
-        <?php if ($x64InstallerData || $x32InstallerData) : ?>
+        <?php if ($x64InstallerData || $x64InstallerData) : ?>
           <div class="downloads-container">
             <?php if ($x64InstallerData) : ?>
               <div class="download-card">
                 <h4>Windows 10, 11 (x64)</h4>
                 <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
                 <a href="<?= $x64InstallerData->url ?>" class="button">Download &nbsp; <?= $x64InstallerData->version ?></a>
+                <small>
+                  <a class="download-card--link" href="/assets/downloads/QuizMachine Documentation v.6.0.0.pdf">
+                    <img class="download-card--icon--inline" src="/assets/images/pdf-file.png" alt="PDF icon." />
+                    Download PDF Manual
+                  </a>
+                </small>
               </div>
             <?php endif ?>
-            <?php if ($x32InstallerData) : ?>
+            <?php if ($x64InstallerData) : ?>
               <div class="download-card">
                 <h4>Windows 7, 8 (x86)</h4>
                 <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-                <a href="<?= $x32InstallerData->url ?>" class="button">Download &nbsp; <?= $x32InstallerData->version ?></a>
+                <a href="<?= $x64InstallerData->url ?>" class="button">Download &nbsp; <?= $x64InstallerData->version ?></a>
+                <small>
+                  <a class="download-card--link" href="/assets/downloads/QuizMachine Documentation v.5.0.0.pdf">
+                    <img class="download-card--icon--inline" src="/assets/images/pdf-file.png" alt="PDF icon." />
+                    Download PDF Manual
+                  </a>
+                </small>
               </div>
             <?php endif ?>
           </div>
+
         <?php else : ?>
             <h4>Current unavailable.</h4>
           <?php endif ?>
@@ -108,12 +121,13 @@
                 </div>
               <?php endif ?>
             </div>
+            <p><small>⚠️ Version 6 Linux manual coming soon. ⚠️</small></p> 
           <?php else : ?>
             <h4>Current unavailable.</h4>
           <?php endif ?>
         </section>
       
-
+<!-- 
       <section class="container">
         <h1 class="container-header">Download a Free User Manual</h1>
 
@@ -125,7 +139,7 @@
 
         <img src="/assets/images/pdf-file.png" alt="PDF icon." />
         <a href="assets/downloads/Quizmachine Users Guide v.4.0.0.pdf" class="button">Download the User Manual</a>
-      </section>
+      </section> -->
     </main>
 
     <?php include 'footer.php'; ?>
