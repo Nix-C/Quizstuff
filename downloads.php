@@ -58,10 +58,6 @@
 
       <section class="container">
         <h1 class="container-header">Download For Windows</h1>
-
-        <!-- <p class="container-text">
-          ⚠️ A blurb about availablity for windows.
-        </p> -->
         <?php if ($x64InstallerData || $x64InstallerData) : ?>
           <div class="downloads-container">
             <?php if ($x64InstallerData) : ?>
@@ -83,7 +79,7 @@
                 <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
                 <a href="<?= $x64InstallerData->url ?>" class="button">Download &nbsp; <?= $x64InstallerData->version ?></a>
                 <small>
-                  <a class="download-card--link" href="/assets/downloads/QuizMachine Documentation v.5.0.0.pdf">
+                  <a class="download-card--link" href="assets\downloads\QuizMachine Documentation v.5.0.0.pdf">
                     <img class="download-card--icon--inline" src="/assets/images/pdf-file.png" alt="PDF icon." />
                     Download PDF Manual
                   </a>
@@ -100,10 +96,6 @@
       
         <section class="container">
           <h1 class="container-header">Download For Linux</h1>
-
-          <!-- <p class="container-text">
-            ⚠️ A blurb about availability for linux.
-          </p> -->
           <?php if ($amd64InstallerData || $arm64InstallerData) : ?>
             <div class="downloads-container">
               <?php if ($amd64InstallerData) : ?>
