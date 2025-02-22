@@ -8,7 +8,7 @@
       "url": "/installers/QuizMachine5.4InstallerJ30.exe"
     },
     {
-      "architecture": "x32",
+      "architecture": "x86",
       "os": "windows",
       "sha1sum": "fb3935b3e079061de85a000de3de781d6e3a68ad",
       "version": "4.2-L55",

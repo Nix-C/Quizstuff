@@ -7,10 +7,10 @@
   });
   $x64InstallerData = reset($x64InstallerData);
   
-  $x64InstallerData = array_filter($assetData->installers, function($installerData) {
-    return isset($installerData->architecture) && $installerData->architecture === "x64";
+  $x86InstallerData = array_filter($assetData->installers, function($installerData) {
+    return isset($installerData->architecture) && $installerData->architecture === "x86";
   });
-  $x64InstallerData = reset($x64InstallerData);
+  $x86InstallerData = reset($x86InstallerData);
   
   $amd64InstallerData = array_filter($assetData->installers, function($installerData) {
     return isset($installerData->architecture) && $installerData->architecture === "amd64";
@@ -58,7 +58,7 @@
 
       <section class="container">
         <h1 class="container-header">Download For Windows</h1>
-        <?php if ($x64InstallerData || $x64InstallerData) : ?>
+        <?php if ($x64InstallerData || $x86InstallerData) : ?>
           <div class="downloads-container">
             <?php if ($x64InstallerData) : ?>
               <div class="download-card">
@@ -73,11 +73,11 @@
                 </small>
               </div>
             <?php endif ?>
-            <?php if ($x64InstallerData) : ?>
+            <?php if ($x86InstallerData) : ?>
               <div class="download-card">
                 <h4>Windows 7, 8 (x86)</h4>
                 <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-                <a href="<?= $x64InstallerData->url ?>" class="button">Download &nbsp; <?= $x64InstallerData->version ?></a>
+                <a href="<?= $x86InstallerData->url ?>" class="button">Download &nbsp; <?= $x86InstallerData->version ?></a>
                 <small>
                   <a class="download-card--link" href="assets\downloads\QuizMachine Documentation v.5.0.0.pdf">
                     <img class="download-card--icon--inline" src="/assets/images/pdf-file.png" alt="PDF icon." />
