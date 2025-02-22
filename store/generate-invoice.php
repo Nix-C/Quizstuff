@@ -2,6 +2,7 @@
   
   function generateInvoice($orderId){
     require './config/database.php';
+    $DB_NAME = DB_NAME;
     if($orderId){
 
       // Get $lineItems 

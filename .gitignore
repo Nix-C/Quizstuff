@@ -6,4 +6,5 @@ config.php
 test.php
 .env
 downloads/
+installers/
 qm-version.json
