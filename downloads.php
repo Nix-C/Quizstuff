@@ -89,7 +89,7 @@
           </div>
 
         <?php else : ?>
-            <h4>Current unavailable.</h4>
+            <h4>Currently unavailable.</h4>
           <?php endif ?>
       </section>
 
@@ -115,7 +115,7 @@
             </div>
             <p><small>⚠️ Version 6 Linux manual coming soon. ⚠️</small></p> 
           <?php else : ?>
-            <h4>Current unavailable.</h4>
+            <h4>Currently unavailable.</h4>
           <?php endif ?>
         </section>
       
