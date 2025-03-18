@@ -71,3 +71,18 @@ headerLinks_a.forEach((a) => {
     a.classList.add("current");
   }
 });
+
+// Handle copy sha1
+document.querySelectorAll("button.copy--sha1").forEach((e) => {
+  const hash = e.getAttribute("data-sha1");
+  e.addEventListener("click", (event) => {
+    navigator.clipboard.writeText(hash);
+    const oldText = event.target.innerHTML;
+    event.target.innerHTML = "Copied!";
+    event.target.classList.add("success");
+    setTimeout(() => {
+      event.target.innerHTML = oldText;
+      event.target.classList.remove("success");
+    }, 1500);
+  });
+});

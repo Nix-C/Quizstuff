@@ -41,9 +41,9 @@
         <p>Not ready to buy? Download a version of QuizMachine to try with limited functionality.</p>
         <div class="downloads-container">
           <img class="download-card--icon--small" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-          <p>or</p>
+          <!-- <p>or</p> -->
           <img class="download-card--icon--small" src="/assets/images/ubuntu-logo.svg" alt="Ubuntu icon." />
-          <p>or</p>
+          <!-- <p>or</p> -->
           <img class="download-card--icon--small" src="/assets/images/raspberry-pi.svg" alt="Raspberry Pi icon." />
         </div>
 
@@ -65,6 +65,9 @@
                 <h4>Windows 10, 11 (x64)</h4>
                 <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
                 <a href="<?= $x64InstallerData->url ?>" class="button">Download &nbsp; <?= $x64InstallerData->version ?></a>
+                <?php if ($x64InstallerData->sha1sum) : ?>
+                  <button class="copy--sha1" data-sha1="<?= $x64InstallerData->sha1sum ?>"><img class="icon" src="/assets/images/copy.svg" />Copy SHA1 Hash</button>
+                <?php endif ?>
                 <small>
                   <a class="download-card--link" href="/assets/downloads/QuizMachine Documentation v.6.0.0.pdf">
                     <img class="download-card--icon--inline" src="/assets/images/pdf-file.png" alt="PDF icon." />
@@ -78,6 +81,9 @@
                 <h4>Windows 7, 8 (x86)</h4>
                 <img class="download-card--icon" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
                 <a href="<?= $x86InstallerData->url ?>" class="button">Download &nbsp; <?= $x86InstallerData->version ?></a>
+                <?php if ($x86InstallerData->sha1sum) : ?>
+                  <button class="copy--sha1" data-sha1="<?= $x86InstallerData->sha1sum ?>"><img class="icon" src="/assets/images/copy.svg" />Copy SHA1 Hash</button>
+                <?php endif ?>
                 <small>
                   <a class="download-card--link" href="assets\downloads\QuizMachine Documentation v.5.0.0.pdf">
                     <img class="download-card--icon--inline" src="/assets/images/pdf-file.png" alt="PDF icon." />
@@ -103,6 +109,9 @@
                   <h4>Ubuntu 24.04 LTS+ (amd64)</h4>
                   <img src="/assets/images/ubuntu-logo.svg" alt="Ubuntu icon." />
                   <a href="<?= $amd64InstallerData->url ?>" class="button">Download &nbsp; <?= $amd64InstallerData->version ?></a>
+                  <?php if ($amd64InstallerData->sha1sum) : ?>
+                    <button class="copy--sha1" data-sha1="<?= $amd64InstallerData->sha1sum ?>"><img class="icon" src="/assets/images/copy.svg" />Copy SHA1 Hash</button>
+                  <?php endif ?>
                 </div>
               <?php endif ?>
               <?php if ($arm64InstallerData) : ?>
@@ -110,7 +119,10 @@
                   <h4>Raspberry Pi (arm64)</h4>
                   <img class="download-card--icon" src="/assets/images/raspberry-pi.svg" alt="Raspberry Pi icon." />
                   <a href="<?= $arm64InstallerData->url ?>" class="button">Download &nbsp; <?= $arm64InstallerData->version ?></a>
-                </div>
+                  <?php if ($arm64InstallerData->sha1sum) : ?>
+                    <button class="copy--sha1" data-sha1="<?= $arm64InstallerData->sha1sum ?>"><img class="icon" src="/assets/images/copy.svg" />Copy SHA1 Hash</button>
+                  <?php endif ?>
+                  </div>
               <?php endif ?>
             </div>
             <p><small>⚠️ Version 6 Linux manual coming soon. ⚠️</small></p> 
