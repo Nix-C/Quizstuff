@@ -6,7 +6,6 @@ This is the main site for Quizstuff. Contains updates, downloads, and general FA
 
 ### TODO:
 
-- Files need to be attached to download links ("Downloads" Page). Purchase button will send users to the "Store" page.
 - Add link path to \<a\> tags. Underlined text should probably be reserved for links. _NC 12/23/2024_
 
 ### Completed:
