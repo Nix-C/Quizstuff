@@ -30,6 +30,7 @@ orderForm.addEventListener("submit", async function (event) {
             `
             <h2>Thank You</h2>
             <p>Your order has been successfully submitted.</p>
+            <p style="color:#bbd7e5"><strong>** Shipping costs will be added to the total when your order is confirmed. Your updated total will be sent after the initial order confirmation email.</strong></p>
             <button onclick="location.reload();">Create New Order</button>
             `
           );

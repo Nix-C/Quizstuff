@@ -244,6 +244,7 @@
               <!-- <button action="add" name="add">Add to Cart</button> -->
             </fieldset>
           <?php endforeach; ?>
+          <p style="color:#bbd7e5"><strong>** Shipping costs will be added to the total when your order is confirmed. Your updated total will be sent after the initial order confirmation email.</strong></p>
           <button type="submit" id="button--submit" class="button" name="submit">Submit Order</button>
           <!-- <p id="est-total">Estimated Total: $<span id="est-total--value">0.00</span></p>
           <small>(Pre shipping) -->
