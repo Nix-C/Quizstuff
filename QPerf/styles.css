@@ -1,0 +1,346 @@
+/* Northern Lights Theme */
+:root {
+  --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Night sky gradient */
+  --glow-color-1: #24c8db; /* Turquoise glow */
+  --glow-color-2: #1dd1a1; /* Greenish glow */
+  --glow-color-3: #3b82f6; /* Deep blue glow */
+  --text-color: #f6f6f6; /* Light text for contrast */
+  --tile-background: #1f1f1f; /* Dark tile background */
+  --tile-border: #2c5364; /* Subtle border for tiles */
+  --hover-glow: rgba(36, 200, 219, 0.3); /* Softer glow effect */
+  --button-background: #1a2b3c; /* Darker button background for contrast */
+  --input-background: #1a2b3c; /* Darker input background for contrast */
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Ensure the body and main elements fill the viewport */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the body fills the viewport height */
+  margin: 0;
+  background: var(--background-gradient);
+  color: var(--text-color);
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  padding: 0;
+  overflow: hidden; /* Prevent scrollbars during animation */
+}
+
+main {
+  flex: 1; /* Allow the main content to expand and push the footer down */
+  display: flex;
+  flex-direction: column;
+  min-height: 100%; /* Ensure the main container fills the body */
+  box-sizing: border-box;
+}
+
+/* Remove any unintended footer-like effect */
+main::after {
+  content: "";
+  display: block;
+  height: 0; /* Remove any extra space below the main content */
+  background: none; /* Ensure no background is applied */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(36, 200, 219, 0.1), transparent 70%);
+  animation: ripple 15s infinite alternate ease-in-out;
+  z-index: -1; /* Place behind all content */
+}
+
+/* Ripple animation for the background */
+@keyframes ripple {
+  0% {
+    transform: translate(-10%, -5%) scale(1);
+    background: radial-gradient(circle at 50% 50%, rgba(36, 200, 219, 0.1), transparent 70%);
+  }
+  25% {
+    transform: translate(5%, 0%) scale(1.1);
+    background: radial-gradient(circle at 55% 45%, rgba(29, 209, 161, 0.1), transparent 70%);
+  }
+  50% {
+    transform: translate(10%, 5%) scale(1.2);
+    background: radial-gradient(circle at 60% 50%, rgba(59, 130, 246, 0.1), transparent 70%);
+  }
+  75% {
+    transform: translate(5%, 0%) scale(1.1);
+    background: radial-gradient(circle at 55% 55%, rgba(29, 209, 161, 0.1), transparent 70%);
+  }
+  100% {
+    transform: translate(-10%, -5%) scale(1);
+    background: radial-gradient(circle at 50% 50%, rgba(36, 200, 219, 0.1), transparent 70%);
+  }
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Default grid behavior */
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: 1fr; /* 1 column for very narrow windows */
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for medium-width windows */
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+  .container {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for wider windows */
+  }
+}
+
+@media (min-width: 1201px) {
+  .container {
+    grid-template-columns: repeat(4, 1fr); /* 4 columns for very wide windows */
+  }
+}
+
+h1 {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+/* Tile styling */
+.tile {
+  background: rgba(31, 31, 31, 0.8); /* Translucent background */
+  border: 1px solid var(--tile-border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  backdrop-filter: blur(10px); /* Add a blur effect for a glassy look */
+}
+
+.tile:hover {
+  box-shadow: 0 0 8px var(--hover-glow), 0 0 12px var(--glow-color-1); /* Slightly more subtle glow */
+  transform: translateY(-3px); /* Slight lift on hover */
+}
+
+.tile h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.file-selection,
+.question-types,
+.settings,
+.actions {
+  min-height: 100px;
+}
+
+.file-selection button,
+.settings input {
+  width: 100%;
+}
+
+.file-selection p,
+.settings label {
+  margin: 0.5rem 0;
+}
+
+/* Status tile styling */
+.status {
+  grid-column: 1 / -1;
+  min-height: 160px;
+  background: rgba(31, 31, 31, 0.8); /* Translucent background */
+  border: 1px solid var(--tile-border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  backdrop-filter: blur(10px); /* Add a blur effect for a glassy look */
+}
+
+.status:hover {
+  box-shadow: 0 0 10px var(--hover-glow), 0 0 15px var(--glow-color-1);
+  transform: translateY(-3px);
+}
+
+/* Dynamically allow Status to span 2 columns when there are 3 columns in the grid */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .status {
+    grid-column: 2 / span 2; /* Status spans 2 columns on the second row */
+  }
+}
+
+.status #warnings {
+  margin-top: 1rem;
+  max-height: 150px;
+  overflow-y: auto;
+  color: var(--text-color);
+}
+
+#question-types {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+label {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+label.memory-verse {
+  grid-column: 1 / span 2;
+  white-space: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  background: #555;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toggle::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked + .toggle {
+  background: var(--glow-color-1);
+  box-shadow: 0 0 8px var(--hover-glow); /* Reduced glow intensity */
+}
+
+input[type="checkbox"]:checked + .toggle::before {
+  transform: translateX(20px);
+}
+
+button,
+input {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--text-color);
+  background-color: var(--button-background);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+  margin: 0.5rem 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button:hover,
+input:hover {
+  box-shadow: 0 0 6px var(--hover-glow), 0 0 10px var(--glow-color-1); /* Restored stronger glow */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+button:active {
+  transform: translateY(0); /* Reset lift on click */
+}
+
+button:disabled {
+  opacity: 0.5; /* Reduced opacity for disabled buttons */
+  cursor: not-allowed; /* Show "not-allowed" cursor */
+  box-shadow: none; /* Remove hover glow */
+  transform: none; /* Disable lift effect */
+}
+
+input {
+  background-color: var(--input-background);
+  padding: 0.5rem;
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(31, 31, 31, 0.8); /* Translucent background */
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--tile-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px); /* Add a blur effect for a glassy look */
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.header-right a {
+  margin-left: 1.5rem;
+  font-size: 1rem;
+  color: var(--glow-color-1);
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.header-right a:hover {
+  color: var(--glow-color-2);
+  text-shadow: 0 0 5px var(--hover-glow);
+}
+
+/* Footer styling */
+.footer {
+  background: rgba(31, 31, 31, 0.8); /* Translucent background */
+  color: var(--text-color);
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid var(--tile-border);
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px); /* Add a blur effect for a glassy look */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --glow-color: #24c8db;
+    --text-color: #f6f6f6;
+    --tile-background: #1f1f1f;
+    --tile-border: #2c5364;
+    --hover-glow: rgba(36, 200, 219, 0.5);
+  }
+}
