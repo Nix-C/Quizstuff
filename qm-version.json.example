@@ -14,5 +14,19 @@
       "sha1sum": "fb3935b3e079061de85a000de3de781d6e3a68ad",
       "url": "/installers/QuizMachineInstaller-5.4-j30-x64.exe"
     },
+    {
+      "architecture": "amd64",
+      "version": "6.2.1-t15",
+      "os": "linux",
+      "sha1sum": "cd44377375e3e68ba4620429426c9e6ed62e6ed5",
+      "url": "/installers/QuizMachine_6.2.1-t15-amd64.deb"
+    },
+    {
+      "architecture": "arm64",
+      "version": "6.2.1-t15",
+      "os": "linux",
+      "sha1sum": "4a094d357290098589bc421be6c7a63940024d66",
+      "url": "/installers/QuizMachine_6.2.1-t15-arm64.deb"
+    }
   ]
 }
