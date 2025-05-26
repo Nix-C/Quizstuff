@@ -13,6 +13,7 @@
       >Nazarene Quizzing Tournaments</a
     >
   </div>
+  <hr>
   <img
     src="/assets/images/Ostrich 1.jpg"
     alt="A crazy ostrich with a jetpack!"
