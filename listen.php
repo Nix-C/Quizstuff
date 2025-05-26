@@ -140,6 +140,7 @@
               
               // Check to see if installer setting exists, if so update it.
               $matchingArch = findMatchingArch($installerData, $arch);
+              $today = date('Y-m-d H:i:s');
 
               if($matchingArch){
                 file_put_contents("logs.txt", date('Y-m-d H:i:s') . " - Webhook: Found a match!" . "\n", FILE_APPEND);
@@ -148,7 +149,8 @@
                   'version' => $version,
                   'os' => $os,
                   'sha1sum' => $sha1Value,
-                  'url' => $assetPath
+                  'url' => $assetPath,
+                  'date' => $today
                 ];
 
               } else {
@@ -158,7 +160,8 @@
                   'version' => $version ?? "unknown",
                   'os' => $os ?? "unknown",
                   'sha1sum' => $sha1Value,
-                  'url' => $assetPath
+                  'url' => $assetPath,
+                  'date' => $today
                 ]);
               }
 
