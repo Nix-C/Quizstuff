@@ -36,7 +36,7 @@
       <section class="container">
         <h1 class="container-header">Purchase QuizMachine</h1>
         <p class="container-text">
-          To unlock all features of QuizMachine, you'll need to purchase user key. This includes a lifetime of free upgrades!
+          To unlock all features of QuizMachine, you'll need to purchase a user key. This includes a lifetime of free upgrades!
         </p>
         <p>Not ready to buy? Download a version of QuizMachine to try with limited functionality.</p>
         <div class="downloads-container">
