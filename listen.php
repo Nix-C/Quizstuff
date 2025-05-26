@@ -55,6 +55,18 @@
     }
   }
 
+  // Helper function
+  function findMatchingArch(array $array, $arch ) {
+    echo "Looking for a matching " . $arch . "\n";
+    foreach($array as $index => $item) {
+      print_r( $item->architecture . " and " . $arch . "\n");
+      if($item->architecture === $arch){
+        return $index;
+      }
+    }
+    return false;
+  }
+
   if($payload){
     $json_paylod = json_decode($payload);
     // Verify signature
@@ -69,11 +81,20 @@
     ) {
       // If signature good, do stuff
       if(hash_equals($expected_signature, $github_signature)){
-      file_put_contents("logs.txt", date('Y-m-d H:i:s') . " - Webhook: Release Received!" . "\n", FILE_APPEND);
+        file_put_contents("logs.txt", date('Y-m-d H:i:s') . " - Webhook: Release Received!" . "\n", FILE_APPEND);
         
+        $versionDataFile = @file_get_contents("qm-version.json");
+        $currentVersionData = false;
+        if($versionDataFile) {
+          $currentVersionData = json_decode( $versionDataFile );
+        }
+
+        // Set installerData equal to current installer data
+        $installerData = $currentVersionData->installers ?? [];
+
         // Loop through assets available
         $assets = $json_paylod->release->assets;
-        $installerData = [];
+        
         foreach ($assets as $asset) {
           if(str_ends_with($asset->name, ".exe") || str_ends_with($asset->name, ".deb")) {
             // Download asset & get returned asset path + sha1sum
@@ -117,14 +138,31 @@
                 echo "ERROR: Unknown installer: " . $asset->name . "\n";
               }
               
-              // Push to installers
-              array_push($installerData, (object) [
-                'architecture' => $arch,
-                'version' => $version,
-                'os' => $os,
-                'sha1sum' => $sha1Value,
-                'url' => $assetPath
-              ]);
+              // Check to see if installer setting exists, if so update it.
+              $matchingArch = findMatchingArch($installerData, $arch);
+
+              if($matchingArch){
+                file_put_contents("logs.txt", date('Y-m-d H:i:s') . " - Webhook: Found a match!" . "\n", FILE_APPEND);
+                $installerData[$matchingArch] = (object) [
+                  'architecture' => $arch,
+                  'version' => $version,
+                  'os' => $os,
+                  'sha1sum' => $sha1Value,
+                  'url' => $assetPath
+                ];
+
+              } else {
+                // Push to installers
+                array_push($installerData, (object) [
+                  'architecture' => $arch ?? "unknown",
+                  'version' => $version ?? "unknown",
+                  'os' => $os ?? "unknown",
+                  'sha1sum' => $sha1Value,
+                  'url' => $assetPath
+                ]);
+              }
+
+
 
 
             } else {
