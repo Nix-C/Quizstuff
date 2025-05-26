@@ -1,7 +1,7 @@
 <?php
   require_once 'config.php';
   $OK = TRUE;
-  $payload = file_get_contents('php://input') ?? null;
+  $payload = file_get_contents('php://input') ?? null; // Accept input from webhook
 
   // Download asset and return sha1 string.
   function downloadAsset($asset){
@@ -28,18 +28,30 @@
       file_put_contents("logs.txt", "ERROR: " . $errorMessage, FILE_APPEND);
       curl_close($ch);
     } else {
-      $assetPath = "/installers/" . $asset->name;
-      // Put file
-      file_put_contents("." . $assetPath, $response); 
 
-      // Get sha1 sum
-      $sha1Value = hash_file('sha1', "." . $assetPath);
+      $httpCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+      if($httpCode !== 200) { // Check GH token!
+        $OK = FALSE;
+        $errorMessage = date('Y-m-d H:i:s') . " - Download Error: Discord responded with status code " . $httpCode . "\n";
+        echo $errorMessage . "\n";
+        file_put_contents("logs.txt", "ERROR: " . $errorMessage, FILE_APPEND);
+        curl_close($ch);
+      } else {
+        $assetPath = "/installers/" . $asset->name;
+        // Put file
+        file_put_contents("." . $assetPath, $response); 
 
-      curl_close($ch);
-      return [
-        'assetPath' => $assetPath,
-        'sha1' => $sha1Value
-      ];
+        // Get sha1 sum
+        $sha1Value = hash_file('sha1', "." . $assetPath);
+
+        curl_close($ch);
+        return [
+          'assetPath' => $assetPath,
+          'sha1' => $sha1Value
+        ];
+      }
+
+
     }
   }
 
@@ -57,6 +69,8 @@
     ) {
       // If signature good, do stuff
       if(hash_equals($expected_signature, $github_signature)){
+      file_put_contents("logs.txt", date('Y-m-d H:i:s') . " - Webhook: Release Received!" . "\n", FILE_APPEND);
+        
         // Loop through assets available
         $assets = $json_paylod->release->assets;
         $installerData = [];
@@ -120,6 +134,10 @@
 
           }
           // Put json data
+
+          
+        }
+        if($OK) {
           file_put_contents("qm-version.json", '{ "installers": ' . json_encode($installerData) . '}');
         }
       } else {
