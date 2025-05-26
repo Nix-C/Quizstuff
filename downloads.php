@@ -95,14 +95,16 @@
           </div>
 
         <?php else : ?>
-            <h4>Currently unavailable.</h4>
+            <h3>Coming Soon!</h3>
           <?php endif ?>
       </section>
 
       
         <section class="container">
           <h1 class="container-header">Download For Linux</h1>
-          <?php if ($amd64InstallerData || $arm64InstallerData) : ?>
+          <?php 
+            $showLinux = false; 
+            if ( $showLinux && ($amd64InstallerData || $arm64InstallerData)) : ?>
             <div class="downloads-container">
               <?php if ($amd64InstallerData) : ?>
                 <div class="download-card">
@@ -127,7 +129,7 @@
             </div>
             <p><small>⚠️ Version 6 Linux manual coming soon. ⚠️</small></p> 
           <?php else : ?>
-            <h4>Currently unavailable.</h4>
+            <h3>Coming Soon!</h3>
           <?php endif ?>
         </section>
       
