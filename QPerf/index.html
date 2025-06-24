@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QPerformance</title>
+    <script type="module" src="main.js" defer></script>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="header-left">
+        <h1>QPerformance</h1>
+      </div>
+      <div class="header-right">
+        <a id="quizstuff-link" href="https://www.quizstuff.com">QuizStuff</a>
+        <a id="github-link" href="https://www.github.com/dbwrush/qperformance">Desktop Version</a>
+      </div>
+    </header>
+    <main class="container">
+      <section class="tile file-selection">
+        <h2>File Selection</h2>
+        <div>
+          <button id="select-questions">Pick Question Set Files (.rtf)</button>
+          <input id="questions-input" type="file" accept=".rtf" multiple style="display: none;" />
+          <p id="selected-questions">Selected: None</p>
+        </div>
+        <div>
+          <button id="select-logs">Pick QuizMachine Record Files (.csv)</button>
+          <input id="logs-input" type="file" accept=".csv" multiple style="display: none;" />
+          <p id="selected-logs">Selected: None</p>
+        </div>
+      </section>
+
+      <section class="tile question-types">
+        <h2>Question Types</h2>
+        <div id="question-types">
+          <label>
+            <input type="checkbox" value="A" checked />
+            <span class="toggle"></span>
+            A According-to
+          </label>
+          <label>
+            <input type="checkbox" value="G" checked />
+            <span class="toggle"></span>
+            G General
+          </label>
+          <label>
+            <input type="checkbox" value="I" checked />
+            <span class="toggle"></span>
+            I Book & Chapter
+          </label>
+          <label>
+            <input type="checkbox" value="Q" checked />
+            <span class="toggle"></span>
+            Q Quote
+          </label>
+          <label>
+            <input type="checkbox" value="R" checked />
+            <span class="toggle"></span>
+            R Reference
+          </label>
+          <label>
+            <input type="checkbox" value="S" checked />
+            <span class="toggle"></span>
+            S Situation
+          </label>
+          <label>
+            <input type="checkbox" value="X" checked />
+            <span class="toggle"></span>
+            X Context
+          </label>
+          <label>
+            <input type="checkbox" value="V" checked />
+            <span class="toggle"></span>
+            V Verse
+          </label>
+          <label class="memory-verse">
+            <input type="checkbox" value="M" checked />
+            <span class="toggle"></span>
+            Memory Verse totals (Q, R, V)
+          </label>
+        </div>
+      </section>
+
+      <section class="tile settings">
+        <h2>Settings</h2>
+        <div>
+          <input id="delimiter" type="text" placeholder="Custom delimiter (Optional)" />
+        </div>
+        <div>
+          <input id="tournament" type="text" placeholder="Enter tournament name (Recommended)" />
+        </div>
+        <div>
+          <label>
+            <input id="display-rounds" type="checkbox" />
+            <span class="toggle"></span>
+            Display individual round results
+          </label>
+        </div>
+      </section>
+
+      <section class="tile actions">
+        <h2>Actions</h2>
+        <button id="run">Run</button>
+        <button id="clear">Clear</button>
+        <button id="save-output" disabled>Save Output (.csv)</button>
+      </section>
+
+      <section class="tile status">
+        <h2>Status</h2>
+        <p id="status-message">Waiting for input files</p>
+        <div id="warnings"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Created by <a href="https://dbwrush.com" target="_blank">David Rush</a>
+      </p>
+    </footer>
+  </body>
+</html>
