@@ -245,7 +245,7 @@
             </fieldset>
           <?php endforeach; ?>
           <p style="color:#bbd7e5"><strong>** Shipping costs will be added to the total when your order is confirmed. Your updated total will be sent after the initial order confirmation email.</strong></p>
-          <div id="agreement" style="display: flex; align-items: flex-start; gap: 10px; margin-top: 20px;">
+          <div id="agreement" style="display: flex; gap: 10px; margin-top: 20px;">
             <input type="checkbox" name="agree" id="agree" required>
             <p>I agree to make payment by check after I have received an updated invoice with tax applied.</p>
           </div>
