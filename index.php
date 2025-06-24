@@ -84,15 +84,7 @@
 
         <ul class="container-text">
           <li>
-            <u>Windows 11 has not yet been fully tested</u>. If you attempt to
-            use it for QuizMachine please know that some privacy options may not
-            allow you to download from our Quizstuff site until changed. More
-            information to follow.
-          </li>
-          <br />
-
-          <li>
-            <u>Only version 4 or 5 will work with Windows 7, 8 and Windows 10</u
+            <u>Only version 4 or 5 will work with Windows 7, 8, 10, and Windows 11</u
             >. MicroSoft Surface with Windows RT is not compatible (very sorry).
             Nor is Linux or any Apple Operating Systems. iPads, Chromebooks and
             Tablet devices are not supported at this time.
