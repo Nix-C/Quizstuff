@@ -245,7 +245,13 @@
             </fieldset>
           <?php endforeach; ?>
           <p style="color:#bbd7e5"><strong>** Shipping costs will be added to the total when your order is confirmed. Your updated total will be sent after the initial order confirmation email.</strong></p>
-          <button type="submit" id="button--submit" class="button" name="submit">Submit Order</button>
+          <div id="agreement">
+            <input type="checkbox" name="agree" id="agree" required>
+            <p>I agree to make payment by check after I have received an updated invoice with tax applied.</p>
+          </div>
+          <?php if ($_POST['checkbox'] == 'value1') : ?>
+            <button type="submit" id="button--submit" class="button" name="submit">Submit Order</button>
+          <?php endif ?>
           <!-- <p id="est-total">Estimated Total: $<span id="est-total--value">0.00</span></p>
           <small>(Pre shipping) -->
           <p id="submit-message"></p>
