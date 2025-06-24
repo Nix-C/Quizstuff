@@ -32,7 +32,9 @@
             <p><strong>NOTE: Shipping cost will added once order is reviewed.</strong></p>
             
             <!-- Payment instructions -->
-            <p style="margin: 0 0 10px;">Please make the payment by check. We will contact you with more payment information. <br> If you have any questions, feel free to contact us at <strong>quizstuff@quizstuff.com</strong>.</p>
+            <p style="margin: 0 0 10px;">Please make the payment by check. We will contact you with more payment information and an updated invoice. <br> 
+                If you have any questions, feel free to contact us at <strong>quizstuff@quizstuff.com</strong>.
+            </p>
         </div>
         <!-- Footer -->
         <div style="background-color: #121212; color: #aaaaaa; padding: 10px; text-align: center; font-size: 12px;">
