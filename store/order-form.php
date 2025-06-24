@@ -249,9 +249,7 @@
             <input type="checkbox" name="agree" id="agree" required>
             <p>I agree to make payment by check after I have received an updated invoice with tax applied.</p>
           </div>
-          <?php if ($_POST['checkbox'] == 'value1') : ?>
-            <button type="submit" id="button--submit" class="button" name="submit">Submit Order</button>
-          <?php endif ?>
+          <button type="submit" id="button--submit" class="button" name="submit">Submit Order</button>
           <!-- <p id="est-total">Estimated Total: $<span id="est-total--value">0.00</span></p>
           <small>(Pre shipping) -->
           <p id="submit-message"></p>
