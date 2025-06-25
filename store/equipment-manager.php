@@ -190,6 +190,7 @@ body {
       h1 { font-size: 1.2em; }
     }
     #horizontal {display: flex;}
+    button{display: block;}
   </style>
 </head>
 <body>
@@ -295,6 +296,7 @@ body {
       const laptopHeader = document.getElementById('laptop-header');
       const interfaceHeader = document.getElementById('interface-header');
       const padsHeader = document.getElementById('pads-header');
+      const horizontal = document.getElementById('horizontal');
       let ascId = false;
       let ascName = false;
       let ascDistrict = false;
@@ -333,7 +335,7 @@ body {
         withoutColor.forEach(row => tbody.appendChild(row));
       }
       // Add filter buttons for each color
-      padsHeader.getElementById("horizontal").innerHTML = 'Pads ' + padColors.map(pc => `<button style="margin-left:2px; font-size:1em; background:none; display:inline-block; border:none; color:inherit; cursor:pointer;" data-color="${pc.color}">${pc.icon}</button>`).join('');
+      padsHeader.horizontal.innerHTML = 'Pads ' + padColors.map(pc => `<button style="margin-left:2px; font-size:1em; background:none; border:none; color:inherit; cursor:pointer;" data-color="${pc.color}">${pc.icon}</button>`).join('');
       padColors.forEach(pc => {
         padsHeader.querySelector(`button[data-color='${pc.color}']`).addEventListener('click', function(e) {
           e.stopPropagation();
