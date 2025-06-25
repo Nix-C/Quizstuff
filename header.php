@@ -48,7 +48,7 @@
                 </li> -->
               </ul>
             </li>
-            <li><a href="/equipment-registration.php.php">Equipment Registration</a></li>
+            <li><a href="/equipment-registration.php">Equipment Registration</a></li>
           </ul>
         </div>
         <button class="icon mobile-only" onclick="toggleNavOpen()">
