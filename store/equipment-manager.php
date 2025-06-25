@@ -202,8 +202,8 @@ body {
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Name &#8597;</th>
         <th>Contact</th>
-        <th>District</th>
-        <th>Laptop</th>
+        <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
+        <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
         <th>Interface Box</th>
         <th>Pads</th>
         <th>Monitor</th>
@@ -289,8 +289,12 @@ body {
       const table = document.getElementById('equipment-table');
       const idHeader = document.getElementById('id-header');
       const nameHeader = document.getElementById('name-header');
+      const districtHeader = document.getElementById('district-header');
+      const laptopHeader = document.getElementById('laptop-header');
       let ascId = false;
       let ascName = false;
+      let ascDistrict = false;
+      let ascLaptop = false;
       idHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -303,6 +307,8 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         idHeader.innerHTML = ascId ? 'ID &#8593;' : 'ID &#8595;';
         nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
       });
       nameHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
@@ -318,6 +324,48 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         nameHeader.innerHTML = ascName ? 'Name &#8593;' : 'Name &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
+      districtHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          const distA = a.children[3].textContent.trim().toLowerCase();
+          const distB = b.children[3].textContent.trim().toLowerCase();
+          if (distA < distB) return ascDistrict ? -1 : 1;
+          if (distA > distB) return ascDistrict ? 1 : -1;
+          return 0;
+        });
+        ascDistrict = !ascDistrict;
+        rows.forEach(row => tbody.appendChild(row));
+        districtHeader.innerHTML = ascDistrict ? 'District &#8593;' : 'District &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
+      laptopHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          // Laptop brand is in the first line of the 5th cell (index 4)
+          const getBrand = (row) => {
+            const cell = row.children[4];
+            const match = cell.innerHTML.match(/Brand: ([^<]*)/i);
+            return match ? match[1].trim().toLowerCase() : '';
+          };
+          const brandA = getBrand(a);
+          const brandB = getBrand(b);
+          if (brandA < brandB) return ascLaptop ? -1 : 1;
+          if (brandA > brandB) return ascLaptop ? 1 : -1;
+          return 0;
+        });
+        ascLaptop = !ascLaptop;
+        rows.forEach(row => tbody.appendChild(row));
+        laptopHeader.innerHTML = ascLaptop ? 'Laptop &#8593;' : 'Laptop &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
       });
     });
   </script>
