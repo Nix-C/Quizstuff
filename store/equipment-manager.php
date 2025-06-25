@@ -226,6 +226,7 @@ body {
         <th>Extension Cord</th>
         <th>Microphone/Recorder</th>
         <th>Other</th>
+        <th>Status</th>
         <th>Notes</th>
       </tr>
     </thead>
@@ -293,6 +294,27 @@ body {
           <td>
             <?php if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br>'; ?>
             <?php if ($reg['other_qty'] !== null && $reg['other_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['other_qty']); ?>
+          </td>
+          <td>
+            <select class="status-dropdown" data-id="<?= htmlspecialchars($reg['id']) ?>" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">
+              <?php
+                $statuses = [
+                  '',
+                  'In Room',
+                  'In Inventory',
+                  'Used in Tech Room',
+                  'Broken (In Inventory)',
+                  'Other'
+                ];
+                $currentStatus = isset($reg['status']) ? $reg['status'] : '';
+                foreach ($statuses as $status) {
+                  $selected = ($currentStatus === $status) ? 'selected' : '';
+                  $label = $status === '' ? '-- Select --' : $status;
+                  echo "<option value=\"" . htmlspecialchars($status) . "\" $selected>$label</option>";
+                }
+              ?>
+            </select>
+            <span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>
           </td>
           <td>
             <textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="<?= htmlspecialchars($reg['id']) ?>"><?php echo isset($reg['notes']) ? htmlspecialchars($reg['notes']) : ''; ?></textarea>
@@ -701,6 +723,30 @@ body {
           }
         })
         .catch(() => { status.textContent = 'Error saving'; });
+      });
+    });
+    // Status save AJAX
+    document.querySelectorAll('.status-dropdown').forEach(function(drop) {
+      drop.addEventListener('change', function() {
+        const id = this.getAttribute('data-id');
+        const status = this.value;
+        const msg = this.parentElement.querySelector('.status-save-msg');
+        msg.textContent = 'Saving...';
+        fetch('save-status.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            msg.textContent = 'Saved!';
+            setTimeout(() => { msg.textContent = ''; }, 1500);
+          } else {
+            msg.textContent = 'Error saving';
+          }
+        })
+        .catch(() => { msg.textContent = 'Error saving'; });
       });
     });
   </script>
