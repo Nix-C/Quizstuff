@@ -483,6 +483,75 @@ body {
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
+      // Projector header click event
+      const projectorHeader = document.querySelector('th:nth-child(9)');
+      let ascProjectorRes = false;
+      projectorHeader.style.cursor = 'pointer';
+      projectorHeader.style.userSelect = 'none';
+      projectorHeader.innerHTML = 'Projector &#8597;';
+      projectorHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          // Projector resolution is in the 9th cell (index 8), look for Res: <value>
+          const getRes = (row) => {
+            const cell = row.children[8];
+            const match = cell.innerHTML.match(/<strong>Res:<\/strong>\s*([^<]*)/i);
+            return match ? match[1].trim().toLowerCase() : '';
+          };
+          const resA = getRes(a);
+          const resB = getRes(b);
+          // Place empty values after non-empty values
+          if (!resA && resB) return 1;
+          if (resA && !resB) return -1;
+          if (!resA && !resB) return 0;
+          if (resA < resB) return ascProjectorRes ? -1 : 1;
+          if (resA > resB) return ascProjectorRes ? 1 : -1;
+          return 0;
+        });
+        ascProjectorRes = !ascProjectorRes;
+        rows.forEach(row => tbody.appendChild(row));
+        projectorHeader.innerHTML = ascProjectorRes ? 'Projector &#8593;' : 'Projector &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+        monitorHeader.innerHTML = 'Monitor &#8597;';
+      });
+      // Powerstrip header click event
+      const powerstripHeader = document.querySelector('th:nth-child(10)');
+      let ascPowerstripPlugs = false;
+      powerstripHeader.style.cursor = 'pointer';
+      powerstripHeader.style.userSelect = 'none';
+      powerstripHeader.innerHTML = 'Powerstrip &#8597;';
+      powerstripHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          // Powerstrip plugs is in the 10th cell (index 9), look for Plugs: <number>
+          const getPlugs = (row) => {
+            const cell = row.children[9];
+            const match = cell.innerHTML.match(/<strong>Plugs:<\/strong>\s*(\d+)/i);
+            return match ? parseInt(match[1], 10) : null;
+          };
+          const plugsA = getPlugs(a);
+          const plugsB = getPlugs(b);
+          // Place empty values after non-empty values
+          if ((plugsA === null || isNaN(plugsA)) && (plugsB !== null && !isNaN(plugsB))) return 1;
+          if ((plugsB === null || isNaN(plugsB)) && (plugsA !== null && !isNaN(plugsA))) return -1;
+          if ((plugsA === null || isNaN(plugsA)) && (plugsB === null || isNaN(plugsB))) return 0;
+          return ascPowerstripPlugs ? plugsA - plugsB : plugsB - plugsA;
+        });
+        ascPowerstripPlugs = !ascPowerstripPlugs;
+        rows.forEach(row => tbody.appendChild(row));
+        powerstripHeader.innerHTML = ascPowerstripPlugs ? 'Powerstrip &#8593;' : 'Powerstrip &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+        monitorHeader.innerHTML = 'Monitor &#8597;';
+        projectorHeader.innerHTML = 'Projector &#8597;';
+      });
     });
   </script>
 </body>
