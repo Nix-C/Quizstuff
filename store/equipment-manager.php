@@ -402,7 +402,9 @@ body {
           // Laptop brand is in the first line of the 5th cell (index 4)
           const getBrand = (row) => {
             const cell = row.children[4];
-            const match = cell.innerHTML.match(/Brand: ([^<]*)/i);
+            // Extract the brand from the first <strong>Brand:</strong> ...<br> or ...
+            const html = cell.innerHTML;
+            const match = html.match(/<strong>Brand:<\/strong>\s*([^<]*)/i);
             return match ? match[1].trim().toLowerCase() : '';
           };
           const brandA = getBrand(a);
