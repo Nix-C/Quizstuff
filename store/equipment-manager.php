@@ -200,7 +200,7 @@ body {
     <thead>
       <tr>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
-        <th>Name</th>
+        <th id="name-header" style="cursor:pointer; user-select:none;">Name &#8597;</th>
         <th>Contact</th>
         <th>District</th>
         <th>Laptop</th>
@@ -284,22 +284,40 @@ body {
     </tbody>
   </table>
   <script>
-    // Table sort by ID (ascending/descending)
+    // Table sort by ID (ascending/descending) and Name (A-Z/Z-A)
     document.addEventListener('DOMContentLoaded', function() {
       const table = document.getElementById('equipment-table');
       const idHeader = document.getElementById('id-header');
-      let asc = false;
+      const nameHeader = document.getElementById('name-header');
+      let ascId = false;
+      let ascName = false;
       idHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
         rows.sort((a, b) => {
           const idA = parseInt(a.children[0].textContent, 10);
           const idB = parseInt(b.children[0].textContent, 10);
-          return asc ? idA - idB : idB - idA;
+          return ascId ? idA - idB : idB - idA;
         });
-        asc = !asc;
+        ascId = !ascId;
         rows.forEach(row => tbody.appendChild(row));
-        idHeader.innerHTML = asc ? 'ID &#8593;' : 'ID &#8595;';
+        idHeader.innerHTML = ascId ? 'ID &#8593;' : 'ID &#8595;';
+        nameHeader.innerHTML = 'Name &#8597;';
+      });
+      nameHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          const nameA = a.children[1].textContent.trim().toLowerCase();
+          const nameB = b.children[1].textContent.trim().toLowerCase();
+          if (nameA < nameB) return ascName ? -1 : 1;
+          if (nameA > nameB) return ascName ? 1 : -1;
+          return 0;
+        });
+        ascName = !ascName;
+        rows.forEach(row => tbody.appendChild(row));
+        nameHeader.innerHTML = ascName ? 'Name &#8593;' : 'Name &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
       });
     });
   </script>
