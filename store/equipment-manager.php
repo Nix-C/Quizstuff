@@ -64,7 +64,8 @@ if ($result && $result->num_rows > 0) {
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($registrations as $reg): ?>
+      <?php foreach (
+        $registrations as $reg): ?>
         <tr>
           <td><?= htmlspecialchars($reg['id']) ?></td>
           <td><?= htmlspecialchars($reg['first_name']) ?></td>
@@ -73,16 +74,16 @@ if ($result && $result->num_rows > 0) {
           <td><?= htmlspecialchars($reg['email']) ?></td>
           <td><?= htmlspecialchars($reg['district']) ?></td>
           <td>
-            Brand: <?= htmlspecialchars($reg['laptop_brand']) ?><br>
-            OS: <?= htmlspecialchars($reg['laptop_os']) ?><br>
-            Parallel: <?= htmlspecialchars($reg['laptop_parallel_port']) ?><br>
-            QM Ver: <?= htmlspecialchars($reg['laptop_qm_version']) ?><br>
-            User: <?= htmlspecialchars($reg['laptop_username']) ?><br>
-            Pass: <?= htmlspecialchars($reg['laptop_password']) ?>
+            <?php if ($reg['laptop_brand']) echo 'Brand: ' . htmlspecialchars($reg['laptop_brand']) . '<br>'; ?>
+            <?php if ($reg['laptop_os']) echo 'OS: ' . htmlspecialchars($reg['laptop_os']) . '<br>'; ?>
+            <?php if ($reg['laptop_parallel_port']) echo 'Parallel: ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br>'; ?>
+            <?php if ($reg['laptop_qm_version']) echo 'QM Ver: ' . htmlspecialchars($reg['laptop_qm_version']) . '<br>'; ?>
+            <?php if ($reg['laptop_username']) echo 'User: ' . htmlspecialchars($reg['laptop_username']) . '<br>'; ?>
+            <?php if ($reg['laptop_password']) echo 'Pass: ' . htmlspecialchars($reg['laptop_password']); ?>
           </td>
           <td>
-            Type: <?= htmlspecialchars($reg['interface_type']) ?><br>
-            Qty: <?= htmlspecialchars($reg['interface_qty']) ?>
+            <?php if ($reg['interface_type']) echo 'Type: ' . htmlspecialchars($reg['interface_type']) . '<br>'; ?>
+            <?php if ($reg['interface_qty'] !== null && $reg['interface_qty'] !== '') echo 'Qty: ' . htmlspecialchars($reg['interface_qty']); ?>
           </td>
           <td class="pad-list">
             <?php if (!empty($reg['pads'])): ?>
@@ -96,35 +97,35 @@ if ($result && $result->num_rows > 0) {
             <?php endif; ?>
           </td>
           <td>
-            Brand: <?= htmlspecialchars($reg['monitor_brand']) ?><br>
-            Size: <?= htmlspecialchars($reg['monitor_size']) ?><br>
-            Res: <?= htmlspecialchars($reg['monitor_resolution']) ?>
+            <?php if ($reg['monitor_brand']) echo 'Brand: ' . htmlspecialchars($reg['monitor_brand']) . '<br>'; ?>
+            <?php if ($reg['monitor_size']) echo 'Size: ' . htmlspecialchars($reg['monitor_size']) . '<br>'; ?>
+            <?php if ($reg['monitor_resolution']) echo 'Res: ' . htmlspecialchars($reg['monitor_resolution']); ?>
           </td>
           <td>
-            Brand: <?= htmlspecialchars($reg['projector_brand']) ?><br>
-            Lumens: <?= htmlspecialchars($reg['projector_lumens']) ?><br>
-            Res: <?= htmlspecialchars($reg['projector_resolution']) ?><br>
-            Qty: <?= htmlspecialchars($reg['projector_qty']) ?>
+            <?php if ($reg['projector_brand']) echo 'Brand: ' . htmlspecialchars($reg['projector_brand']) . '<br>'; ?>
+            <?php if ($reg['projector_lumens'] !== null && $reg['projector_lumens'] !== '') echo 'Lumens: ' . htmlspecialchars($reg['projector_lumens']) . '<br>'; ?>
+            <?php if ($reg['projector_resolution']) echo 'Res: ' . htmlspecialchars($reg['projector_resolution']) . '<br>'; ?>
+            <?php if ($reg['projector_qty'] !== null && $reg['projector_qty'] !== '') echo 'Qty: ' . htmlspecialchars($reg['projector_qty']); ?>
           </td>
           <td>
-            Make: <?= htmlspecialchars($reg['powerstrip_make']) ?><br>
-            Model: <?= htmlspecialchars($reg['powerstrip_model']) ?><br>
-            Color: <?= htmlspecialchars($reg['powerstrip_color']) ?><br>
-            Plugs: <?= htmlspecialchars($reg['powerstrip_outlets']) ?>
+            <?php if ($reg['powerstrip_make']) echo 'Make: ' . htmlspecialchars($reg['powerstrip_make']) . '<br>'; ?>
+            <?php if ($reg['powerstrip_model']) echo 'Model: ' . htmlspecialchars($reg['powerstrip_model']) . '<br>'; ?>
+            <?php if ($reg['powerstrip_color']) echo 'Color: ' . htmlspecialchars($reg['powerstrip_color']) . '<br>'; ?>
+            <?php if ($reg['powerstrip_outlets'] !== null && $reg['powerstrip_outlets'] !== '') echo 'Plugs: ' . htmlspecialchars($reg['powerstrip_outlets']); ?>
           </td>
           <td>
-            Color: <?= htmlspecialchars($reg['extension_color']) ?><br>
-            Length: <?= htmlspecialchars($reg['extension_length']) ?>
+            <?php if ($reg['extension_color']) echo 'Color: ' . htmlspecialchars($reg['extension_color']) . '<br>'; ?>
+            <?php if ($reg['extension_length'] !== null && $reg['extension_length'] !== '') echo 'Length: ' . htmlspecialchars($reg['extension_length']); ?>
           </td>
           <td>
-            Type: <?= htmlspecialchars($reg['mic_type']) ?><br>
-            Brand: <?= htmlspecialchars($reg['mic_brand']) ?><br>
-            Model: <?= htmlspecialchars($reg['mic_model']) ?><br>
-            Qty: <?= htmlspecialchars($reg['mic_qty']) ?>
+            <?php if ($reg['mic_type']) echo 'Type: ' . htmlspecialchars($reg['mic_type']) . '<br>'; ?>
+            <?php if ($reg['mic_brand']) echo 'Brand: ' . htmlspecialchars($reg['mic_brand']) . '<br>'; ?>
+            <?php if ($reg['mic_model']) echo 'Model: ' . htmlspecialchars($reg['mic_model']) . '<br>'; ?>
+            <?php if ($reg['mic_qty'] !== null && $reg['mic_qty'] !== '') echo 'Qty: ' . htmlspecialchars($reg['mic_qty']); ?>
           </td>
           <td>
-            Desc: <?= nl2br(htmlspecialchars($reg['other_desc'])) ?><br>
-            Qty: <?= htmlspecialchars($reg['other_qty']) ?>
+            <?php if ($reg['other_desc']) echo 'Desc: ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br>'; ?>
+            <?php if ($reg['other_qty'] !== null && $reg['other_qty'] !== '') echo 'Qty: ' . htmlspecialchars($reg['other_qty']); ?>
           </td>
         </tr>
       <?php endforeach; ?>
