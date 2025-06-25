@@ -161,6 +161,7 @@ body {
       font-weight: 600;
       font-size: 1.05em;
       border-bottom: 2px solid #7fd7ff;
+      display: flex;
     }
     tr:nth-child(even) {
       background: #202328;
