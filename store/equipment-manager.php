@@ -205,7 +205,7 @@ body {
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
         <th id="interface-header" style="cursor:pointer; user-select:none;">Interface Box &#8597;</th>
-        <th>Pads</th>
+        <th id="pads-header" style="cursor:pointer; user-select:none;">Pads &#128308;</th>
         <th>Monitor</th>
         <th>Projector</th>
         <th>Powerstrip</th>
@@ -292,11 +292,60 @@ body {
       const districtHeader = document.getElementById('district-header');
       const laptopHeader = document.getElementById('laptop-header');
       const interfaceHeader = document.getElementById('interface-header');
+      const padsHeader = document.getElementById('pads-header');
       let ascId = false;
       let ascName = false;
       let ascDistrict = false;
       let ascLaptop = false;
       let ascInterface = false;
+      // Pads filter state
+      const padColors = [
+        {color: 'Red', icon: '\uD83D\uDD34'},
+        {color: 'Green', icon: '\uD83D\uDFE2'},
+        {color: 'Blue', icon: '\uD83D\uDD35'},
+        {color: 'Yellow', icon: '\uD83D\uDFE1'}
+      ];
+      let padColorIndex = 0;
+      let padFilterActive = false;
+      function filterPadsByColor() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const color = padColors[padColorIndex].color;
+        // Separate rows with at least one pad of the color, and those with none/blank
+        const withColor = [];
+        const withoutColor = [];
+        rows.forEach(row => {
+          const padCell = row.children[6];
+          let found = false;
+          // Look for <li>Color (qty)</li> in padCell
+          padCell.querySelectorAll('li').forEach(li => {
+            if (li.textContent.trim().toLowerCase().startsWith(color.toLowerCase())) {
+              found = true;
+            }
+          });
+          if (found) {
+            withColor.push(row);
+          } else {
+            withoutColor.push(row);
+          }
+        });
+        // Re-append rows: withColor first, then withoutColor
+        withColor.forEach(row => tbody.appendChild(row));
+        withoutColor.forEach(row => tbody.appendChild(row));
+      }
+      function updatePadsHeader() {
+        const {color, icon} = padColors[padColorIndex];
+        padsHeader.innerHTML = `Pads ${icon}`;
+        padsHeader.title = `Filter: ${color}`;
+      }
+      padsHeader.addEventListener('click', function() {
+        padColorIndex = (padColorIndex + 1) % padColors.length;
+        updatePadsHeader();
+        filterPadsByColor();
+      });
+      // Initial header state
+      updatePadsHeader();
+      // ID header click event
       idHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -312,6 +361,7 @@ body {
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
+      // Name header click event
       nameHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -329,6 +379,7 @@ body {
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
+      // District header click event
       districtHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -346,6 +397,7 @@ body {
         nameHeader.innerHTML = 'Name &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
+      // Laptop header click event
       laptopHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -373,6 +425,7 @@ body {
         nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
       });
+      // Interface header click event
       interfaceHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -398,6 +451,72 @@ body {
         nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
+
+      padsHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        // Rotate filter color
+        padColorIndex = (padColorIndex + 1) % (padColors.length + 1); // +1 for 'no filter'
+        let filterColor = padColors[padColorIndex] || null;
+        // Update header text
+        if (filterColor) {
+          padsHeader.innerHTML = `Pads (${filterColor}) &#8597;`;
+        } else {
+          padsHeader.innerHTML = 'Pads &#8597;';
+        }
+        // Show/hide rows based on filter
+        rows.forEach(row => {
+          const padCell = row.querySelector('.pad-list');
+          if (!filterColor) {
+            row.style.display = '';
+            return;
+          }
+          // Check if any pad in the cell matches the color
+          let found = false;
+          if (padCell) {
+            // Look for <li> elements with the color
+            const lis = padCell.querySelectorAll('li');
+            lis.forEach(li => {
+              // Only match exact color (case-insensitive, ignore whitespace)
+              const colorMatch = li.textContent.match(/^\s*([A-Za-z]+)\s*\(/);
+              if (colorMatch && colorMatch[1].toLowerCase() === filterColor.toLowerCase()) {
+                found = true;
+              }
+            });
+          }
+          row.style.display = found ? '' : 'none';
+        });
+        // Move blank/no-pad rows to the bottom
+        if (filterColor) {
+          // Get visible and hidden rows
+          const visibleRows = rows.filter(row => row.style.display !== 'none');
+          const hiddenRows = rows.filter(row => row.style.display === 'none');
+          // Among visible, move those with blank pads to the end
+          const withPads = [], blankPads = [];
+          visibleRows.forEach(row => {
+            const padCell = row.querySelector('.pad-list');
+            if (!padCell || padCell.textContent.trim() === '—' || padCell.querySelectorAll('li').length === 0) {
+              blankPads.push(row);
+            } else {
+              withPads.push(row);
+            }
+          });
+          // Re-append in order: withPads, blankPads, then hiddenRows (hiddenRows stay hidden)
+          [...withPads, ...blankPads, ...hiddenRows].forEach(row => tbody.appendChild(row));
+        } else {
+          // No filter: show all, move blank/no-pad rows to the bottom
+          const withPads = [], blankPads = [];
+          rows.forEach(row => {
+            const padCell = row.querySelector('.pad-list');
+            if (!padCell || padCell.textContent.trim() === '—' || padCell.querySelectorAll('li').length === 0) {
+              blankPads.push(row);
+            } else {
+              withPads.push(row);
+            }
+          });
+          [...withPads, ...blankPads].forEach(row => tbody.appendChild(row));
+        }
       });
     });
   </script>
