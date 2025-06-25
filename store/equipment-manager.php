@@ -161,7 +161,7 @@ body {
       font-weight: 600;
       font-size: 1.05em;
       border-bottom: 2px solid #7fd7ff;
-      display: flex;
+      /* display: flex; */
     }
     tr:nth-child(even) {
       background: #202328;
@@ -332,7 +332,7 @@ body {
         withoutColor.forEach(row => tbody.appendChild(row));
       }
       // Add filter buttons for each color
-      padsHeader.innerHTML = 'Pads ' + padColors.map(pc => `<button style="margin-left:2px; font-size:1em; background:none; border:none; color:inherit; cursor:pointer;" data-color="${pc.color}">${pc.icon}</button>`).join('');
+      padsHeader.innerHTML = 'Pads ' + padColors.map(pc => `<button style="margin-left:2px; font-size:1em; background:none; display:inline-block; border:none; color:inherit; cursor:pointer;" data-color="${pc.color}">${pc.icon}</button>`).join('');
       padColors.forEach(pc => {
         padsHeader.querySelector(`button[data-color='${pc.color}']`).addEventListener('click', function(e) {
           e.stopPropagation();
