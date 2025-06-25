@@ -153,19 +153,24 @@ body {
     table {
       border-collapse: collapse;
       width: 98vw;
-      max-width: 98vw;
-      min-width: 98vw;
+      max-width: 100vw;
+      min-width: 0;
       margin: 0 auto 40px auto;
       font-size: 1em;
       background: #23272b;
       box-shadow: 0 4px 24px #0008;
       border-radius: 10px;
-      overflow: hidden;
+      overflow-x: auto;
+      display: block;
+    }
+    thead, tbody, tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
     }
     th, td {
-      border: 1px solid #2d3238;
-      padding: 10px 14px;
-      text-align: left;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
     th {
       background: #23272b;
@@ -195,13 +200,11 @@ body {
     @media (max-width: 1100px) {
       table, th, td { font-size: 0.92em; }
       th, td { padding: 7px 6px; }
-      table { width: 98vw; max-width: 98vw; min-width: 98vw; }
     }
     @media (max-width: 800px) {
       table, th, td { font-size: 0.85em; }
       th, td { padding: 5px 3px; }
       h1 { font-size: 1.2em; }
-      table { width: 98vw; max-width: 98vw; min-width: 98vw; }
     }
     #horizontal {display: flex;}
     button{display: block;}
