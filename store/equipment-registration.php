@@ -22,6 +22,10 @@
       if ($stmt->execute()) {
         $success = "Equipment registered successfully.";
         $registration_id = $conn->insert_id;
+        // Convert empty string integer fields to null
+        function int_or_null($val) {
+          return ($val === '' || $val === null) ? null : (int)$val;
+        }
         // Insert into equipment_details table (excluding pads)
         $stmt2 = $conn->prepare("INSERT INTO equipment_details (
           registration_id,
@@ -44,26 +48,26 @@
           $_POST['laptop_username'],
           $_POST['laptop_password'],
           $_POST['interface_type'],
-          $_POST['interface_qty'],
+          int_or_null($_POST['interface_qty']),
           $_POST['monitor_brand'],
           $_POST['monitor_size'],
           $_POST['monitor_resolution'],
           $_POST['projector_brand'],
-          $_POST['projector_lumens'],
+          int_or_null($_POST['projector_lumens']),
           $_POST['projector_resolution'],
-          $_POST['projector_qty'],
+          int_or_null($_POST['projector_qty']),
           $_POST['powerstrip_make'],
           $_POST['powerstrip_model'],
           $_POST['powerstrip_color'],
-          $_POST['powerstrip_outlets'],
+          int_or_null($_POST['powerstrip_outlets']),
           $_POST['extension_color'],
-          $_POST['extension_length'],
+          int_or_null($_POST['extension_length']),
           $_POST['mic_type'],
           $_POST['mic_brand'],
           $_POST['mic_model'],
-          $_POST['mic_qty'],
+          int_or_null($_POST['mic_qty']),
           $_POST['other_desc'],
-          $_POST['other_qty']
+          int_or_null($_POST['other_qty'])
         );
         $stmt2->execute();
         $stmt2->close();
@@ -75,8 +79,8 @@
           $pad_stmt = $conn->prepare("INSERT INTO pads (registration_id, pad_color, pad_qty) VALUES (?, ?, ?)");
           for ($i = 0; $i < count($pad_colors); $i++) {
             $color = $pad_colors[$i];
-            $qty = $pad_qtys[$i];
-            if ($color !== '' && $qty !== '') {
+            $qty = int_or_null($pad_qtys[$i]);
+            if ($color !== '' && $qty !== null) {
               $pad_stmt->bind_param('isi', $registration_id, $color, $qty);
               $pad_stmt->execute();
             }
