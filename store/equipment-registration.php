@@ -17,7 +17,7 @@
       $error = "All fields are required and you must agree to the terms.";
     } else {
       // Insert into equipment_registration table
-      $stmt = $conn->prepare("INSERT INTO equipment_registration (first_name, last_name, phone, email, district) VALUES (?, ?, ?, ?, ?, ?)");
+      $stmt = $conn->prepare("INSERT INTO equipment_registration (first_name, last_name, phone, email, district) VALUES (?, ?, ?, ?, ?)");
       $stmt->bind_param('sssssssss', $first_name, $last_name, $phone, $email, $district);
       if ($stmt->execute()) {
         $success = "Equipment registered successfully.";
