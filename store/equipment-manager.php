@@ -152,8 +152,9 @@ body {
     }
     table {
       border-collapse: collapse;
-      width: 96%;
-      max-width: 100vw;
+      width: 98vw;
+      max-width: 98vw;
+      min-width: 98vw;
       margin: 0 auto 40px auto;
       font-size: 1em;
       background: #23272b;
@@ -194,11 +195,13 @@ body {
     @media (max-width: 1100px) {
       table, th, td { font-size: 0.92em; }
       th, td { padding: 7px 6px; }
+      table { width: 98vw; max-width: 98vw; min-width: 98vw; }
     }
     @media (max-width: 800px) {
       table, th, td { font-size: 0.85em; }
       th, td { padding: 5px 3px; }
       h1 { font-size: 1.2em; }
+      table { width: 98vw; max-width: 98vw; min-width: 98vw; }
     }
     #horizontal {display: flex;}
     button{display: block;}
