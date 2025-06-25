@@ -21,6 +21,8 @@ if ($result && $result->num_rows > 0) {
     if (!isset($registrations[$reg_id])) {
       $registrations[$reg_id] = $row;
       $registrations[$reg_id]['pads'] = [];
+      // Only set notes the first time
+      $registrations[$reg_id]['notes'] = isset($row['notes']) ? $row['notes'] : '';
     }
     if ($row['pad_color'] !== null) {
       $registrations[$reg_id]['pads'][] = [
