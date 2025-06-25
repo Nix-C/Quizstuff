@@ -26,6 +26,14 @@
         function int_or_null($val) {
           return ($val === '' || $val === null) ? null : (int)$val;
         }
+        // Assign int_or_null results to variables to avoid 'only variables should be passed by reference' notice
+        $interface_qty = int_or_null($_POST['interface_qty']);
+        $projector_lumens = int_or_null($_POST['projector_lumens']);
+        $projector_qty = int_or_null($_POST['projector_qty']);
+        $powerstrip_outlets = int_or_null($_POST['powerstrip_outlets']);
+        $extension_length = int_or_null($_POST['extension_length']);
+        $mic_qty = int_or_null($_POST['mic_qty']);
+        $other_qty = int_or_null($_POST['other_qty']);
         // Insert into equipment_details table (excluding pads)
         $stmt2 = $conn->prepare("INSERT INTO equipment_details (
           registration_id,
@@ -48,26 +56,26 @@
           $_POST['laptop_username'],
           $_POST['laptop_password'],
           $_POST['interface_type'],
-          int_or_null($_POST['interface_qty']),
+          $interface_qty,
           $_POST['monitor_brand'],
           $_POST['monitor_size'],
           $_POST['monitor_resolution'],
           $_POST['projector_brand'],
-          int_or_null($_POST['projector_lumens']),
+          $projector_lumens,
           $_POST['projector_resolution'],
-          int_or_null($_POST['projector_qty']),
+          $projector_qty,
           $_POST['powerstrip_make'],
           $_POST['powerstrip_model'],
           $_POST['powerstrip_color'],
-          int_or_null($_POST['powerstrip_outlets']),
+          $powerstrip_outlets,
           $_POST['extension_color'],
-          int_or_null($_POST['extension_length']),
+          $extension_length,
           $_POST['mic_type'],
           $_POST['mic_brand'],
           $_POST['mic_model'],
-          int_or_null($_POST['mic_qty']),
+          $mic_qty,
           $_POST['other_desc'],
-          int_or_null($_POST['other_qty'])
+          $other_qty
         );
         $stmt2->execute();
         $stmt2->close();

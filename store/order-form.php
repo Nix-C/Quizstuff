@@ -5,7 +5,7 @@
   $page_title = "Order Form";
 
   // Get products from database
-  $sql_products = "SELECT * FROM products";
+  $sql_products = "SELECT * FROM products"; //select all from table name
   $result = mysqli_query($conn, $sql_products);
   $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
