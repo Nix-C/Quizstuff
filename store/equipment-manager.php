@@ -208,7 +208,7 @@ body {
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
         <th id="interface-header" style="cursor:pointer; user-select:none;">Interface Box &#8597;</th>
-        <th id="pads-header" style="cursor:pointer; user-select:none;">Pads &#128308; <div id="horizontal"> </div></th>
+        <th id="pads-header" style="cursor:pointer; user-select:none;">Pads <div id="horizontal"> </div></th>
         <th>Monitor</th>
         <th>Projector</th>
         <th>Powerstrip</th>
@@ -337,7 +337,7 @@ body {
       // Add filter buttons for each color
       horizontal.innerHTML = padColors.map(pc => `<button style="margin-left:2px; font-size:1em; background:none; border:none; color:inherit; cursor:pointer;" data-color="${pc.color}">${pc.icon}</button>`).join('');
       padColors.forEach(pc => {
-        padColors.querySelector(`button[data-color='${pc.color}']`).addEventListener('click', function(e) {
+        horizontal.querySelector(`button[data-color='${pc.color}']`).addEventListener('click', function(e) {
           e.stopPropagation();
           filterPadsByColor(pc.color);
         });
