@@ -193,10 +193,10 @@ body {
       <div id="radial-2"></div>
     </div>
   <h1><?= htmlspecialchars($page_title) ?></h1>
-  <table>
+  <table id="equipment-table">
     <thead>
       <tr>
-        <th>ID</th>
+        <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
         <th>Name</th>
         <th>Contact</th>
         <th>District</th>
@@ -280,5 +280,25 @@ body {
       <?php endforeach; ?>
     </tbody>
   </table>
+  <script>
+    // Table sort by ID (ascending/descending)
+    document.addEventListener('DOMContentLoaded', function() {
+      const table = document.getElementById('equipment-table');
+      const idHeader = document.getElementById('id-header');
+      let asc = false;
+      idHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          const idA = parseInt(a.children[0].textContent, 10);
+          const idB = parseInt(b.children[0].textContent, 10);
+          return asc ? idA - idB : idB - idA;
+        });
+        asc = !asc;
+        rows.forEach(row => tbody.appendChild(row));
+        idHeader.innerHTML = asc ? 'ID &#8593;' : 'ID &#8595;';
+      });
+    });
+  </script>
 </body>
 </html>
