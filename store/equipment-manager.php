@@ -356,6 +356,10 @@ body {
           };
           const brandA = getBrand(a);
           const brandB = getBrand(b);
+          // Place empty values after non-empty values
+          if (!brandA && brandB) return 1;
+          if (brandA && !brandB) return -1;
+          if (!brandA && !brandB) return 0;
           if (brandA < brandB) return ascLaptop ? -1 : 1;
           if (brandA > brandB) return ascLaptop ? 1 : -1;
           return 0;
