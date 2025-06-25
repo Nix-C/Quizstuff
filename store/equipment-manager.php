@@ -34,17 +34,51 @@ if ($result && $result->num_rows > 0) {
   <meta charset="UTF-8">
   <title><?= htmlspecialchars($page_title) ?></title>
   <style>
-    body {
-      background: rgba(0, 0, 0, 0.8);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      color: #e0e3e7;
-      font-family: 'Segoe UI', 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+:root {
+  --font-color: white;
+  /*--bg-color: rgb(0, 70, 102);*/
+  --bg-color: rgb(13, 18, 28);
+  --alt-bg-color: rgb(7, 9, 12);
+  --card-bg-color: #171318;
+  --site-width: 1000px;
+  --ul-height: 18rem;
+  --header-height: 3rem;
+}
+
+/** Imports **/
+
+/* Fonts */
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/Lato/Lato-Regular.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/fonts/Lato/Lato-Bold.ttf");
+  font-weight: bold 700;
+}
+
+/** Global Styles **/
+
+* {
+  font-family: "Lato", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  /* background-image: url("rm218-bb-07.jpg"); */
+  background-size: 100% 100%;
+  background-position: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
     /* Background canvas */
 #canvas {
   position: fixed;
