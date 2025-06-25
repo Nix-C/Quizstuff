@@ -17,24 +17,23 @@
       $error = "All fields are required and you must agree to the terms.";
     } else {
       // Insert into equipment_registration table
-      $stmt = $conn->prepare("INSERT INTO equipment_registration (equipment_name, serial_number, location, owner, first_name, last_name, phone, email, district) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param('sssssssss', $equipment_name, $serial_number, $location, $owner, $first_name, $last_name, $phone, $email, $district);
+      $stmt = $conn->prepare("INSERT INTO equipment_registration (first_name, last_name, phone, email, district) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param('sssssssss', $first_name, $last_name, $phone, $email, $district);
       if ($stmt->execute()) {
         $success = "Equipment registered successfully.";
         $registration_id = $conn->insert_id;
-        // Insert into equipment_details table
+        // Insert into equipment_details table (excluding pads)
         $stmt2 = $conn->prepare("INSERT INTO equipment_details (
           registration_id,
           laptop_brand, laptop_os, laptop_parallel_port, laptop_qm_version, laptop_username, laptop_password,
           interface_type, interface_qty,
-          pad_color, pad_qty,
           monitor_brand, monitor_size, monitor_resolution,
           projector_brand, projector_lumens, projector_resolution, projector_qty,
           powerstrip_make, powerstrip_model, powerstrip_color, powerstrip_outlets,
           extension_color, extension_length,
           mic_type, mic_brand, mic_model, mic_qty,
           other_desc, other_qty
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" );
         $stmt2->bind_param(
           'issssssissssssissssssisssssi',
           $registration_id,
@@ -46,8 +45,6 @@
           $_POST['laptop_password'],
           $_POST['interface_type'],
           $_POST['interface_qty'],
-          $_POST['pad_color'],
-          $_POST['pad_qty'],
           $_POST['monitor_brand'],
           $_POST['monitor_size'],
           $_POST['monitor_resolution'],
@@ -70,6 +67,22 @@
         );
         $stmt2->execute();
         $stmt2->close();
+
+        // Insert multiple pads
+        if (!empty($_POST['pad_color']) && is_array($_POST['pad_color'])) {
+          $pad_colors = $_POST['pad_color'];
+          $pad_qtys = $_POST['pad_qty'];
+          $pad_stmt = $conn->prepare("INSERT INTO pads (registration_id, pad_color, pad_qty) VALUES (?, ?, ?)");
+          for ($i = 0; $i < count($pad_colors); $i++) {
+            $color = $pad_colors[$i];
+            $qty = $pad_qtys[$i];
+            if ($color !== '' && $qty !== '') {
+              $pad_stmt->bind_param('isi', $registration_id, $color, $qty);
+              $pad_stmt->execute();
+            }
+          }
+          $pad_stmt->close();
+        }
       } else {
         $error = "Database error: " . $conn->error;
       }
@@ -149,10 +162,7 @@
               <select name="interface_type">
                 <option value="">Select</option>
                 <option value="USB">USB</option>
-                <option value="Firewire">Firewire</option>
-                <option value="Thunderbolt">Thunderbolt</option>
-                <option value="Serial">Serial</option>
-                <option value="Other">Other</option>
+                <option value="Parallel">Parallel</option>
               </select>
             </label>
             <label>Quantity: <input type="number" name="interface_qty" min="0" placeholder="e.g. 1"></label>
@@ -160,16 +170,22 @@
 
           <fieldset>
             <legend>Pads</legend>
-            <label>Color:
-              <select name="pad_color">
-                <option value="">Select</option>
-                <option value="Red">Red</option>
-                <option value="Blue">Blue</option>
-                <option value="Green">Green</option>
-                <option value="Yellow">Yellow</option>
-              </select>
-            </label>
-            <label>Quantity: <input type="number" name="pad_qty" min="0" placeholder="e.g. 4"></label>
+            <div id="pads-container">
+              <div class="pad-set">
+                <label>Color:
+                  <select name="pad_color[]">
+                    <option value="">Select</option>
+                    <option value="Red">Red</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="Yellow">Yellow</option>
+                  </select>
+                </label>
+                <label>Quantity: <input type="number" name="pad_qty[]" min="0" placeholder="e.g. 4"></label>
+                <button type="button" class="remove-pad-set" style="display:none;">Remove</button>
+              </div>
+            </div>
+            <button type="button" id="add-pad-set">Add Another Set of Pads</button>
           </fieldset>
 
           <fieldset>
@@ -249,3 +265,35 @@
     <?php include '../footer.php'; ?>
   </body>
 </html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const padsContainer = document.getElementById('pads-container');
+  const addPadSetBtn = document.getElementById('add-pad-set');
+
+  addPadSetBtn.addEventListener('click', function() {
+    const firstPadSet = padsContainer.querySelector('.pad-set');
+    const newPadSet = firstPadSet.cloneNode(true);
+    // Clear values
+    newPadSet.querySelector('select').value = '';
+    newPadSet.querySelector('input').value = '';
+    newPadSet.querySelector('.remove-pad-set').style.display = 'inline-block';
+    padsContainer.appendChild(newPadSet);
+    updateRemoveButtons();
+  });
+
+  function updateRemoveButtons() {
+    const padSets = padsContainer.querySelectorAll('.pad-set');
+    padSets.forEach((set, idx) => {
+      const removeBtn = set.querySelector('.remove-pad-set');
+      removeBtn.onclick = function() {
+        if (padSets.length > 1) {
+          set.remove();
+          updateRemoveButtons();
+        }
+      };
+      removeBtn.style.display = padSets.length > 1 ? 'inline-block' : 'none';
+    });
+  }
+  updateRemoveButtons();
+});
+</script>
