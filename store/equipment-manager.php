@@ -15,6 +15,9 @@ $registrations = [];
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $reg_id = $row['id'];
+    if (!is_numeric($reg_id) || $reg_id === null || $reg_id === '') {
+      continue; // Skip rows with missing or invalid id
+    }
     if (!isset($registrations[$reg_id])) {
       $registrations[$reg_id] = $row;
       $registrations[$reg_id]['pads'] = [];
