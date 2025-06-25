@@ -480,7 +480,7 @@ body {
             lis.forEach(li => {
               // Only match exact color (case-insensitive, ignore whitespace)
               const colorMatch = li.textContent.match(/^\s*([A-Za-z]+)\s*\(/);
-              if (colorMatch && colorMatch[1].toLowerCase() === filterColor.toLowerCase()) {
+              if (colorMatch && colorMatch[1].toLowerCase() === filterColor.toLower()) {
                 found = true;
               }
             });
