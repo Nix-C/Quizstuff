@@ -19,11 +19,12 @@ if ($result && $result->num_rows > 0) {
       continue; // Skip rows with missing or invalid id
     }
     if (!isset($registrations[$reg_id])) {
+      // Only set all fields the first time
       $registrations[$reg_id] = $row;
       $registrations[$reg_id]['pads'] = [];
-      // Only set notes the first time
       $registrations[$reg_id]['notes'] = isset($row['notes']) ? $row['notes'] : '';
     }
+    // Only add pads, do not overwrite any other fields
     if ($row['pad_color'] !== null) {
       $registrations[$reg_id]['pads'][] = [
         'pad_color' => $row['pad_color'],
@@ -31,6 +32,13 @@ if ($result && $result->num_rows > 0) {
       ];
     }
   }
+  // After building, ensure notes is set for all registrations (in case of missing notes in some join rows)
+  foreach ($registrations as $id => &$reg) {
+    if (!isset($reg['notes'])) {
+      $reg['notes'] = '';
+    }
+  }
+  unset($reg);
 }
 ?>
 <!DOCTYPE html>
