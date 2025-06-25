@@ -451,6 +451,38 @@ body {
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
+      // Monitor header click event
+      const monitorHeader = document.querySelector('th:nth-child(8)');
+      let ascMonitor = false;
+      monitorHeader.style.cursor = 'pointer';
+      monitorHeader.style.userSelect = 'none';
+      monitorHeader.innerHTML = 'Monitor &#8597;';
+      monitorHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          // Monitor size is in the 8th cell (index 7), look for Size: <number>
+          const getSize = (row) => {
+            const cell = row.children[7];
+            const match = cell.innerHTML.match(/<strong>Size:<\/strong>\s*([\d.]+)/i);
+            return match ? parseFloat(match[1]) : null;
+          };
+          const sizeA = getSize(a);
+          const sizeB = getSize(b);
+          // Place empty values after non-empty values
+          if ((sizeA === null || isNaN(sizeA)) && (sizeB !== null && !isNaN(sizeB))) return 1;
+          if ((sizeB === null || isNaN(sizeB)) && (sizeA !== null && !isNaN(sizeA))) return -1;
+          if ((sizeA === null || isNaN(sizeA)) && (sizeB === null || isNaN(sizeB))) return 0;
+          return ascMonitor ? sizeA - sizeB : sizeB - sizeA;
+        });
+        ascMonitor = !ascMonitor;
+        rows.forEach(row => tbody.appendChild(row));
+        monitorHeader.innerHTML = ascMonitor ? 'Monitor &#8593;' : 'Monitor &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
     });
   </script>
 </body>
