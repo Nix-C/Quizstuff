@@ -628,7 +628,7 @@ body {
       let ascOtherQty = false;
       otherHeader.style.cursor = 'pointer';
       otherHeader.style.userSelect = 'none';
-      otherHeader.innerHTML = 'Other \u2195;';
+      otherHeader.innerHTML = 'Other &#8597;';
       otherHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -649,16 +649,16 @@ body {
         });
         ascOtherQty = !ascOtherQty;
         rows.forEach(row => tbody.appendChild(row));
-        otherHeader.innerHTML = ascOtherQty ? 'Other \u2191;' : 'Other \u2193;';
-        idHeader.innerHTML = 'ID \u2197;';
-        nameHeader.innerHTML = 'Name \u2197;';
-        districtHeader.innerHTML = 'District \u2197;';
-        laptopHeader.innerHTML = 'Laptop \u2197;';
-        monitorHeader.innerHTML = 'Monitor \u2197;';
-        projectorHeader.innerHTML = 'Projector \u2197;';
-        powerstripHeader.innerHTML = 'Powerstrip \u2197;';
-        extensionHeader.innerHTML = 'Extension Cord \u2197;';
-        micHeader.innerHTML = 'Microphone/Recorder \u2197;';
+        otherHeader.innerHTML = ascOtherQty ? 'Other &#8593;' : 'Other &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+        monitorHeader.innerHTML = 'Monitor &#8597;';
+        projectorHeader.innerHTML = 'Projector &#8597;';
+        powerstripHeader.innerHTML = 'Powerstrip &#8597;';
+        extensionHeader.innerHTML = 'Extension Cord &#8597;';
+        micHeader.innerHTML = 'Microphone/Recorder &#8597;';
       });
     });
   </script>
