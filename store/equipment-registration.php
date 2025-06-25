@@ -131,8 +131,8 @@
             </label>
           </fieldset>
 
+          <h1>Equipment</h1>
           <fieldset>
-            <h1>Equipment</h1>
             <legend>Laptop</legend>
             <label>Brand: <input type="text" name="laptop_brand" placeholder="e.g. Dell"></label>
             <label>Operating System:
