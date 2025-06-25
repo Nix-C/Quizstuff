@@ -552,6 +552,114 @@ body {
         monitorHeader.innerHTML = 'Monitor &#8597;';
         projectorHeader.innerHTML = 'Projector &#8597;';
       });
+      // Extension Cord header click event
+      const extensionHeader = document.querySelector('th:nth-child(11)');
+      let ascExtensionLength = false;
+      extensionHeader.style.cursor = 'pointer';
+      extensionHeader.style.userSelect = 'none';
+      extensionHeader.innerHTML = 'Extension Cord &#8597;';
+      extensionHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          // Extension length is in the 11th cell (index 10), look for Length: <number>
+          const getLength = (row) => {
+            const cell = row.children[10];
+            const match = cell.innerHTML.match(/<strong>Length:<\/strong>\s*([\d.]+)/i);
+            return match ? parseFloat(match[1]) : null;
+          };
+          const lenA = getLength(a);
+          const lenB = getLength(b);
+          // Place empty values after non-empty values
+          if ((lenA === null || isNaN(lenA)) && (lenB !== null && !isNaN(lenB))) return 1;
+          if ((lenB === null || isNaN(lenB)) && (lenA !== null && !isNaN(lenA))) return -1;
+          if ((lenA === null || isNaN(lenA)) && (lenB === null || isNaN(lenB))) return 0;
+          return ascExtensionLength ? lenA - lenB : lenB - lenA;
+        });
+        ascExtensionLength = !ascExtensionLength;
+        rows.forEach(row => tbody.appendChild(row));
+        extensionHeader.innerHTML = ascExtensionLength ? 'Extension Cord &#8593;' : 'Extension Cord &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+        monitorHeader.innerHTML = 'Monitor &#8597;';
+        projectorHeader.innerHTML = 'Projector &#8597;';
+        powerstripHeader.innerHTML = 'Powerstrip &#8597;';
+      });
+      // Microphone/Recorder header click event
+      const micHeader = document.querySelector('th:nth-child(12)');
+      let ascMicQty = false;
+      micHeader.style.cursor = 'pointer';
+      micHeader.style.userSelect = 'none';
+      micHeader.innerHTML = 'Microphone/Recorder &#8595;';
+      micHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          // Mic qty is in the 12th cell (index 11), look for Qty: <number>
+          const getQty = (row) => {
+            const cell = row.children[11];
+            const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
+            return match ? parseInt(match[1], 10) : null;
+          };
+          const qtyA = getQty(a);
+          const qtyB = getQty(b);
+          // Place empty values after non-empty values
+          if ((qtyA === null || isNaN(qtyA)) && (qtyB !== null && !isNaN(qtyB))) return 1;
+          if ((qtyB === null || isNaN(qtyB)) && (qtyA !== null && !isNaN(qtyA))) return -1;
+          if ((qtyA === null || isNaN(qtyA)) && (qtyB === null || isNaN(qtyB))) return 0;
+          return ascMicQty ? qtyA - qtyB : qtyB - qtyA;
+        });
+        ascMicQty = !ascMicQty;
+        rows.forEach(row => tbody.appendChild(row));
+        micHeader.innerHTML = ascMicQty ? 'Microphone/Recorder &#8593;' : 'Microphone/Recorder &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+        monitorHeader.innerHTML = 'Monitor &#8597;';
+        projectorHeader.innerHTML = 'Projector &#8597;';
+        powerstripHeader.innerHTML = 'Powerstrip &#8597;';
+        extensionHeader.innerHTML = 'Extension Cord &#8597;';
+      });
+      // Other header click event
+      const otherHeader = document.querySelector('th:nth-child(13)');
+      let ascOtherQty = false;
+      otherHeader.style.cursor = 'pointer';
+      otherHeader.style.userSelect = 'none';
+      otherHeader.innerHTML = 'Other \u2195;';
+      otherHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          // Other qty is in the 13th cell (index 12), look for Qty: <number>
+          const getQty = (row) => {
+            const cell = row.children[12];
+            const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
+            return match ? parseInt(match[1], 10) : null;
+          };
+          const qtyA = getQty(a);
+          const qtyB = getQty(b);
+          // Place empty values after non-empty values
+          if ((qtyA === null || isNaN(qtyA)) && (qtyB !== null && !isNaN(qtyB))) return 1;
+          if ((qtyB === null || isNaN(qtyB)) && (qtyA !== null && !isNaN(qtyA))) return -1;
+          if ((qtyA === null || isNaN(qtyA)) && (qtyB === null || isNaN(qtyB))) return 0;
+          return ascOtherQty ? qtyA - qtyB : qtyB - qtyA;
+        });
+        ascOtherQty = !ascOtherQty;
+        rows.forEach(row => tbody.appendChild(row));
+        otherHeader.innerHTML = ascOtherQty ? 'Other \u2191;' : 'Other \u2193;';
+        idHeader.innerHTML = 'ID \u2197;';
+        nameHeader.innerHTML = 'Name \u2197;';
+        districtHeader.innerHTML = 'District \u2197;';
+        laptopHeader.innerHTML = 'Laptop \u2197;';
+        monitorHeader.innerHTML = 'Monitor \u2197;';
+        projectorHeader.innerHTML = 'Projector \u2197;';
+        powerstripHeader.innerHTML = 'Powerstrip \u2197;';
+        extensionHeader.innerHTML = 'Extension Cord \u2197;';
+        micHeader.innerHTML = 'Microphone/Recorder \u2197;';
+      });
     });
   </script>
 </body>
