@@ -35,7 +35,11 @@ if ($result && $result->num_rows > 0) {
   <title><?= htmlspecialchars($page_title) ?></title>
   <style>
     body {
-      background: #181c20;
+      background-image: url("./assets/images/binding-dark.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       color: #e0e3e7;
       font-family: 'Segoe UI', 'Arial', sans-serif;
       margin: 0;
@@ -45,8 +49,9 @@ if ($result && $result->num_rows > 0) {
       text-align: center;
       margin: 32px 0 24px 0;
       font-weight: 600;
-      color: #f7c873;
+      color: #7fd7ff;
       letter-spacing: 1px;
+      text-shadow: 0 2px 8px #23272b88;
     }
     table {
       border-collapse: collapse;
@@ -65,10 +70,10 @@ if ($result && $result->num_rows > 0) {
     }
     th {
       background: #23272b;
-      color: #f7c873;
+      color: #7fd7ff;
       font-weight: 600;
       font-size: 1.05em;
-      border-bottom: 2px solid #f7c873;
+      border-bottom: 2px solid #7fd7ff;
     }
     tr:nth-child(even) {
       background: #202328;
