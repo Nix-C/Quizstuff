@@ -34,11 +34,68 @@ if ($result && $result->num_rows > 0) {
   <meta charset="UTF-8">
   <title><?= htmlspecialchars($page_title) ?></title>
   <style>
-    table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
-    th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
-    th { background: #f0f0f0; }
-    tr:nth-child(even) { background: #fafafa; }
-    .pad-list { font-size: 0.95em; }
+    body {
+      background: #181c20;
+      color: #e0e3e7;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      margin: 32px 0 24px 0;
+      font-weight: 600;
+      color: #f7c873;
+      letter-spacing: 1px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 96%;
+      margin: 0 auto 40px auto;
+      font-size: 1em;
+      background: #23272b;
+      box-shadow: 0 4px 24px #0008;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #2d3238;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: #23272b;
+      color: #f7c873;
+      font-weight: 600;
+      font-size: 1.05em;
+      border-bottom: 2px solid #f7c873;
+    }
+    tr:nth-child(even) {
+      background: #202328;
+    }
+    tr:nth-child(odd) {
+      background: #23272b;
+    }
+    tr:hover {
+      background: #2d3238;
+      transition: background 0.2s;
+    }
+    .pad-list {
+      font-size: 0.98em;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    @media (max-width: 1100px) {
+      table, th, td { font-size: 0.92em; }
+      th, td { padding: 7px 6px; }
+    }
+    @media (max-width: 800px) {
+      table, th, td { font-size: 0.85em; }
+      th, td { padding: 5px 3px; }
+      h1 { font-size: 1.2em; }
+    }
   </style>
 </head>
 <body>
@@ -47,10 +104,8 @@ if ($result && $result->num_rows > 0) {
     <thead>
       <tr>
         <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Phone</th>
-        <th>Email</th>
+        <th>Name</th>
+        <th>Contact</th>
         <th>District</th>
         <th>Laptop</th>
         <th>Interface Box</th>
@@ -68,10 +123,11 @@ if ($result && $result->num_rows > 0) {
         $registrations as $reg): ?>
         <tr>
           <td><?= htmlspecialchars($reg['id']) ?></td>
-          <td><?= htmlspecialchars($reg['first_name']) ?></td>
-          <td><?= htmlspecialchars($reg['last_name']) ?></td>
-          <td><?= htmlspecialchars($reg['phone']) ?></td>
-          <td><?= htmlspecialchars($reg['email']) ?></td>
+          <td><?= htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) ?></td>
+          <td>
+            <?php if ($reg['phone']) echo 'Phone: ' . htmlspecialchars($reg['phone']) . '<br>'; ?>
+            <?php if ($reg['email']) echo 'Email: ' . htmlspecialchars($reg['email']); ?>
+          </td>
           <td><?= htmlspecialchars($reg['district']) ?></td>
           <td>
             <?php if ($reg['laptop_brand']) echo 'Brand: ' . htmlspecialchars($reg['laptop_brand']) . '<br>'; ?>
