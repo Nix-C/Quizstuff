@@ -143,6 +143,7 @@ body {
     table {
       border-collapse: collapse;
       width: 96%;
+      max-width: 100vw;
       margin: 0 auto 40px auto;
       font-size: 1em;
       background: #23272b;
@@ -215,6 +216,7 @@ body {
         <th>Extension Cord</th>
         <th>Microphone/Recorder</th>
         <th>Other</th>
+        <th>Notes</th>
       </tr>
     </thead>
     <tbody>
@@ -281,6 +283,11 @@ body {
           <td>
             <?php if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br>'; ?>
             <?php if ($reg['other_qty'] !== null && $reg['other_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['other_qty']); ?>
+          </td>
+          <td>
+            <textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="<?= htmlspecialchars($reg['id']) ?>"><?php echo isset($reg['notes']) ? htmlspecialchars($reg['notes']) : ''; ?></textarea>
+            <button class="save-notes-btn" data-id="<?= htmlspecialchars($reg['id']) ?>" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>
+            <span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>
           </td>
         </tr>
       <?php endforeach; ?>
@@ -659,6 +666,31 @@ body {
         powerstripHeader.innerHTML = 'Powerstrip &#8597;';
         extensionHeader.innerHTML = 'Extension Cord &#8597;';
         micHeader.innerHTML = 'Microphone/Recorder &#8597;';
+      });
+    });
+    // Notes save AJAX
+    document.querySelectorAll('.save-notes-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const textarea = this.parentElement.querySelector('textarea');
+        const status = this.parentElement.querySelector('.notes-status');
+        const notes = textarea.value;
+        status.textContent = 'Saving...';
+        fetch('save-notes.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'id=' + encodeURIComponent(id) + '&notes=' + encodeURIComponent(notes)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            status.textContent = 'Saved!';
+            setTimeout(() => { status.textContent = ''; }, 1500);
+          } else {
+            status.textContent = 'Error saving';
+          }
+        })
+        .catch(() => { status.textContent = 'Error saving'; });
       });
     });
   </script>
