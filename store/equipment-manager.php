@@ -35,7 +35,7 @@ if ($result && $result->num_rows > 0) {
   <title><?= htmlspecialchars($page_title) ?></title>
   <style>
     body {
-      background-image: url("./assets/images/binding-dark.png");
+      background: rgba(0, 0, 0, 0.8);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -45,6 +45,56 @@ if ($result && $result->num_rows > 0) {
       margin: 0;
       padding: 0;
     }
+    /* Background canvas */
+#canvas {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Texture blending */
+#canvas:after {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
+  background-image: url("./assets/images/binding-dark.png");
+  mix-blend-mode: color-burn;
+  opacity: 50%;
+  z-index: 0;
+}
+
+/* Radial gradients */
+[id^="radial-"] {
+  position: fixed;
+  --size: 100px; /* Default size*/
+  width: var(--size);
+  height: var(--size);
+}
+
+#radial-1 {
+  opacity: 0.8;
+  --size: 150vh;
+  top: -75vh;
+  left: -75vh;
+
+  background: radial-gradient(circle, #004b78 5%, transparent 60%);
+}
+
+#radial-2 {
+  opacity: 0.8;
+  --size: 150vh;
+  right: -75vh;
+  bottom: -75vh;
+
+  background: radial-gradient(circle, #431235 5%, transparent 60%);
+}
     h1 {
       text-align: center;
       margin: 32px 0 24px 0;
@@ -104,6 +154,10 @@ if ($result && $result->num_rows > 0) {
   </style>
 </head>
 <body>
+    <div id="canvas">
+      <div id="radial-1"></div>
+      <div id="radial-2"></div>
+    </div>
   <h1><?= htmlspecialchars($page_title) ?></h1>
   <table>
     <thead>
