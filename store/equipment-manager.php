@@ -337,7 +337,7 @@ body {
       // Add filter buttons for each color
       horizontal.innerHTML = padColors.map(pc => `<button style="margin-left:2px; font-size:1em; background:none; border:none; color:inherit; cursor:pointer;" data-color="${pc.color}">${pc.icon}</button>`).join('');
       padColors.forEach(pc => {
-        horizontal.querySelector(`button[data-color='${pc.color}']`).addEventListener('click', function(e) {
+        padColors.querySelector(`button[data-color='${pc.color}']`).addEventListener('click', function(e) {
           e.stopPropagation();
           filterPadsByColor(pc.color);
         });
