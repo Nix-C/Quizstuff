@@ -13,8 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->affected_rows === 0) {
             // No row updated, insert new (with blank status)
             $stmt->close();
-            $stmt = $conn->prepare("INSERT INTO equipment_item_status (itemkey, notes) VALUES (?, ?)");
-            $stmt->bind_param("ss", $itemkey, $notes);
+            $empty_status = '';
+            $stmt = $conn->prepare("INSERT INTO equipment_item_status (itemkey, status, notes) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $itemkey, $empty_status, $notes);
             $success = $stmt->execute();
             $stmt->close();
         } else {
