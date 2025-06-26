@@ -229,7 +229,9 @@ body {
         <th>Extension Cord</th>
         <th>Microphone/Recorder</th>
         <th>Other</th>
-        <th>Status</th>
+        <th id="status-header" style="cursor:pointer; user-select:none; position:relative;">Status
+          <button id="status-filter-btn" title="Group by Status" style="margin-left:6px; font-size:1em; background:none; border:none; color:#7fd7ff; cursor:pointer; vertical-align:middle;">&#128269;</button>
+        </th>
         <th>Notes</th>
       </tr>
     </thead>
@@ -338,6 +340,7 @@ body {
       const laptopHeader = document.getElementById('laptop-header');
       const interfaceHeader = document.getElementById('interface-header');
       const padsHeader = document.getElementById('pads-header');
+      const statusHeader = document.getElementById('status-header');
       const horizontal = document.getElementById('horizontal');
       let ascId = false;
       let ascName = false;
@@ -701,6 +704,90 @@ body {
         powerstripHeader.innerHTML = 'Powerstrip &#8597;';
         extensionHeader.innerHTML = 'Extension Cord &#8597;';
         micHeader.innerHTML = 'Microphone/Recorder &#8597;';
+      });
+      // Status filter logic
+      const statusFilterBtn = document.createElement('button');
+      statusFilterBtn.textContent = 'Filter';
+      statusFilterBtn.style = 'margin-left:6px; font-size:0.95em; background:none; border:1px solid #7fd7ff; color:#7fd7ff; border-radius:3px; cursor:pointer; padding:1px 7px;';
+      statusHeader.appendChild(statusFilterBtn);
+      let statusFilterActive = false;
+      statusFilterBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        // Status order
+        const statusOrder = [
+          'In Inventory',
+          'In Room',
+          'Used in Tech Room',
+          'Broken (In Inventory)',
+          'Other',
+          '' // blank status last
+        ];
+        // Group rows by status
+        const groups = {};
+        statusOrder.forEach(s => { groups[s] = []; });
+        rows.forEach(row => {
+          const select = row.children[13].querySelector('select');
+          let val = select ? select.value.trim() : '';
+          // Normalize for blank
+          if (!val) val = '';
+          if (groups.hasOwnProperty(val)) {
+            groups[val].push(row);
+          } else {
+            groups['Other'].push(row); // fallback for any unexpected value
+          }
+        });
+        // Re-append rows in order
+        statusOrder.forEach(s => {
+          groups[s].forEach(row => tbody.appendChild(row));
+        });
+        // Visual feedback
+        statusFilterActive = !statusFilterActive;
+        statusFilterBtn.style.background = statusFilterActive ? '#7fd7ff22' : 'none';
+        statusHeader.innerHTML = 'Status <span style="font-size:0.9em; color:#7fd7ff;">&#128269;</span>';
+        statusHeader.appendChild(statusFilterBtn);
+      });
+      // Status grouping
+      const statusFilterBtn = document.getElementById('status-filter-btn');
+      // Status grouping order
+      const statusOrder = [
+        'In Inventory',
+        'In Room',
+        'Used in Tech Room',
+        'Broken (In Inventory)',
+        'Other',
+        '' // No status set
+      ];
+      let statusGrouped = false;
+      statusFilterBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        // Get status for each row
+        rows.forEach(row => {
+          // Status cell is 13th (index 13)
+          const select = row.children[13].querySelector('select');
+          row._statusValue = select ? select.value.trim() : '';
+        });
+        if (!statusGrouped) {
+          // Sort rows by status order
+          rows.sort((a, b) => {
+            const aStatus = a._statusValue;
+            const bStatus = b._statusValue;
+            const aIdx = statusOrder.indexOf(aStatus) !== -1 ? statusOrder.indexOf(aStatus) : statusOrder.length;
+            const bIdx = statusOrder.indexOf(bStatus) !== -1 ? statusOrder.indexOf(bStatus) : statusOrder.length;
+            return aIdx - bIdx;
+          });
+          statusGrouped = true;
+          statusFilterBtn.style.color = '#fff';
+        } else {
+          // Restore to original order (by ID descending)
+          rows.sort((a, b) => parseInt(b.children[0].textContent, 10) - parseInt(a.children[0].textContent, 10));
+          statusGrouped = false;
+          statusFilterBtn.style.color = '#7fd7ff';
+        }
+        rows.forEach(row => tbody.appendChild(row));
       });
     });
     // Notes save AJAX
