@@ -39,15 +39,15 @@
           registration_id,
           laptop_brand, laptop_os, laptop_parallel_port, laptop_qm_version, laptop_username, laptop_password,
           interface_type, interface_qty,
-          monitor_brand, monitor_size, monitor_resolution,
+          monitor_brand, monitor_size, monitor_resolution, monitor_connection,
           projector_brand, projector_lumens, projector_resolution, projector_qty,
           powerstrip_make, powerstrip_model, powerstrip_color, powerstrip_outlets,
           extension_color, extension_length,
           mic_type, mic_brand, mic_model, mic_qty,
           other_desc, other_qty
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" );
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" );
         $stmt2->bind_param(
-          'issssssissssssissssssisssssi',
+          'issssssissssssissssssissssssi',
           $registration_id,
           $_POST['laptop_brand'],
           $_POST['laptop_os'],
@@ -60,6 +60,7 @@
           $_POST['monitor_brand'],
           $_POST['monitor_size'],
           $_POST['monitor_resolution'],
+          $_POST['monitor_connection'],
           $_POST['projector_brand'],
           $projector_lumens,
           $_POST['projector_resolution'],
@@ -216,6 +217,7 @@
               </select>
             </label>
             <label>Resolution: <input type="text" name="monitor_resolution" placeholder="e.g. 1920x1080"></label>
+            <label>Connection Type: <input type="text" name="monitor_connection" placeholder="e.g. HDMI, VGA, DVI, DisplayPort"></label>
           </fieldset>
 
           <fieldset>
