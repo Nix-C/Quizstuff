@@ -331,8 +331,9 @@ body {
         echo "</td>\n";
         // Status
         echo "  <td>";
+        $item_key = $reg['id'] . '_' . $item_type . '_' . ($item_data['row_index'] ?? 0);
         $currentStatus = isset($reg['status']) ? $reg['status'] : '';
-        echo '<select class="status-dropdown" data-id="' . htmlspecialchars($reg['id']) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
+        echo '<select class="status-dropdown" data-itemkey="' . htmlspecialchars($item_key) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
         foreach ($statuses as $status) {
           $selected = ($currentStatus === $status) ? 'selected' : '';
           $label = $status === '' ? '-- Select --' : $status;
@@ -343,8 +344,8 @@ body {
         echo "</td>\n";
         // Notes
         echo "  <td>";
-        echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="' . htmlspecialchars($reg['id']) . '">' . (isset($reg['notes']) ? htmlspecialchars($reg['notes']) : '') . '</textarea>';
-        echo '<button class="save-notes-btn" data-id="' . htmlspecialchars($reg['id']) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
+        echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-itemkey="' . htmlspecialchars($item_key) . '">' . (isset($reg['notes']) ? htmlspecialchars($reg['notes']) : '') . '</textarea>';
+        echo '<button class="save-notes-btn" data-itemkey="' . htmlspecialchars($item_key) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
         echo '<span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>';
         echo "</td>\n";
         echo "</tr>\n";
@@ -904,7 +905,7 @@ body {
     // Notes save AJAX
     document.querySelectorAll('.save-notes-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        const id = this.getAttribute('data-id');
+        const itemkey = this.getAttribute('data-itemkey');
         const textarea = this.parentElement.querySelector('textarea');
         const status = this.parentElement.querySelector('.notes-status');
         const notes = textarea.value;
@@ -912,7 +913,7 @@ body {
         fetch('save-notes.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: 'id=' + encodeURIComponent(id) + '&notes=' + encodeURIComponent(notes)
+          body: 'itemkey=' + encodeURIComponent(itemkey) + '&notes=' + encodeURIComponent(notes)
         })
         .then(res => res.json())
         .then(data => {
@@ -929,14 +930,14 @@ body {
     // Status save AJAX
     document.querySelectorAll('.status-dropdown').forEach(function(drop) {
       drop.addEventListener('change', function() {
-        const id = this.getAttribute('data-id');
+        const itemkey = this.getAttribute('data-itemkey');
         const status = this.value;
         const msg = this.parentElement.querySelector('.status-save-msg');
         msg.textContent = 'Saving...';
         fetch('save-status.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: 'id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status)
+          body: 'itemkey=' + encodeURIComponent(itemkey) + '&status=' + encodeURIComponent(status)
         })
         .then(res => res.json())
         .then(data => {
