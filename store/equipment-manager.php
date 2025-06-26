@@ -294,11 +294,12 @@ body {
         echo "</td>\n";
         // Interface Box
         echo "  <td>";
-        echo "test";
-        // if ($item_type === 'interface' && $item_data) {
-        //   if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
-        //   if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($item_data['qty']);
-        // }
+        // echo "test";
+        echo "console.log($item_type); console.log($item_data);";
+        if ($item_type === 'interface' && $item_data) {
+          if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
+          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($item_data['qty']);
+        }
         echo "</td>\n";
         // Pads
         echo "  <td class=\"pad-list\">";
