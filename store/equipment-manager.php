@@ -164,7 +164,7 @@ body {
       max-width: 98vw;
       min-width: 98vw;
       margin: 0 auto 40px auto;
-      font-size: 1em;
+      font-size: 0.8em;
       background: #23272b;
       box-shadow: 0 4px 24px #0008;
       border-radius: 10px;
