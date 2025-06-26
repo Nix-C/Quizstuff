@@ -220,7 +220,8 @@ body {
     <thead>
       <tr>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
-        <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
+        <th id="name-header" style="cursor:pointer; user-select:none;">Name &#8597;</th>
+        <th id="contact-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
         <th id="interface-header" style="cursor:pointer; user-select:none;">Interface Box &#8597;</th>
@@ -238,244 +239,102 @@ body {
       </tr>
     </thead>
     <tbody>
-      <?php
-      // Helper to output a row for a single item
-      function output_item_row($reg, $item_type, $item_data, $statuses) {
-        // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
-        // $item_data: array of fields for the item, or null for empty
-        // Output a <tr> with only the relevant item column filled
-        echo "<tr>\n";
-        // ID
-        echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
-        // Contact
-        echo "  <td><strong>Name:</strong> " . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . "<br>";
-        if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>';
-        if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']);
-        echo "</td>\n";
-        // District
-        echo "  <td>" . htmlspecialchars($reg['district']) . "</td>\n";
-        // Laptop
-        echo "  <td>";
-        if ($item_type === 'laptop' && $item_data) {
-          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
-          if ($item_data['os']) echo '<strong>OS:</strong> ' . htmlspecialchars($item_data['os']) . '<br><br>';
-          if ($item_data['parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($item_data['parallel_port']) . '<br><br>';
-          if ($item_data['qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($item_data['qm_version']) . '<br><br>';
-          if ($item_data['username']) echo '<strong>User:</strong> ' . htmlspecialchars($item_data['username']) . '<br><br>';
-          if ($item_data['password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($item_data['password']);
-        }
-        echo "</td>\n";
-        // Interface Box
-        echo "  <td>";
-        if ($item_type === 'interface' && $item_data) {
-          if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
-          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($item_data['qty']);
-        }
-        echo "</td>\n";
-        // Pads
-        echo "  <td class=\"pad-list\">";
-        if ($item_type === 'pad' && $item_data) {
-          echo '<ul style="margin:0; padding-left:18px;"><li>' . htmlspecialchars($item_data['color']) . ' (1)</li></ul>';
-        } else {
-          echo '—';
-        }
-        echo "</td>\n";
-        // Monitor
-        echo "  <td>";
-        if ($item_type === 'monitor' && $item_data) {
-          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
-          if ($item_data['size']) echo '<strong>Size:</strong> ' . htmlspecialchars($item_data['size']) . '<br><br>';
-          if ($item_data['resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($item_data['resolution']);
-        }
-        echo "</td>\n";
-        // Projector
-        echo "  <td>";
-        if ($item_type === 'projector' && $item_data) {
-          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
-          if ($item_data['lumens'] !== null && $item_data['lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($item_data['lumens']) . '<br><br>';
-          if ($item_data['resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($item_data['resolution']) . '<br><br>';
-          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> 1';
-        }
-        echo "</td>\n";
-        // Powerstrip
-        echo "  <td>";
-        if ($item_type === 'powerstrip' && $item_data) {
-          if ($item_data['make']) echo '<strong>Make:</strong> ' . htmlspecialchars($item_data['make']) . '<br><br>';
-          if ($item_data['model']) echo '<strong>Model:</strong> ' . htmlspecialchars($item_data['model']) . '<br><br>';
-          if ($item_data['color']) echo '<strong>Color:</strong> ' . htmlspecialchars($item_data['color']) . '<br><br>';
-          if ($item_data['outlets'] !== null && $item_data['outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($item_data['outlets']);
-        }
-        echo "</td>\n";
-        // Extension Cord
-        echo "  <td>";
-        if ($item_type === 'extension' && $item_data) {
-          if ($item_data['color']) echo '<strong>Color:</strong> ' . htmlspecialchars($item_data['color']) . '<br><br>';
-          if ($item_data['length'] !== null && $item_data['length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($item_data['length']);
-        }
-        echo "</td>\n";
-        // Microphone/Recorder
-        echo "  <td>";
-        if ($item_type === 'mic' && $item_data) {
-          if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
-          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
-          if ($item_data['model']) echo '<strong>Model:</strong> ' . htmlspecialchars($item_data['model']) . '<br><br>';
-          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> 1';
-        }
-        echo "</td>\n";
-        // Other
-        echo "  <td>";
-        if ($item_type === 'other' && $item_data) {
-          if ($item_data['desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($item_data['desc'])) . '<br><br>';
-          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> 1';
-        }
-        echo "</td>\n";
-        // Status
-        echo "  <td>";
-        $currentStatus = isset($reg['status']) ? $reg['status'] : '';
-        echo '<select class="status-dropdown" data-id="' . htmlspecialchars($reg['id']) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
-        foreach ($statuses as $status) {
-          $selected = ($currentStatus === $status) ? 'selected' : '';
-          $label = $status === '' ? '-- Select --' : $status;
-          echo "<option value=\"" . htmlspecialchars($status) . "\" $selected>$label</option>";
-        }
-        echo '</select>';
-        echo '<span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>';
-        echo "</td>\n";
-        // Notes
-        echo "  <td>";
-        echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="' . htmlspecialchars($reg['id']) . '">' . (isset($reg['notes']) ? htmlspecialchars($reg['notes']) : '') . '</textarea>';
-        echo '<button class="save-notes-btn" data-id="' . htmlspecialchars($reg['id']) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
-        echo '<span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>';
-        echo "</td>\n";
-        echo "</tr>\n";
-      }
-      $statuses = [
-        '',
-        'In Room',
-        'In Inventory',
-        'Used in Tech Room',
-        'Broken (In Inventory)',
-        'Other'
-      ];
-      foreach ($registrations as $reg) {
-        // Laptops (always 1 row if present)
-        if ($reg['laptop_brand'] || $reg['laptop_os'] || $reg['laptop_parallel_port'] || $reg['laptop_qm_version'] || $reg['laptop_username'] || $reg['laptop_password']) {
-          output_item_row($reg, 'laptop', [
-            'brand' => $reg['laptop_brand'],
-            'os' => $reg['laptop_os'],
-            'parallel_port' => $reg['laptop_parallel_port'],
-            'qm_version' => $reg['laptop_qm_version'],
-            'username' => $reg['laptop_username'],
-            'password' => $reg['laptop_password'],
-          ], $statuses);
-        }
-        // Interface boxes (qty rows)
-        $interface_qty = (int)($reg['interface_qty'] ?? 0);
-        if ($reg['interface_type'] && $interface_qty > 0) {
-          for ($i = 0; $i < $interface_qty; $i++) {
-            output_item_row($reg, 'interface', [
-              'type' => $reg['interface_type'],
-              'qty' => 1
-            ], $statuses);
-          }
-        } elseif ($reg['interface_type']) {
-          // If qty not set, still show one row
-          output_item_row($reg, 'interface', [
-            'type' => $reg['interface_type'],
-            'qty' => $reg['interface_qty']
-          ], $statuses);
-        }
-        // Pads (each pad color/qty as separate rows)
-        if (!empty($reg['pads'])) {
-          foreach ($reg['pads'] as $pad) {
-            $pad_qty = (int)($pad['pad_qty'] ?? 0);
-            for ($i = 0; $i < $pad_qty; $i++) {
-              output_item_row($reg, 'pad', [
-                'color' => $pad['pad_color']
-              ], $statuses);
-            }
-          }
-        }
-        // Monitor (qty rows)
-        $monitor_qty = 1; // Only one monitor per registration assumed
-        if ($reg['monitor_brand'] || $reg['monitor_size'] || $reg['monitor_resolution']) {
-          output_item_row($reg, 'monitor', [
-            'brand' => $reg['monitor_brand'],
-            'size' => $reg['monitor_size'],
-            'resolution' => $reg['monitor_resolution']
-          ], $statuses);
-        }
-        // Projector (qty rows)
-        $projector_qty = (int)($reg['projector_qty'] ?? 0);
-        if ($reg['projector_brand'] && $projector_qty > 0) {
-          for ($i = 0; $i < $projector_qty; $i++) {
-            output_item_row($reg, 'projector', [
-              'brand' => $reg['projector_brand'],
-              'lumens' => $reg['projector_lumens'],
-              'resolution' => $reg['projector_resolution'],
-              'qty' => 1
-            ], $statuses);
-          }
-        } elseif ($reg['projector_brand']) {
-          output_item_row($reg, 'projector', [
-            'brand' => $reg['projector_brand'],
-            'lumens' => $reg['projector_lumens'],
-            'resolution' => $reg['projector_resolution'],
-            'qty' => $reg['projector_qty']
-          ], $statuses);
-        }
-        // Powerstrip (always 1 row if present)
-        if ($reg['powerstrip_make'] || $reg['powerstrip_model'] || $reg['powerstrip_color'] || $reg['powerstrip_outlets']) {
-          output_item_row($reg, 'powerstrip', [
-            'make' => $reg['powerstrip_make'],
-            'model' => $reg['powerstrip_model'],
-            'color' => $reg['powerstrip_color'],
-            'outlets' => $reg['powerstrip_outlets']
-          ], $statuses);
-        }
-        // Extension cord (always 1 row if present)
-        if ($reg['extension_color'] || $reg['extension_length']) {
-          output_item_row($reg, 'extension', [
-            'color' => $reg['extension_color'],
-            'length' => $reg['extension_length']
-          ], $statuses);
-        }
-        // Microphone/Recorder (qty rows)
-        $mic_qty = (int)($reg['mic_qty'] ?? 0);
-        if ($reg['mic_type'] && $mic_qty > 0) {
-          for ($i = 0; $i < $mic_qty; $i++) {
-            output_item_row($reg, 'mic', [
-              'type' => $reg['mic_type'],
-              'brand' => $reg['mic_brand'],
-              'model' => $reg['mic_model'],
-              'qty' => 1
-            ], $statuses);
-          }
-        } elseif ($reg['mic_type']) {
-          output_item_row($reg, 'mic', [
-            'type' => $reg['mic_type'],
-            'brand' => $reg['mic_brand'],
-            'model' => $reg['mic_model'],
-            'qty' => $reg['mic_qty']
-          ], $statuses);
-        }
-        // Other (qty rows)
-        $other_qty = (int)($reg['other_qty'] ?? 0);
-        if ($reg['other_desc'] && $other_qty > 0) {
-          for ($i = 0; $i < $other_qty; $i++) {
-            output_item_row($reg, 'other', [
-              'desc' => $reg['other_desc'],
-              'qty' => 1
-            ], $statuses);
-          }
-        } elseif ($reg['other_desc']) {
-          output_item_row($reg, 'other', [
-            'desc' => $reg['other_desc'],
-            'qty' => $reg['other_qty']
-          ], $statuses);
-        }
-      }
-      ?>
+      <?php foreach (
+        $registrations as $reg): ?>
+        <tr>
+          <td><?= htmlspecialchars($reg['id']) ?></td>
+          <td>
+            <strong>Name:</strong> <?= htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) ?><br>
+            <?php if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>'; ?>
+            <?php if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']); ?>
+          </td>
+          <td>
+            <?php if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br><br>'; ?>
+            <?php if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']); ?>
+          </td>
+          <td><?= htmlspecialchars($reg['district']) ?></td>
+          <td>
+            <?php if ($reg['laptop_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['laptop_brand']) . '<br><br>'; ?>
+            <?php if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br>'; ?>
+            <?php if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br>'; ?>
+            <?php if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br>'; ?>
+            <?php if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br>'; ?>
+            <?php if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']); ?>
+          </td>
+          <td>
+            <?php if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br'; ?>
+            <?php if ($reg['interface_qty'] !== null && $reg['interface_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['interface_qty']); ?>
+          </td>
+          <td class="pad-list">
+            <?php if (!empty($reg['pads'])): ?>
+              <ul style="margin:0; padding-left:18px;">
+                <?php foreach ($reg['pads'] as $pad): ?>
+                  <li><?= htmlspecialchars($pad['pad_color']) ?> (<?= htmlspecialchars($pad['pad_qty']) ?>)</li>
+                <?php endforeach; ?>
+              </ul>
+            <?php else: ?>
+              —
+            <?php endif; ?>
+          </td>
+          <td>
+            <?php if ($reg['monitor_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['monitor_brand']) . '<br><br>'; ?>
+            <?php if ($reg['monitor_size']) echo '<strong>Size:</strong> ' . htmlspecialchars($reg['monitor_size']) . '<br><br>'; ?>
+            <?php if ($reg['monitor_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['monitor_resolution']); ?>
+          </td>
+          <td>
+            <?php if ($reg['projector_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['projector_brand']) . '<br><br>'; ?>
+            <?php if ($reg['projector_lumens'] !== null && $reg['projector_lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($reg['projector_lumens']) . '<br><br>'; ?>
+            <?php if ($reg['projector_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['projector_resolution']) . '<br><br>'; ?>
+            <?php if ($reg['projector_qty'] !== null && $reg['projector_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['projector_qty']); ?>
+          </td>
+          <td>
+            <?php if ($reg['powerstrip_make']) echo '<strong>Make:</strong> ' . htmlspecialchars($reg['powerstrip_make']) . '<br><br>'; ?>
+            <?php if ($reg['powerstrip_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['powerstrip_model']) . '<br><br>'; ?>
+            <?php if ($reg['powerstrip_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['powerstrip_color']) . '<br><br>'; ?>
+            <?php if ($reg['powerstrip_outlets'] !== null && $reg['powerstrip_outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($reg['powerstrip_outlets']); ?>
+          </td>
+          <td>
+            <?php if ($reg['extension_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['extension_color']) . '<br><br>'; ?>
+            <?php if ($reg['extension_length'] !== null && $reg['extension_length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($reg['extension_length']); ?>
+          </td>
+          <td>
+            <?php if ($reg['mic_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['mic_type']) . '<br><br>'; ?>
+            <?php if ($reg['mic_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['mic_brand']) . '<br><br>'; ?>
+            <?php if ($reg['mic_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['mic_model']) . '<br><br>'; ?>
+            <?php if ($reg['mic_qty'] !== null && $reg['mic_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['mic_qty']); ?>
+          </td>
+          <td>
+            <?php if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br><br>'; ?>
+            <?php if ($reg['other_qty'] !== null && $reg['other_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['other_qty']); ?>
+          </td>
+          <td>
+            <select class="status-dropdown" data-id="<?= htmlspecialchars($reg['id']) ?>" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">
+              <?php
+                $statuses = [
+                  '',
+                  'In Room',
+                  'In Inventory',
+                  'Used in Tech Room',
+                  'Broken (In Inventory)',
+                  'Other'
+                ];
+                $currentStatus = isset($reg['status']) ? $reg['status'] : '';
+                foreach ($statuses as $status) {
+                  $selected = ($currentStatus === $status) ? 'selected' : '';
+                  $label = $status === '' ? '-- Select --' : $status;
+                  echo "<option value=\"" . htmlspecialchars($status) . "\" $selected>$label</option>";
+                }
+              ?>
+            </select>
+            <span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>
+          </td>
+          <td>
+            <textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="<?= htmlspecialchars($reg['id']) ?>"><?php echo isset($reg['notes']) ? htmlspecialchars($reg['notes']) : ''; ?></textarea>
+            <button class="save-notes-btn" data-id="<?= htmlspecialchars($reg['id']) ?>" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>
+            <span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>
+          </td>
+        </tr>
+      <?php endforeach; ?>
     </tbody>
   </table>
   <script>
@@ -484,6 +343,7 @@ body {
       const table = document.getElementById('equipment-table');
       const idHeader = document.getElementById('id-header');
       const nameHeader = document.getElementById('name-header');
+      const contactHeader = document.getElementById('contact-header');
       const districtHeader = document.getElementById('district-header');
       const laptopHeader = document.getElementById('laptop-header');
       const interfaceHeader = document.getElementById('interface-header');
@@ -492,6 +352,7 @@ body {
       const horizontal = document.getElementById('horizontal');
       let ascId = false;
       let ascName = false;
+      let ascContact = false;
       let ascDistrict = false;
       let ascLaptop = false;
       let ascInterface = false;
@@ -547,7 +408,8 @@ body {
         ascId = !ascId;
         rows.forEach(row => tbody.appendChild(row));
         idHeader.innerHTML = ascId ? 'ID &#8593;' : 'ID &#8595;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
+        contactHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -564,8 +426,28 @@ body {
         });
         ascName = !ascName;
         rows.forEach(row => tbody.appendChild(row));
-        nameHeader.innerHTML = ascName ? 'Contact &#8593;' : 'Contact &#8595;';
+        nameHeader.innerHTML = ascName ? 'Name &#8593;' : 'Name &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
+        contactHeader.innerHTML = 'Contact &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
+      // Contact header click event
+      contactHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          const contactA = a.children[2].textContent.trim().toLowerCase();
+          const contactB = b.children[2].textContent.trim().toLowerCase();
+          if (contactA < contactB) return ascContact ? -1 : 1;
+          if (contactA > contactB) return ascContact ? 1 : -1;
+          return 0;
+        });
+        ascContact = !ascContact;
+        rows.forEach(row => tbody.appendChild(row));
+        contactHeader.innerHTML = ascContact ? 'Contact &#8593;' : 'Contact &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -574,8 +456,8 @@ body {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
         rows.sort((a, b) => {
-          const distA = a.children[2].textContent.trim().toLowerCase();
-          const distB = b.children[2].textContent.trim().toLowerCase();
+          const distA = a.children[3].textContent.trim().toLowerCase();
+          const distB = b.children[3].textContent.trim().toLowerCase();
           if (distA < distB) return ascDistrict ? -1 : 1;
           if (distA > distB) return ascDistrict ? 1 : -1;
           return 0;
@@ -584,7 +466,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         districtHeader.innerHTML = ascDistrict ? 'District &#8593;' : 'District &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
       // Laptop header click event
@@ -594,7 +476,7 @@ body {
         rows.sort((a, b) => {
           // Laptop brand is in the first line of the 5th cell (index 4)
           const getBrand = (row) => {
-            const cell = row.children[3];
+            const cell = row.children[4];
             // Extract the brand from the first <strong>Brand:</strong> ...<br><br> or ...
             const html = cell.innerHTML;
             const match = html.match(/<strong>Brand:<\/strong>\s*([^<]*)/i);
@@ -614,7 +496,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         laptopHeader.innerHTML = ascLaptop ? 'Laptop &#8593;' : 'Laptop &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
       });
       // Interface header click event
@@ -624,7 +506,7 @@ body {
         rows.sort((a, b) => {
           // Interface qty is in the 6th cell (index 5), look for Qty: <number>
           const getQty = (row) => {
-            const cell = row.children[4];
+            const cell = row.children[5];
             const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -640,12 +522,12 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         interfaceHeader.innerHTML = ascInterface ? 'Interface Box &#8593;' : 'Interface Box &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
       // Monitor header click event
-      const monitorHeader = document.querySelector('th:nth-child(7)');
+      const monitorHeader = document.querySelector('th:nth-child(8)');
       let ascMonitor = false;
       monitorHeader.style.cursor = 'pointer';
       monitorHeader.style.userSelect = 'none';
@@ -656,7 +538,7 @@ body {
         rows.sort((a, b) => {
           // Monitor size is in the 8th cell (index 7), look for Size: <number>
           const getSize = (row) => {
-            const cell = row.children[6];
+            const cell = row.children[7];
             const match = cell.innerHTML.match(/<strong>Size:<\/strong>\s*([\d.]+)/i);
             return match ? parseFloat(match[1]) : null;
           };
@@ -672,12 +554,12 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         monitorHeader.innerHTML = ascMonitor ? 'Monitor &#8593;' : 'Monitor &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
       // Projector header click event
-      const projectorHeader = document.querySelector('th:nth-child(8)');
+      const projectorHeader = document.querySelector('th:nth-child(9)');
       let ascProjectorRes = false;
       projectorHeader.style.cursor = 'pointer';
       projectorHeader.style.userSelect = 'none';
@@ -688,7 +570,7 @@ body {
         rows.sort((a, b) => {
           // Projector resolution is in the 9th cell (index 8), look for Res: <value>
           const getRes = (row) => {
-            const cell = row.children[7];
+            const cell = row.children[8];
             const match = cell.innerHTML.match(/<strong>Res:<\/strong>\s*([^<]*)/i);
             return match ? match[1].trim().toLowerCase() : '';
           };
@@ -706,13 +588,13 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         projectorHeader.innerHTML = ascProjectorRes ? 'Projector &#8593;' : 'Projector &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
       });
       // Powerstrip header click event
-      const powerstripHeader = document.querySelector('th:nth-child(9)');
+      const powerstripHeader = document.querySelector('th:nth-child(10)');
       let ascPowerstripPlugs = false;
       powerstripHeader.style.cursor = 'pointer';
       powerstripHeader.style.userSelect = 'none';
@@ -723,7 +605,7 @@ body {
         rows.sort((a, b) => {
           // Powerstrip plugs is in the 10th cell (index 9), look for Plugs: <number>
           const getPlugs = (row) => {
-            const cell = row.children[8];
+            const cell = row.children[9];
             const match = cell.innerHTML.match(/<strong>Plugs:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -739,14 +621,14 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         powerstripHeader.innerHTML = ascPowerstripPlugs ? 'Powerstrip &#8593;' : 'Powerstrip &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
         projectorHeader.innerHTML = 'Projector &#8597;';
       });
       // Extension Cord header click event
-      const extensionHeader = document.querySelector('th:nth-child(10)');
+      const extensionHeader = document.querySelector('th:nth-child(11)');
       let ascExtensionLength = false;
       extensionHeader.style.cursor = 'pointer';
       extensionHeader.style.userSelect = 'none';
@@ -757,7 +639,7 @@ body {
         rows.sort((a, b) => {
           // Extension length is in the 11th cell (index 10), look for Length: <number>
           const getLength = (row) => {
-            const cell = row.children[9];
+            const cell = row.children[10];
             const match = cell.innerHTML.match(/<strong>Length:<\/strong>\s*([\d.]+)/i);
             return match ? parseFloat(match[1]) : null;
           };
@@ -773,7 +655,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         extensionHeader.innerHTML = ascExtensionLength ? 'Extension Cord &#8593;' : 'Extension Cord &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
@@ -781,7 +663,7 @@ body {
         powerstripHeader.innerHTML = 'Powerstrip &#8597;';
       });
       // Microphone/Recorder header click event
-      const micHeader = document.querySelector('th:nth-child(11)');
+      const micHeader = document.querySelector('th:nth-child(12)');
       let ascMicQty = false;
       micHeader.style.cursor = 'pointer';
       micHeader.style.userSelect = 'none';
@@ -792,7 +674,7 @@ body {
         rows.sort((a, b) => {
           // Mic qty is in the 12th cell (index 11), look for Qty: <number>
           const getQty = (row) => {
-            const cell = row.children[10];
+            const cell = row.children[11];
             const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -808,7 +690,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         micHeader.innerHTML = ascMicQty ? 'Microphone/Recorder &#8593;' : 'Microphone/Recorder &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
@@ -817,7 +699,7 @@ body {
         extensionHeader.innerHTML = 'Extension Cord &#8597;';
       });
       // Other header click event
-      const otherHeader = document.querySelector('th:nth-child(12)');
+      const otherHeader = document.querySelector('th:nth-child(13)');
       let ascOtherQty = false;
       otherHeader.style.cursor = 'pointer';
       otherHeader.style.userSelect = 'none';
@@ -828,7 +710,7 @@ body {
         rows.sort((a, b) => {
           // Other qty is in the 13th cell (index 12), look for Qty: <number>
           const getQty = (row) => {
-            const cell = row.children[11];
+            const cell = row.children[12];
             const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -844,7 +726,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         otherHeader.innerHTML = ascOtherQty ? 'Other &#8593;' : 'Other &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
