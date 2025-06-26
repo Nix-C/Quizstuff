@@ -23,6 +23,14 @@ if ($result && $result->num_rows > 0) {
       $registrations[$reg_id] = $row;
       $registrations[$reg_id]['pads'] = [];
       $registrations[$reg_id]['notes'] = isset($row['notes']) ? $row['notes'] : '';
+    } else {
+      // Only set interface fields if not already set (prevents overwriting with nulls from pad join)
+      $interface_fields = ['interface_type','interface_brand','interface_model','interface_serial','interface_qty'];
+      foreach ($interface_fields as $field) {
+        if (!isset($registrations[$reg_id][$field]) || $registrations[$reg_id][$field] === null) {
+          $registrations[$reg_id][$field] = $row[$field];
+        }
+      }
     }
     // Only add pads, do not overwrite any other fields
     if ($row['pad_color'] !== null) {
@@ -269,9 +277,6 @@ body {
         echo "  <td>";
         if ($item_type === 'interface' && $item_data) {
           if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
-          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
-          if ($item_data['model']) echo '<strong>Model:</strong> ' . htmlspecialchars($item_data['model']) . '<br><br>';
-          if ($item_data['serial']) echo '<strong>Serial:</strong> ' . htmlspecialchars($item_data['serial']) . '<br><br>';
           if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($item_data['qty']);
         }
         echo "</td>\n";
@@ -379,9 +384,6 @@ body {
           for ($i = 0; $i < $interface_qty; $i++) {
             output_item_row($reg, 'interface', [
               'type' => $reg['interface_type'],
-              'brand' => $reg['interface_brand'] ?? '',
-              'model' => $reg['interface_model'] ?? '',
-              'serial' => $reg['interface_serial'] ?? '',
               'qty' => 1
             ], $statuses);
           }
@@ -389,9 +391,6 @@ body {
           // If qty not set, still show one row
           output_item_row($reg, 'interface', [
             'type' => $reg['interface_type'],
-            'brand' => $reg['interface_brand'] ?? '',
-            'model' => $reg['interface_model'] ?? '',
-            'serial' => $reg['interface_serial'] ?? '',
             'qty' => $reg['interface_qty']
           ], $statuses);
         }
