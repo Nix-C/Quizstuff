@@ -185,7 +185,7 @@ body {
       line-height: 1.5;
     }
     /* Make Laptop and Other columns wider */
-    th#laptop-header, td:nth-child(4) {
+    th#laptop-header, td:nth-child(5) {
       min-width: 220px;
       max-width: 320px;
       width: 260px;
@@ -247,7 +247,7 @@ body {
     <thead>
       <tr>
         <th id="itemid-header" style="cursor:pointer; user-select:none;">Item ID</th>
-        <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
+        <th id="id-header" style="cursor:pointer; user-select:none;">Registration ID &#8597;</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
