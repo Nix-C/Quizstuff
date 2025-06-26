@@ -185,7 +185,7 @@ body {
       line-height: 1.5;
     }
     /* Make Laptop and Other columns wider */
-    th#laptop-header, td:nth-child(5) {
+    th#laptop-header, td:nth-child(4) {
       min-width: 220px;
       max-width: 320px;
       width: 260px;
