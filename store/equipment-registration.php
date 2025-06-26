@@ -134,7 +134,7 @@
             <label for="email">Email
               <input type="email" name="email" id="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
             </label>
-            <label for="district">District/Region
+            <label for="district">District & Field
               <input type="text" name="district" id="district" required value="<?= htmlspecialchars($_POST['district'] ?? '') ?>">
             </label>
           </fieldset>

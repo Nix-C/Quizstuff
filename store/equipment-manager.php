@@ -163,11 +163,11 @@ body {
       overflow: hidden;
     }
     th, td {
-      border: 1px solid #2d3238;
+      border: 1px solidrgb(119, 154, 198);
       padding: 10px 14px;
       text-align: left;
     }
-    td{
+    td {
       line-height: 1.5;
     }
     th {
