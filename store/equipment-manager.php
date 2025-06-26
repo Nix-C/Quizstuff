@@ -266,70 +266,79 @@ body {
         echo '<td>' . htmlspecialchars($reg['district']) . '</td>';
         // Laptop
         echo '<td>';
-        if ($reg['laptop_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['laptop_brand']) . '<br><br>';
-        if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br>';
-        if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br>';
-        if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br>';
-        if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br>';
-        if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']);
+        if ($item_type === 'laptop') {
+          if ($reg['laptop_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['laptop_brand']) . '<br><br>';
+          if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br>';
+          if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br>';
+          if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br>';
+          if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br>';
+          if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']);
+        }
         echo '</td>';
         // Interface Box
         echo '<td>';
-        if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br>';
-        if ($item_type === 'interface' && $item_data !== null) echo '<strong>Qty:</strong> 1';
+        if ($item_type === 'interface') {
+          if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br>';
+          if ($item_data !== null) echo '<strong>Qty:</strong> 1';
+        }
         echo '</td>';
         // Pads
         echo '<td class="pad-list">';
-        if (!empty($reg['pads'])) {
-          echo '<ul style="margin:0; padding-left:18px;">';
-          foreach ($reg['pads'] as $pad) {
-            $pad_qty = isset($pad['pad_qty']) ? intval($pad['pad_qty']) : 0;
-            for ($i = 0; $i < $pad_qty; $i++) {
-              echo '<li>' . htmlspecialchars($pad['pad_color']) . ' (1)</li>';
-            }
-          }
-          echo '</ul>';
+        if ($item_type === 'pad' && $item_data) {
+          echo '<ul style="margin:0; padding-left:18px;"><li>' . htmlspecialchars($item_data['pad_color']) . ' (1)</li></ul>';
         }
         echo '</td>';
         // Monitor
         echo '<td>';
-        if ($reg['monitor_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['monitor_brand']) . '<br><br>';
-        if ($reg['monitor_size']) echo '<strong>Size:</strong> ' . htmlspecialchars($reg['monitor_size']) . '<br><br>';
-        if ($reg['monitor_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['monitor_resolution']);
-        if ($item_type === 'monitor') echo '<br><strong>Qty:</strong> 1';
+        if ($item_type === 'monitor') {
+          if ($reg['monitor_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['monitor_brand']) . '<br><br>';
+          if ($reg['monitor_size']) echo '<strong>Size:</strong> ' . htmlspecialchars($reg['monitor_size']) . '<br><br>';
+          if ($reg['monitor_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['monitor_resolution']);
+          echo '<br><strong>Qty:</strong> 1';
+        }
         echo '</td>';
         // Projector
         echo '<td>';
-        if ($reg['projector_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['projector_brand']) . '<br><br>';
-        if ($reg['projector_lumens'] !== null && $reg['projector_lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($reg['projector_lumens']) . '<br><br>';
-        if ($reg['projector_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['projector_resolution']) . '<br><br>';
-        if ($item_type === 'projector') echo '<strong>Qty:</strong> 1';
+        if ($item_type === 'projector') {
+          if ($reg['projector_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['projector_brand']) . '<br><br>';
+          if ($reg['projector_lumens'] !== null && $reg['projector_lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($reg['projector_lumens']) . '<br><br>';
+          if ($reg['projector_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['projector_resolution']) . '<br><br>';
+          echo '<strong>Qty:</strong> 1';
+        }
         echo '</td>';
         // Powerstrip
         echo '<td>';
-        if ($reg['powerstrip_make']) echo '<strong>Make:</strong> ' . htmlspecialchars($reg['powerstrip_make']) . '<br><br>';
-        if ($reg['powerstrip_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['powerstrip_model']) . '<br><br>';
-        if ($reg['powerstrip_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['powerstrip_color']) . '<br><br>';
-        if ($reg['powerstrip_outlets'] !== null && $reg['powerstrip_outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($reg['powerstrip_outlets']);
-        if ($item_type === 'powerstrip') echo '<br><strong>Qty:</strong> 1';
+        if ($item_type === 'powerstrip') {
+          if ($reg['powerstrip_make']) echo '<strong>Make:</strong> ' . htmlspecialchars($reg['powerstrip_make']) . '<br><br>';
+          if ($reg['powerstrip_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['powerstrip_model']) . '<br><br>';
+          if ($reg['powerstrip_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['powerstrip_color']) . '<br><br>';
+          if ($reg['powerstrip_outlets'] !== null && $reg['powerstrip_outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($reg['powerstrip_outlets']);
+          echo '<br><strong>Qty:</strong> 1';
+        }
         echo '</td>';
         // Extension Cord
         echo '<td>';
-        if ($reg['extension_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['extension_color']) . '<br><br>';
-        if ($reg['extension_length'] !== null && $reg['extension_length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($reg['extension_length']);
-        if ($item_type === 'extension') echo '<br><strong>Qty:</strong> 1';
+        if ($item_type === 'extension') {
+          if ($reg['extension_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['extension_color']) . '<br><br>';
+          if ($reg['extension_length'] !== null && $reg['extension_length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($reg['extension_length']);
+          echo '<br><strong>Qty:</strong> 1';
+        }
         echo '</td>';
         // Microphone/Recorder
         echo '<td>';
-        if ($reg['mic_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['mic_type']) . '<br><br>';
-        if ($reg['mic_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['mic_brand']) . '<br><br>';
-        if ($reg['mic_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['mic_model']) . '<br><br>';
-        if ($item_type === 'mic') echo '<strong>Qty:</strong> 1';
+        if ($item_type === 'mic') {
+          if ($reg['mic_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['mic_type']) . '<br><br>';
+          if ($reg['mic_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['mic_brand']) . '<br><br>';
+          if ($reg['mic_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['mic_model']) . '<br><br>';
+          echo '<strong>Qty:</strong> 1';
+        }
         echo '</td>';
         // Other
         echo '<td>';
-        if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br><br>';
-        if ($item_type === 'other') echo '<strong>Qty:</strong> 1';
+        if ($item_type === 'other') {
+          if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br><br>';
+          echo '<strong>Qty:</strong> 1';
+        }
         echo '</td>';
         // Status (per row)
         echo '<td>';
