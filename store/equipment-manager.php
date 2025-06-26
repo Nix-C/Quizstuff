@@ -375,6 +375,9 @@ body {
           for ($i = 0; $i < $interface_qty; $i++) {
             output_item_row($reg, 'interface', [
               'type' => $reg['interface_type'],
+              'brand' => $reg['interface_brand'] ?? '',
+              'model' => $reg['interface_model'] ?? '',
+              'serial' => $reg['interface_serial'] ?? '',
               'qty' => 1
             ], $statuses);
           }
@@ -382,6 +385,9 @@ body {
           // If qty not set, still show one row
           output_item_row($reg, 'interface', [
             'type' => $reg['interface_type'],
+            'brand' => $reg['interface_brand'] ?? '',
+            'model' => $reg['interface_model'] ?? '',
+            'serial' => $reg['interface_serial'] ?? '',
             'qty' => $reg['interface_qty']
           ], $statuses);
         }
