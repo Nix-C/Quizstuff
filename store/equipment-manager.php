@@ -295,7 +295,7 @@ body {
         // Interface Box
         echo "  <td>";
         // echo "test";
-        echo $item_type . " " . $item_data;
+        // echo $item_type . " " . $item_data;
         if ($item_type === 'interface' && $item_data) {
           if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
           if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($item_data['qty']);
