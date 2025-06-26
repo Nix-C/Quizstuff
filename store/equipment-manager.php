@@ -874,7 +874,7 @@ body {
           body: 'itemkey=' + encodeURIComponent(itemkey) + '&notes=' + encodeURIComponent(notes)
         })
         .then(res => res.json())
-        .then data => {
+        .then(data => {
           if (data.success) {
             status.textContent = 'Saved!';
             setTimeout(() => { status.textContent = ''; }, 1500);
