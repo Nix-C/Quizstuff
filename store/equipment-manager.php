@@ -433,20 +433,23 @@ body {
         }
         // Interface boxes (multiple types/qty)
         if (isset($reg['interface_boxes']) && is_array($reg['interface_boxes'])) {
+          $interface_row_index = 0;
           foreach ($reg['interface_boxes'] as $box) {
             if ($box['type'] && $box['qty'] > 0) {
               $hasEquipment = true;
               for ($i = 0; $i < $box['qty']; $i++) {
                 output_item_row($reg, 'interface', [
                   'type' => $box['type'],
-                  'qty' => 1
+                  'qty' => 1,
+                  'row_index' => $interface_row_index++
                 ], $statuses);
               }
             } elseif ($box['type']) {
               $hasEquipment = true;
               output_item_row($reg, 'interface', [
                 'type' => $box['type'],
-                'qty' => $box['qty']
+                'qty' => $box['qty'],
+                'row_index' => $interface_row_index++
               ], $statuses);
             }
           }
