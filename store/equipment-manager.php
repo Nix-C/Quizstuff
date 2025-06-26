@@ -269,6 +269,9 @@ body {
         echo "  <td>";
         if ($item_type === 'interface' && $item_data) {
           if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
+          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
+          if ($item_data['model']) echo '<strong>Model:</strong> ' . htmlspecialchars($item_data['model']) . '<br><br>';
+          if ($item_data['serial']) echo '<strong>Serial:</strong> ' . htmlspecialchars($item_data['serial']) . '<br><br>';
           if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($item_data['qty']);
         }
         echo "</td>\n";
