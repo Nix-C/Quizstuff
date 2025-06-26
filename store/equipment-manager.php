@@ -238,98 +238,200 @@ body {
       </tr>
     </thead>
     <tbody>
-      <?php foreach (
-        $registrations as $reg): ?>
-        <tr>
-          <td><?= htmlspecialchars($reg['id']) ?></td>
-          <td>
-            <strong>Name:</strong> <?= htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) ?><br>
-            <?php if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>'; ?>
-            <?php if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']); ?>
-          </td>
-          <td><?= htmlspecialchars($reg['district']) ?></td>
-          <td>
-            <?php if ($reg['laptop_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['laptop_brand']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']); ?>
-          </td>
-          <td>
-            <?php if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br'; ?>
-            <?php if ($reg['interface_qty'] !== null && $reg['interface_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['interface_qty']); ?>
-          </td>
-          <td class="pad-list">
-            <?php if (!empty($reg['pads'])): ?>
-              <ul style="margin:0; padding-left:18px;">
-                <?php foreach ($reg['pads'] as $pad): ?>
-                  <li><?= htmlspecialchars($pad['pad_color']) ?> (<?= htmlspecialchars($pad['pad_qty']) ?>)</li>
-                <?php endforeach; ?>
-              </ul>
-            <?php else: ?>
-              —
-            <?php endif; ?>
-          </td>
-          <td>
-            <?php if ($reg['monitor_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['monitor_brand']) . '<br><br>'; ?>
-            <?php if ($reg['monitor_size']) echo '<strong>Size:</strong> ' . htmlspecialchars($reg['monitor_size']) . '<br><br>'; ?>
-            <?php if ($reg['monitor_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['monitor_resolution']); ?>
-          </td>
-          <td>
-            <?php if ($reg['projector_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['projector_brand']) . '<br><br>'; ?>
-            <?php if ($reg['projector_lumens'] !== null && $reg['projector_lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($reg['projector_lumens']) . '<br><br>'; ?>
-            <?php if ($reg['projector_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['projector_resolution']) . '<br><br>'; ?>
-            <?php if ($reg['projector_qty'] !== null && $reg['projector_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['projector_qty']); ?>
-          </td>
-          <td>
-            <?php if ($reg['powerstrip_make']) echo '<strong>Make:</strong> ' . htmlspecialchars($reg['powerstrip_make']) . '<br><br>'; ?>
-            <?php if ($reg['powerstrip_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['powerstrip_model']) . '<br><br>'; ?>
-            <?php if ($reg['powerstrip_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['powerstrip_color']) . '<br><br>'; ?>
-            <?php if ($reg['powerstrip_outlets'] !== null && $reg['powerstrip_outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($reg['powerstrip_outlets']); ?>
-          </td>
-          <td>
-            <?php if ($reg['extension_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['extension_color']) . '<br><br>'; ?>
-            <?php if ($reg['extension_length'] !== null && $reg['extension_length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($reg['extension_length']); ?>
-          </td>
-          <td>
-            <?php if ($reg['mic_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['mic_type']) . '<br><br>'; ?>
-            <?php if ($reg['mic_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['mic_brand']) . '<br><br>'; ?>
-            <?php if ($reg['mic_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['mic_model']) . '<br><br>'; ?>
-            <?php if ($reg['mic_qty'] !== null && $reg['mic_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['mic_qty']); ?>
-          </td>
-          <td>
-            <?php if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br><br>'; ?>
-            <?php if ($reg['other_qty'] !== null && $reg['other_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['other_qty']); ?>
-          </td>
-          <td>
-            <select class="status-dropdown" data-id="<?= htmlspecialchars($reg['id']) ?>" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">
-              <?php
-                $statuses = [
-                  '',
-                  'In Room',
-                  'In Inventory',
-                  'Used in Tech Room',
-                  'Broken (In Inventory)',
-                  'Other'
-                ];
-                $currentStatus = isset($reg['status']) ? $reg['status'] : '';
-                foreach ($statuses as $status) {
-                  $selected = ($currentStatus === $status) ? 'selected' : '';
-                  $label = $status === '' ? '-- Select --' : $status;
-                  echo "<option value=\"" . htmlspecialchars($status) . "\" $selected>$label</option>";
-                }
-              ?>
-            </select>
-            <span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>
-          </td>
-          <td>
-            <textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="<?= htmlspecialchars($reg['id']) ?>"><?php echo isset($reg['notes']) ? htmlspecialchars($reg['notes']) : ''; ?></textarea>
-            <button class="save-notes-btn" data-id="<?= htmlspecialchars($reg['id']) ?>" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>
-            <span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>
-          </td>
-        </tr>
-      <?php endforeach; ?>
+      <?php
+      // Helper to output a row for a single item
+      function output_item_row($reg, $item_type, $item_data, $show_notes_status = false) {
+        echo "<tr>";
+        // ID
+        echo '<td>' . htmlspecialchars($reg['id']) . '</td>';
+        // Contact
+        echo '<td><strong>Name:</strong> ' . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . '<br>';
+        if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>';
+        if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']);
+        echo '</td>';
+        // District
+        echo '<td>' . htmlspecialchars($reg['district']) . '</td>';
+        // Laptop
+        echo '<td>';
+        if ($item_type === 'laptop') {
+          if ($reg['laptop_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['laptop_brand']) . '<br><br>';
+          if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br>';
+          if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br>';
+          if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br>';
+          if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br>';
+          if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']);
+        }
+        echo '</td>';
+        // Interface Box
+        echo '<td>';
+        if ($item_type === 'interface') {
+          if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br>';
+          if ($item_data !== null) echo '<strong>Qty:</strong> 1';
+        }
+        echo '</td>';
+        // Pads
+        echo '<td class="pad-list">';
+        if ($item_type === 'pad' && $item_data) {
+          echo '<ul style="margin:0; padding-left:18px;"><li>' . htmlspecialchars($item_data['pad_color']) . ' (1)</li></ul>';
+        }
+        echo '</td>';
+        // Monitor
+        echo '<td>';
+        if ($item_type === 'monitor') {
+          if ($reg['monitor_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['monitor_brand']) . '<br><br>';
+          if ($reg['monitor_size']) echo '<strong>Size:</strong> ' . htmlspecialchars($reg['monitor_size']) . '<br><br>';
+          if ($reg['monitor_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['monitor_resolution']);
+        }
+        echo '</td>';
+        // Projector
+        echo '<td>';
+        if ($item_type === 'projector') {
+          if ($reg['projector_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['projector_brand']) . '<br><br>';
+          if ($reg['projector_lumens'] !== null && $reg['projector_lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($reg['projector_lumens']) . '<br><br>';
+          if ($reg['projector_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['projector_resolution']) . '<br><br>';
+        }
+        echo '</td>';
+        // Powerstrip
+        echo '<td>';
+        if ($item_type === 'powerstrip') {
+          if ($reg['powerstrip_make']) echo '<strong>Make:</strong> ' . htmlspecialchars($reg['powerstrip_make']) . '<br><br>';
+          if ($reg['powerstrip_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['powerstrip_model']) . '<br><br>';
+          if ($reg['powerstrip_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['powerstrip_color']) . '<br><br>';
+          if ($reg['powerstrip_outlets'] !== null && $reg['powerstrip_outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($reg['powerstrip_outlets']);
+        }
+        echo '</td>';
+        // Extension Cord
+        echo '<td>';
+        if ($item_type === 'extension') {
+          if ($reg['extension_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['extension_color']) . '<br><br>';
+          if ($reg['extension_length'] !== null && $reg['extension_length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($reg['extension_length']);
+        }
+        echo '</td>';
+        // Microphone/Recorder
+        echo '<td>';
+        if ($item_type === 'mic') {
+          if ($reg['mic_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['mic_type']) . '<br><br>';
+          if ($reg['mic_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['mic_brand']) . '<br><br>';
+          if ($reg['mic_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['mic_model']) . '<br><br>';
+        }
+        echo '</td>';
+        // Other
+        echo '<td>';
+        if ($item_type === 'other') {
+          if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br><br>';
+        }
+        echo '</td>';
+        // Status
+        echo '<td>';
+        if ($show_notes_status) {
+          $statuses = [
+            '',
+            'In Room',
+            'In Inventory',
+            'Used in Tech Room',
+            'Broken (In Inventory)',
+            'Other'
+          ];
+          $currentStatus = isset($reg['status']) ? $reg['status'] : '';
+          echo '<select class="status-dropdown" data-id="' . htmlspecialchars($reg['id']) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
+          foreach ($statuses as $status) {
+            $selected = ($currentStatus === $status) ? 'selected' : '';
+            $label = $status === '' ? '-- Select --' : $status;
+            echo '<option value="' . htmlspecialchars($status) . '" ' . $selected . '>' . $label . '</option>';
+          }
+          echo '</select>';
+          echo '<span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>';
+        }
+        echo '</td>';
+        // Notes
+        echo '<td>';
+        if ($show_notes_status) {
+          echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="' . htmlspecialchars($reg['id']) . '">' . (isset($reg['notes']) ? htmlspecialchars($reg['notes']) : '') . '</textarea>';
+          echo '<button class="save-notes-btn" data-id="' . htmlspecialchars($reg['id']) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
+          echo '<span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>';
+        }
+        echo '</td>';
+        echo "</tr>\n";
+      }
+      foreach ($registrations as $reg) {
+        $output_any = false;
+        // Laptops (1 row if present)
+        if ($reg['laptop_brand'] || $reg['laptop_os'] || $reg['laptop_parallel_port'] || $reg['laptop_qm_version'] || $reg['laptop_username'] || $reg['laptop_password']) {
+          output_item_row($reg, 'laptop', null, !$output_any);
+          $output_any = true;
+        }
+        // Interface boxes (one row per quantity)
+        $interface_qty = intval($reg['interface_qty']);
+        if ($interface_qty > 0) {
+          for ($i = 0; $i < $interface_qty; $i++) {
+            output_item_row($reg, 'interface', 1, !$output_any);
+            $output_any = true;
+          }
+        }
+        // Pads (one row per pad, per quantity)
+        if (!empty($reg['pads'])) {
+          foreach ($reg['pads'] as $pad) {
+            $pad_qty = intval($pad['pad_qty']);
+            for ($i = 0; $i < $pad_qty; $i++) {
+              output_item_row($reg, 'pad', $pad, !$output_any);
+              $output_any = true;
+            }
+          }
+        }
+        // Monitors (one row per quantity)
+        $monitor_qty = intval($reg['monitor_qty']);
+        if ($monitor_qty > 0) {
+          for ($i = 0; $i < $monitor_qty; $i++) {
+            output_item_row($reg, 'monitor', 1, !$output_any);
+            $output_any = true;
+          }
+        }
+        // Projectors (one row per quantity)
+        $projector_qty = intval($reg['projector_qty']);
+        if ($projector_qty > 0) {
+          for ($i = 0; $i < $projector_qty; $i++) {
+            output_item_row($reg, 'projector', 1, !$output_any);
+            $output_any = true;
+          }
+        }
+        // Powerstrips (one row per quantity)
+        $powerstrip_qty = intval($reg['powerstrip_qty']);
+        if ($powerstrip_qty > 0) {
+          for ($i = 0; $i < $powerstrip_qty; $i++) {
+            output_item_row($reg, 'powerstrip', 1, !$output_any);
+            $output_any = true;
+          }
+        }
+        // Extension cords (one row per quantity)
+        $extension_qty = intval($reg['extension_qty']);
+        if ($extension_qty > 0) {
+          for ($i = 0; $i < $extension_qty; $i++) {
+            output_item_row($reg, 'extension', 1, !$output_any);
+            $output_any = true;
+          }
+        }
+        // Microphone/Recorder (one row per quantity)
+        $mic_qty = intval($reg['mic_qty']);
+        if ($mic_qty > 0) {
+          for ($i = 0; $i < $mic_qty; $i++) {
+            output_item_row($reg, 'mic', 1, !$output_any);
+            $output_any = true;
+          }
+        }
+        // Other (one row per quantity)
+        $other_qty = intval($reg['other_qty']);
+        if ($other_qty > 0) {
+          for ($i = 0; $i < $other_qty; $i++) {
+            output_item_row($reg, 'other', 1, !$output_any);
+            $output_any = true;
+          }
+        }
+        // If no items at all, output a blank row with notes/status
+        if (!$output_any) {
+          output_item_row($reg, '', null, true);
+        }
+      }
+      ?>
     </tbody>
   </table>
   <script>
