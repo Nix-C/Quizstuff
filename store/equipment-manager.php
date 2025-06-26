@@ -247,6 +247,7 @@ body {
     <thead>
       <tr>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
+        <th id="productid-header" style="cursor:pointer; user-select:none;">Product ID</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
@@ -271,9 +272,13 @@ body {
         // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
         // $item_data: array of fields for the item, or null for empty
         // Output a <tr> with only the relevant item column filled
+        $row_index = isset($item_data['row_index']) ? $item_data['row_index'] : 0;
+        $product_id = isset($item_data['product_id']) ? $item_data['product_id'] : '';
         echo "<tr>\n";
         // ID
         echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
+        // Product ID
+        echo "  <td>" . htmlspecialchars($product_id) . "</td>\n";
         // Contact
         echo "  <td><strong>Name:</strong> " . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . "<br>";
         if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>';
@@ -579,6 +584,7 @@ body {
     document.addEventListener('DOMContentLoaded', function() {
       const table = document.getElementById('equipment-table');
       const idHeader = document.getElementById('id-header');
+      const productIdHeader = document.getElementById('productid-header');
       const nameHeader = document.getElementById('name-header');
       const districtHeader = document.getElementById('district-header');
       const laptopHeader = document.getElementById('laptop-header');
@@ -587,6 +593,7 @@ body {
       const statusHeader = document.getElementById('status-header');
       const horizontal = document.getElementById('horizontal');
       let ascId = false;
+      let ascProductId = false;
       let ascName = false;
       let ascDistrict = false;
       let ascLaptop = false;
@@ -649,13 +656,32 @@ body {
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
+      // Product ID header click event
+      productIdHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          const prodIdA = a.children[1].textContent.trim().toLowerCase();
+          const prodIdB = b.children[1].textContent.trim().toLowerCase();
+          if (prodIdA < prodIdB) return ascProductId ? -1 : 1;
+          if (prodIdA > prodIdB) return ascProductId ? 1 : -1;
+          return 0;
+        });
+        ascProductId = !ascProductId;
+        rows.forEach(row => tbody.appendChild(row));
+        productIdHeader.innerHTML = ascProductId ? 'Product ID &#8593;' : 'Product ID &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
       // Name header click event
       nameHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
         rows.sort((a, b) => {
-          const nameA = a.children[1].textContent.trim().toLowerCase();
-          const nameB = b.children[1].textContent.trim().toLowerCase();
+          const nameA = a.children[2].textContent.trim().toLowerCase();
+          const nameB = b.children[2].textContent.trim().toLowerCase();
           if (nameA < nameB) return ascName ? -1 : 1;
           if (nameA > nameB) return ascName ? 1 : -1;
           return 0;
@@ -672,8 +698,8 @@ body {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
         rows.sort((a, b) => {
-          const distA = a.children[2].textContent.trim().toLowerCase();
-          const distB = b.children[2].textContent.trim().toLowerCase();
+          const distA = a.children[3].textContent.trim().toLowerCase();
+          const distB = b.children[3].textContent.trim().toLowerCase();
           if (distA < distB) return ascDistrict ? -1 : 1;
           if (distA > distB) return ascDistrict ? 1 : -1;
           return 0;
@@ -692,7 +718,7 @@ body {
         rows.sort((a, b) => {
           // Laptop brand is in the first line of the 5th cell (index 4)
           const getBrand = (row) => {
-            const cell = row.children[3];
+            const cell = row.children[4];
             // Extract the brand from the first <strong>Brand:</strong> ...<br><br> or ...
             const html = cell.innerHTML;
             const match = html.match(/<strong>Brand:<\/strong>\s*([^<]*)/i);
@@ -722,7 +748,7 @@ body {
         rows.sort((a, b) => {
           // Interface qty is in the 6th cell (index 5), look for Qty: <number>
           const getQty = (row) => {
-            const cell = row.children[4];
+            const cell = row.children[5];
             const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
