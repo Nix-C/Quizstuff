@@ -515,26 +515,28 @@ body {
       function filterPadsByColor(color) {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
-        // Separate rows with at least one pad of the color, and those with none/blank
-        const withColor = [];
-        const withoutColor = [];
-        rows.forEach(row => {
-          const padCell = row.children[6];
-          let found = false;
-          padCell.querySelectorAll('li').forEach(li => {
-            if (li.textContent.trim().toLowerCase().startsWith(color.toLowerCase())) {
-              found = true;
-            }
-          });
-          if (found) {
-            withColor.push(row);
-          } else {
-            withoutColor.push(row);
-          }
+        // Sort rows: those with the color first (alphabetically by color), then the rest (alphabetically by color or blank)
+        rows.sort((a, b) => {
+          const getPadColor = (row) => {
+            const padCell = row.children[6];
+            const li = padCell.querySelector('li');
+            if (!li) return '';
+            // Extract color name before first space or parenthesis
+            const match = li.textContent.trim().match(/^([^( ]+)/);
+            return match ? match[1].toLowerCase() : '';
+          };
+          const aColor = getPadColor(a);
+          const bColor = getPadColor(b);
+          const aMatch = aColor === color.toLowerCase();
+          const bMatch = bColor === color.toLowerCase();
+          if (aMatch && !bMatch) return -1;
+          if (!aMatch && bMatch) return 1;
+          // If both match or both don't, sort alphabetically by color
+          if (aColor < bColor) return -1;
+          if (aColor > bColor) return 1;
+          return 0;
         });
-        // Re-append rows: withColor first, then withoutColor
-        withColor.forEach(row => tbody.appendChild(row));
-        withoutColor.forEach(row => tbody.appendChild(row));
+        rows.forEach(row => tbody.appendChild(row));
       }
       // Add filter buttons for each color
       horizontal.innerHTML = padColors.map(pc => `<button style="margin-left:2px; font-size:1em; background:none; border:none; color:inherit; cursor:pointer;" data-color="${pc.color}">${pc.icon}</button>`).join('');
