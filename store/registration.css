@@ -76,7 +76,8 @@ textarea {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: solid 1px rgba(255, 255, 255, 0.8);
-    flex: 1 1 50;
+    flex: 1 1;
+    flex-basis: 50%;
 }
 @media (max-width: 500px) {
     #wrap {
