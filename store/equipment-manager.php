@@ -395,7 +395,7 @@ body {
       ];
       foreach ($registrations as $reg) {
         // Debug: Output interface box values to browser console
-        echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars($reg['interface_type'] ?? ''), ", interface_qty: ", htmlspecialchars($reg['interface_qty'] ?? ''), ");</script>\n";
+        echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars($reg['interface_type'] ?? ''), ", interface_qty: ", htmlspecialchars($reg['interface_qty'] ?? ''), "');</script>\n";
         // Laptops (always 1 row if present)
         if ($reg['laptop_brand'] || $reg['laptop_os'] || $reg['laptop_parallel_port'] || $reg['laptop_qm_version'] || $reg['laptop_username'] || $reg['laptop_password']) {
           output_item_row($reg, 'laptop', [
