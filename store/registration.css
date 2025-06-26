@@ -1,0 +1,10 @@
+fieldset label {
+    margin: 10px;
+    font-weight: bold;
+    display: flex;
+    gap: 50px;
+}
+fieldset input[type="text"] {
+    width: auto;
+    padding: 4px 8px;
+}

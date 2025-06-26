@@ -111,6 +111,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php include '../head.php'; ?>
+  <link rel="stylesheet" href="registration.css">
   <body>
     <div id="canvas">
       <div id="radial-1"></div>
