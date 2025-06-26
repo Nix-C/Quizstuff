@@ -391,124 +391,145 @@ body {
         'Broken (In Inventory)',
         'Other'
       ];
-      foreach ($registrations as $reg) {
+      foreach (
+        $registrations as $reg
+      ) {
         // Debug: Output interface box values to browser console
-        echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars($reg['interface_type'] ?? ''), ", interface_qty: ", htmlspecialchars($reg['interface_qty'] ?? ''), "');</script>\n";
+        echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars(isset($reg['interface_type']) ? $reg['interface_type'] : ''), ", interface_qty: ", htmlspecialchars(isset($reg['interface_qty']) ? $reg['interface_qty'] : ''), "');</script>\n";
         // Laptops (always 1 row if present)
-        if ($reg['laptop_brand'] || $reg['laptop_os'] || $reg['laptop_parallel_port'] || $reg['laptop_qm_version'] || $reg['laptop_username'] || $reg['laptop_password']) {
+        if (
+          (isset($reg['laptop_brand']) && $reg['laptop_brand']) ||
+          (isset($reg['laptop_os']) && $reg['laptop_os']) ||
+          (isset($reg['laptop_parallel_port']) && $reg['laptop_parallel_port']) ||
+          (isset($reg['laptop_qm_version']) && $reg['laptop_qm_version']) ||
+          (isset($reg['laptop_username']) && $reg['laptop_username']) ||
+          (isset($reg['laptop_password']) && $reg['laptop_password'])
+        ) {
           output_item_row($reg, 'laptop', [
-            'brand' => $reg['laptop_brand'],
-            'os' => $reg['laptop_os'],
-            'parallel_port' => $reg['laptop_parallel_port'],
-            'qm_version' => $reg['laptop_qm_version'],
-            'username' => $reg['laptop_username'],
-            'password' => $reg['laptop_password'],
+            'brand' => isset($reg['laptop_brand']) ? $reg['laptop_brand'] : '',
+            'os' => isset($reg['laptop_os']) ? $reg['laptop_os'] : '',
+            'parallel_port' => isset($reg['laptop_parallel_port']) ? $reg['laptop_parallel_port'] : '',
+            'qm_version' => isset($reg['laptop_qm_version']) ? $reg['laptop_qm_version'] : '',
+            'username' => isset($reg['laptop_username']) ? $reg['laptop_username'] : '',
+            'password' => isset($reg['laptop_password']) ? $reg['laptop_password'] : '',
           ], $statuses);
         }
         // Interface boxes (qty rows)
-        $interface_qty = (int)($reg['interface_qty'] ?? 0);
-        if ($reg['interface_type'] && $interface_qty > 0) {
+        $interface_qty = (int)(isset($reg['interface_qty']) ? $reg['interface_qty'] : 0);
+        if (isset($reg['interface_type']) && $reg['interface_type'] && $interface_qty > 0) {
           for ($i = 0; $i < $interface_qty; $i++) {
             output_item_row($reg, 'interface', [
               'type' => $reg['interface_type'],
               'qty' => 1
             ], $statuses);
           }
-        } elseif ($reg['interface_type']) {
+        } elseif (isset($reg['interface_type']) && $reg['interface_type']) {
           // If qty not set, still show one row
           output_item_row($reg, 'interface', [
             'type' => $reg['interface_type'],
-            'qty' => $reg['interface_qty']
+            'qty' => isset($reg['interface_qty']) ? $reg['interface_qty'] : ''
           ], $statuses);
         }
         // Pads (each pad color/qty as separate rows)
         if (!empty($reg['pads'])) {
           foreach ($reg['pads'] as $pad) {
-            $pad_qty = (int)($pad['pad_qty'] ?? 0);
+            $pad_qty = (int)(isset($pad['pad_qty']) ? $pad['pad_qty'] : 0);
             for ($i = 0; $i < $pad_qty; $i++) {
               output_item_row($reg, 'pad', [
-                'color' => $pad['pad_color']
+                'color' => isset($pad['pad_color']) ? $pad['pad_color'] : ''
               ], $statuses);
             }
           }
         }
         // Monitor (qty rows)
-        $monitor_qty = 1; // Only one monitor per registration assumed
-        if ($reg['monitor_brand'] || $reg['monitor_size'] || $reg['monitor_resolution'] || $reg['monitor_connection']) {
+        if (
+          (isset($reg['monitor_brand']) && $reg['monitor_brand']) ||
+          (isset($reg['monitor_size']) && $reg['monitor_size']) ||
+          (isset($reg['monitor_resolution']) && $reg['monitor_resolution']) ||
+          (isset($reg['monitor_connection']) && $reg['monitor_connection'])
+        ) {
           output_item_row($reg, 'monitor', [
-            'brand' => $reg['monitor_brand'],
-            'size' => $reg['monitor_size'],
-            'resolution' => $reg['monitor_resolution'],
-            'connection' => $reg['monitor_connection']
+            'brand' => isset($reg['monitor_brand']) ? $reg['monitor_brand'] : '',
+            'size' => isset($reg['monitor_size']) ? $reg['monitor_size'] : '',
+            'resolution' => isset($reg['monitor_resolution']) ? $reg['monitor_resolution'] : '',
+            'connection' => isset($reg['monitor_connection']) ? $reg['monitor_connection'] : ''
           ], $statuses);
         }
         // Projector (qty rows)
-        $projector_qty = (int)($reg['projector_qty'] ?? 0);
-        if ($reg['projector_brand'] && $projector_qty > 0) {
+        $projector_qty = (int)(isset($reg['projector_qty']) ? $reg['projector_qty'] : 0);
+        if (isset($reg['projector_brand']) && $reg['projector_brand'] && $projector_qty > 0) {
           for ($i = 0; $i < $projector_qty; $i++) {
             output_item_row($reg, 'projector', [
               'brand' => $reg['projector_brand'],
-              'lumens' => $reg['projector_lumens'],
-              'resolution' => $reg['projector_resolution'],
+              'lumens' => isset($reg['projector_lumens']) ? $reg['projector_lumens'] : '',
+              'resolution' => isset($reg['projector_resolution']) ? $reg['projector_resolution'] : '',
               'qty' => 1
             ], $statuses);
           }
-        } elseif ($reg['projector_brand']) {
+        } elseif (isset($reg['projector_brand']) && $reg['projector_brand']) {
           output_item_row($reg, 'projector', [
             'brand' => $reg['projector_brand'],
-            'lumens' => $reg['projector_lumens'],
-            'resolution' => $reg['projector_resolution'],
-            'qty' => $reg['projector_qty']
+            'lumens' => isset($reg['projector_lumens']) ? $reg['projector_lumens'] : '',
+            'resolution' => isset($reg['projector_resolution']) ? $reg['projector_resolution'] : '',
+            'qty' => isset($reg['projector_qty']) ? $reg['projector_qty'] : ''
           ], $statuses);
         }
         // Powerstrip (always 1 row if present)
-        if ($reg['powerstrip_make'] || $reg['powerstrip_model'] || $reg['powerstrip_color'] || $reg['powerstrip_outlets']) {
+        if (
+          (isset($reg['powerstrip_make']) && $reg['powerstrip_make']) ||
+          (isset($reg['powerstrip_model']) && $reg['powerstrip_model']) ||
+          (isset($reg['powerstrip_color']) && $reg['powerstrip_color']) ||
+          (isset($reg['powerstrip_outlets']) && $reg['powerstrip_outlets'])
+        ) {
           output_item_row($reg, 'powerstrip', [
-            'make' => $reg['powerstrip_make'],
-            'model' => $reg['powerstrip_model'],
-            'color' => $reg['powerstrip_color'],
-            'outlets' => $reg['powerstrip_outlets']
+            'make' => isset($reg['powerstrip_make']) ? $reg['powerstrip_make'] : '',
+            'model' => isset($reg['powerstrip_model']) ? $reg['powerstrip_model'] : '',
+            'color' => isset($reg['powerstrip_color']) ? $reg['powerstrip_color'] : '',
+            'outlets' => isset($reg['powerstrip_outlets']) ? $reg['powerstrip_outlets'] : ''
           ], $statuses);
         }
         // Extension cord (always 1 row if present)
-        if ($reg['extension_color'] || $reg['extension_length']) {
+        if (
+          (isset($reg['extension_color']) && $reg['extension_color']) ||
+          (isset($reg['extension_length']) && $reg['extension_length'])
+        ) {
           output_item_row($reg, 'extension', [
-            'color' => $reg['extension_color'],
-            'length' => $reg['extension_length']
+            'color' => isset($reg['extension_color']) ? $reg['extension_color'] : '',
+            'length' => isset($reg['extension_length']) ? $reg['extension_length'] : ''
           ], $statuses);
         }
         // Microphone/Recorder (qty rows)
-        $mic_qty = (int)($reg['mic_qty'] ?? 0);
-        if ($reg['mic_type'] && $mic_qty > 0) {
+        $mic_qty = (int)(isset($reg['mic_qty']) ? $reg['mic_qty'] : 0);
+        if (isset($reg['mic_type']) && $reg['mic_type'] && $mic_qty > 0) {
           for ($i = 0; $i < $mic_qty; $i++) {
             output_item_row($reg, 'mic', [
               'type' => $reg['mic_type'],
-              'brand' => $reg['mic_brand'],
-              'model' => $reg['mic_model'],
+              'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
+              'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
               'qty' => 1
             ], $statuses);
           }
-        } elseif ($reg['mic_type']) {
+        } elseif (isset($reg['mic_type']) && $reg['mic_type']) {
           output_item_row($reg, 'mic', [
             'type' => $reg['mic_type'],
-            'brand' => $reg['mic_brand'],
-            'model' => $reg['mic_model'],
-            'qty' => $reg['mic_qty']
+            'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
+            'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
+            'qty' => isset($reg['mic_qty']) ? $reg['mic_qty'] : ''
           ], $statuses);
         }
         // Other (qty rows)
-        $other_qty = (int)($reg['other_qty'] ?? 0);
-        if ($reg['other_desc'] && $other_qty > 0) {
+        $other_qty = (int)(isset($reg['other_qty']) ? $reg['other_qty'] : 0);
+        if (isset($reg['other_desc']) && $reg['other_desc'] && $other_qty > 0) {
           for ($i = 0; $i < $other_qty; $i++) {
             output_item_row($reg, 'other', [
               'desc' => $reg['other_desc'],
               'qty' => 1
             ], $statuses);
           }
-        } elseif ($reg['other_desc']) {
+        } elseif (isset($reg['other_desc']) && $reg['other_desc']) {
           output_item_row($reg, 'other', [
             'desc' => $reg['other_desc'],
-            'qty' => $reg['other_qty']
+            'qty' => isset($reg['other_qty']) ? $reg['other_qty'] : ''
           ], $statuses);
         }
       }
