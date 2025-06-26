@@ -121,6 +121,7 @@
     <main>
       <section class="container">
         <h1>Equipment Registration</h1>
+        <hr>
         <?php if ($error): ?>
           <p style="color:red;"><strong><?= htmlspecialchars($error) ?></strong></p>
         <?php elseif ($success): ?>

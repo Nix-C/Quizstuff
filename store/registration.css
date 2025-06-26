@@ -3,8 +3,13 @@ fieldset label {
     font-weight: bold;
     display: flex;
     gap: 10px;
+    color: rgb(196, 196, 196);
+    font-size: 1rem;
 }
-fieldset input[type="text"] {
+fieldset input[type="text"], 
+fieldset input[type="number"], 
+fieldset input[type="email"], 
+fieldset input[type="tel"] {
     width: auto;
     padding: 4px 8px;
 }
@@ -14,7 +19,31 @@ fieldset select, fieldset select option {
 }
 fieldset {
     display: flex;
-    align-items: flex-start;
     justify-content: space-evenly;
     gap: 20px;
+}
+button {
+    padding: 10px 20px;
+    background: linear-gradient(15deg, #004b78, #431235); /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: fit-content;
+}
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+h1 {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #004b78, #431235);
+    margin: 20px 0;
 }
