@@ -220,8 +220,7 @@ body {
     <thead>
       <tr>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
-        <th id="name-header" style="cursor:pointer; user-select:none;">Name &#8597;</th>
-        <th id="contact-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
+        <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
         <th id="interface-header" style="cursor:pointer; user-select:none;">Interface Box &#8597;</th>
@@ -248,17 +247,13 @@ body {
             <?php if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>'; ?>
             <?php if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']); ?>
           </td>
-          <td>
-            <?php if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br><br>'; ?>
-            <?php if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']); ?>
-          </td>
           <td><?= htmlspecialchars($reg['district']) ?></td>
           <td>
             <?php if ($reg['laptop_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['laptop_brand']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br>'; ?>
-            <?php if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br>'; ?>
+            <?php if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br'; ?>
+            <?php if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br'; ?>
+            <?php if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br'; ?>
+            <?php if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br'; ?>
             <?php if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']); ?>
           </td>
           <td>
@@ -343,7 +338,6 @@ body {
       const table = document.getElementById('equipment-table');
       const idHeader = document.getElementById('id-header');
       const nameHeader = document.getElementById('name-header');
-      const contactHeader = document.getElementById('contact-header');
       const districtHeader = document.getElementById('district-header');
       const laptopHeader = document.getElementById('laptop-header');
       const interfaceHeader = document.getElementById('interface-header');
@@ -352,7 +346,6 @@ body {
       const horizontal = document.getElementById('horizontal');
       let ascId = false;
       let ascName = false;
-      let ascContact = false;
       let ascDistrict = false;
       let ascLaptop = false;
       let ascInterface = false;
@@ -408,8 +401,7 @@ body {
         ascId = !ascId;
         rows.forEach(row => tbody.appendChild(row));
         idHeader.innerHTML = ascId ? 'ID &#8593;' : 'ID &#8595;';
-        nameHeader.innerHTML = 'Name &#8597;';
-        contactHeader.innerHTML = 'Contact &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -426,28 +418,8 @@ body {
         });
         ascName = !ascName;
         rows.forEach(row => tbody.appendChild(row));
-        nameHeader.innerHTML = ascName ? 'Name &#8593;' : 'Name &#8595;';
+        nameHeader.innerHTML = ascName ? 'Contact &#8593;' : 'Contact &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        contactHeader.innerHTML = 'Contact &#8597;';
-        districtHeader.innerHTML = 'District &#8597;';
-        laptopHeader.innerHTML = 'Laptop &#8597;';
-      });
-      // Contact header click event
-      contactHeader.addEventListener('click', function() {
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        rows.sort((a, b) => {
-          const contactA = a.children[2].textContent.trim().toLowerCase();
-          const contactB = b.children[2].textContent.trim().toLowerCase();
-          if (contactA < contactB) return ascContact ? -1 : 1;
-          if (contactA > contactB) return ascContact ? 1 : -1;
-          return 0;
-        });
-        ascContact = !ascContact;
-        rows.forEach(row => tbody.appendChild(row));
-        contactHeader.innerHTML = ascContact ? 'Contact &#8593;' : 'Contact &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -456,8 +428,8 @@ body {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
         rows.sort((a, b) => {
-          const distA = a.children[3].textContent.trim().toLowerCase();
-          const distB = b.children[3].textContent.trim().toLowerCase();
+          const distA = a.children[2].textContent.trim().toLowerCase();
+          const distB = b.children[2].textContent.trim().toLowerCase();
           if (distA < distB) return ascDistrict ? -1 : 1;
           if (distA > distB) return ascDistrict ? 1 : -1;
           return 0;
@@ -466,7 +438,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         districtHeader.innerHTML = ascDistrict ? 'District &#8593;' : 'District &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
       // Laptop header click event
@@ -476,7 +448,7 @@ body {
         rows.sort((a, b) => {
           // Laptop brand is in the first line of the 5th cell (index 4)
           const getBrand = (row) => {
-            const cell = row.children[4];
+            const cell = row.children[3];
             // Extract the brand from the first <strong>Brand:</strong> ...<br><br> or ...
             const html = cell.innerHTML;
             const match = html.match(/<strong>Brand:<\/strong>\s*([^<]*)/i);
@@ -496,7 +468,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         laptopHeader.innerHTML = ascLaptop ? 'Laptop &#8593;' : 'Laptop &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
       });
       // Interface header click event
@@ -506,7 +478,7 @@ body {
         rows.sort((a, b) => {
           // Interface qty is in the 6th cell (index 5), look for Qty: <number>
           const getQty = (row) => {
-            const cell = row.children[5];
+            const cell = row.children[4];
             const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -522,12 +494,12 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         interfaceHeader.innerHTML = ascInterface ? 'Interface Box &#8593;' : 'Interface Box &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
       // Monitor header click event
-      const monitorHeader = document.querySelector('th:nth-child(8)');
+      const monitorHeader = document.querySelector('th:nth-child(7)');
       let ascMonitor = false;
       monitorHeader.style.cursor = 'pointer';
       monitorHeader.style.userSelect = 'none';
@@ -538,7 +510,7 @@ body {
         rows.sort((a, b) => {
           // Monitor size is in the 8th cell (index 7), look for Size: <number>
           const getSize = (row) => {
-            const cell = row.children[7];
+            const cell = row.children[6];
             const match = cell.innerHTML.match(/<strong>Size:<\/strong>\s*([\d.]+)/i);
             return match ? parseFloat(match[1]) : null;
           };
@@ -554,12 +526,12 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         monitorHeader.innerHTML = ascMonitor ? 'Monitor &#8593;' : 'Monitor &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
       // Projector header click event
-      const projectorHeader = document.querySelector('th:nth-child(9)');
+      const projectorHeader = document.querySelector('th:nth-child(8)');
       let ascProjectorRes = false;
       projectorHeader.style.cursor = 'pointer';
       projectorHeader.style.userSelect = 'none';
@@ -570,7 +542,7 @@ body {
         rows.sort((a, b) => {
           // Projector resolution is in the 9th cell (index 8), look for Res: <value>
           const getRes = (row) => {
-            const cell = row.children[8];
+            const cell = row.children[7];
             const match = cell.innerHTML.match(/<strong>Res:<\/strong>\s*([^<]*)/i);
             return match ? match[1].trim().toLowerCase() : '';
           };
@@ -588,13 +560,13 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         projectorHeader.innerHTML = ascProjectorRes ? 'Projector &#8593;' : 'Projector &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
       });
       // Powerstrip header click event
-      const powerstripHeader = document.querySelector('th:nth-child(10)');
+      const powerstripHeader = document.querySelector('th:nth-child(9)');
       let ascPowerstripPlugs = false;
       powerstripHeader.style.cursor = 'pointer';
       powerstripHeader.style.userSelect = 'none';
@@ -605,7 +577,7 @@ body {
         rows.sort((a, b) => {
           // Powerstrip plugs is in the 10th cell (index 9), look for Plugs: <number>
           const getPlugs = (row) => {
-            const cell = row.children[9];
+            const cell = row.children[8];
             const match = cell.innerHTML.match(/<strong>Plugs:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -621,14 +593,14 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         powerstripHeader.innerHTML = ascPowerstripPlugs ? 'Powerstrip &#8593;' : 'Powerstrip &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
         projectorHeader.innerHTML = 'Projector &#8597;';
       });
       // Extension Cord header click event
-      const extensionHeader = document.querySelector('th:nth-child(11)');
+      const extensionHeader = document.querySelector('th:nth-child(10)');
       let ascExtensionLength = false;
       extensionHeader.style.cursor = 'pointer';
       extensionHeader.style.userSelect = 'none';
@@ -639,7 +611,7 @@ body {
         rows.sort((a, b) => {
           // Extension length is in the 11th cell (index 10), look for Length: <number>
           const getLength = (row) => {
-            const cell = row.children[10];
+            const cell = row.children[9];
             const match = cell.innerHTML.match(/<strong>Length:<\/strong>\s*([\d.]+)/i);
             return match ? parseFloat(match[1]) : null;
           };
@@ -655,7 +627,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         extensionHeader.innerHTML = ascExtensionLength ? 'Extension Cord &#8593;' : 'Extension Cord &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
@@ -663,7 +635,7 @@ body {
         powerstripHeader.innerHTML = 'Powerstrip &#8597;';
       });
       // Microphone/Recorder header click event
-      const micHeader = document.querySelector('th:nth-child(12)');
+      const micHeader = document.querySelector('th:nth-child(11)');
       let ascMicQty = false;
       micHeader.style.cursor = 'pointer';
       micHeader.style.userSelect = 'none';
@@ -674,7 +646,7 @@ body {
         rows.sort((a, b) => {
           // Mic qty is in the 12th cell (index 11), look for Qty: <number>
           const getQty = (row) => {
-            const cell = row.children[11];
+            const cell = row.children[10];
             const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -690,7 +662,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         micHeader.innerHTML = ascMicQty ? 'Microphone/Recorder &#8593;' : 'Microphone/Recorder &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
@@ -699,7 +671,7 @@ body {
         extensionHeader.innerHTML = 'Extension Cord &#8597;';
       });
       // Other header click event
-      const otherHeader = document.querySelector('th:nth-child(13)');
+      const otherHeader = document.querySelector('th:nth-child(12)');
       let ascOtherQty = false;
       otherHeader.style.cursor = 'pointer';
       otherHeader.style.userSelect = 'none';
@@ -710,7 +682,7 @@ body {
         rows.sort((a, b) => {
           // Other qty is in the 13th cell (index 12), look for Qty: <number>
           const getQty = (row) => {
-            const cell = row.children[12];
+            const cell = row.children[11];
             const match = cell.innerHTML.match(/<strong>Qty:<\/strong>\s*(\d+)/i);
             return match ? parseInt(match[1], 10) : null;
           };
@@ -726,7 +698,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         otherHeader.innerHTML = ascOtherQty ? 'Other &#8593;' : 'Other &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
-        nameHeader.innerHTML = 'Name &#8597;';
+        nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
         monitorHeader.innerHTML = 'Monitor &#8597;';
