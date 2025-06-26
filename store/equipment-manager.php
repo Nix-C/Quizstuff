@@ -708,50 +708,7 @@ body {
         extensionHeader.innerHTML = 'Extension Cord &#8597;';
         micHeader.innerHTML = 'Microphone/Recorder &#8597;';
       });
-      // Status filter logic
-      const statusFilterBtn = document.createElement('button');
-      statusFilterBtn.textContent = 'Filter';
-      statusFilterBtn.style = 'margin-left:6px; font-size:0.95em; background:none; border:1px solid #7fd7ff; color:#7fd7ff; border-radius:3px; cursor:pointer; padding:1px 7px;';
-      statusHeader.appendChild(statusFilterBtn);
-      let statusFilterActive = false;
-      statusFilterBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        // Status order
-        const statusOrder = [
-          'In Inventory',
-          'In Room',
-          'Used in Tech Room',
-          'Broken (In Inventory)',
-          'Other',
-          '' // blank status last
-        ];
-        // Group rows by status
-        const groups = {};
-        statusOrder.forEach(s => { groups[s] = []; });
-        rows.forEach(row => {
-          const select = row.children[13].querySelector('select');
-          let val = select ? select.value.trim() : '';
-          // Normalize for blank
-          if (!val) val = '';
-          if (groups.hasOwnProperty(val)) {
-            groups[val].push(row);
-          } else {
-            groups['Other'].push(row); // fallback for any unexpected value
-          }
-        });
-        // Re-append rows in order
-        statusOrder.forEach(s => {
-          groups[s].forEach(row => tbody.appendChild(row));
-        });
-        // Visual feedback
-        statusFilterActive = !statusFilterActive;
-        statusFilterBtn.style.background = statusFilterActive ? '#7fd7ff22' : 'none';
-        statusHeader.innerHTML = 'Status <span style="font-size:0.9em; color:#7fd7ff;">&#128269;</span>';
-        statusHeader.appendChild(statusFilterBtn);
-      });
-      // Status grouping
+      // Status filter logic (CLEANED UP: use only the button in HTML, do not create/append a new one)
       const statusFilterBtn = document.getElementById('status-filter-btn');
       // Status grouping order
       const statusOrder = [
