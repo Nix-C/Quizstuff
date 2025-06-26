@@ -178,6 +178,19 @@ body {
     td {
       line-height: 1.5;
     }
+    /* Make Laptop and Other columns wider */
+    th#laptop-header, td:nth-child(4) {
+      min-width: 220px;
+      max-width: 320px;
+      width: 260px;
+      word-break: break-word;
+    }
+    th:nth-child(12), td:nth-child(12) {
+      min-width: 180px;
+      max-width: 260px;
+      width: 210px;
+      word-break: break-word;
+    }
     th {
       background: #23272b;
       color: #7fd7ff;
