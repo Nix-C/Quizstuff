@@ -46,7 +46,7 @@
           other_desc, other_qty
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" );
         $stmt2->bind_param(
-          'issssssssssissssssissssssi',
+          'issssssssssissssssisssssisi',
           $registration_id,
           $_POST['laptop_brand'],
           $_POST['laptop_os'],
