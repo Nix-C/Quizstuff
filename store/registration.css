@@ -57,5 +57,6 @@ textarea {
     font-family: monospace;
     font-size: 1em;
     color: #333;
-    background: blur(5px);
+    background: transparent;
+    filter: blur(10px);
 }
