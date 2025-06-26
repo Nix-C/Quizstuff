@@ -101,6 +101,30 @@
           }
           $pad_stmt->close();
         }
+
+        // Insert multiple laptops
+        if (!empty($_POST['laptop_brand']) && is_array($_POST['laptop_brand'])) {
+          $laptop_brands = $_POST['laptop_brand'];
+          $laptop_oss = $_POST['laptop_os'];
+          $laptop_ports = $_POST['laptop_parallel_port'];
+          $laptop_qms = $_POST['laptop_qm_version'];
+          $laptop_users = $_POST['laptop_username'];
+          $laptop_passes = $_POST['laptop_password'];
+          $laptop_stmt = $conn->prepare("INSERT INTO laptops (registration_id, brand, os, parallel_port, qm_version, username, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
+          for ($i = 0; $i < count($laptop_brands); $i++) {
+            $brand = $laptop_brands[$i];
+            $os = $laptop_oss[$i];
+            $port = $laptop_ports[$i];
+            $qm = $laptop_qms[$i];
+            $user = $laptop_users[$i];
+            $pass = $laptop_passes[$i];
+            if ($brand !== '' || $os !== '' || $port !== '' || $qm !== '' || $user !== '' || $pass !== '') {
+              $laptop_stmt->bind_param('issssss', $registration_id, $brand, $os, $port, $qm, $user, $pass);
+              $laptop_stmt->execute();
+            }
+          }
+          $laptop_stmt->close();
+        }
       } else {
         $error = "Database error: " . $conn->error;
       }
@@ -148,32 +172,36 @@
           </fieldset>
 
           <h2>Equipment</h2>
-          <fieldset>
-            <legend>Laptop</legend>
-            <label>Brand: <input type="text" name="laptop_brand" placeholder="e.g. Dell"></label>
-            <label>Operating System:
-              <select name="laptop_os">
-                <option value="">Select</option>
-                <option value="Win11+">Win11+</option>
-                <option value="Win10">Win10</option>
-                <option value="Win7/8">Win7/8</option>
-                <option value="older than Win7">older than Win7</option>
-                <option value="Linux">Linux</option>
-              </select>
-            </label>
-            <label>Parallel Port Type:
-              <select name="laptop_parallel_port">
-                <option value="">Select</option>
-                <option value="None">None</option>
-                <option value="Built-in">Built-in</option>
-                <option value="PCMCIA">PCMCIA</option>
-                <option value="USB Adapter">USB Adapter</option>
-                <option value="Other">Other</option>
-              </select>
-            </label>
-            <label>Quizmachine Version: <input type="text" name="laptop_qm_version" placeholder="e.g. 2.1.0"></label>
-            <label>Username: <input type="text" name="laptop_username" placeholder="e.g. admin"></label>
-            <label>Password: <input type="password" name="laptop_password" placeholder="Password"></label>
+          <fieldset id="laptops-container">
+            <legend>Laptop(s)</legend>
+            <div class="laptop-set">
+              <label>Brand: <input type="text" name="laptop_brand[]" placeholder="e.g. Dell"></label>
+              <label>Operating System:
+                <select name="laptop_os[]">
+                  <option value="">Select</option>
+                  <option value="Win11+">Win11+</option>
+                  <option value="Win10">Win10</option>
+                  <option value="Win7/8">Win7/8</option>
+                  <option value="older than Win7">older than Win7</option>
+                  <option value="Linux">Linux</option>
+                </select>
+              </label>
+              <label>Parallel Port Type:
+                <select name="laptop_parallel_port[]">
+                  <option value="">Select</option>
+                  <option value="None">None</option>
+                  <option value="Built-in">Built-in</option>
+                  <option value="PCMCIA">PCMCIA</option>
+                  <option value="USB Adapter">USB Adapter</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label>Quizmachine Version: <input type="text" name="laptop_qm_version[]" placeholder="e.g. 2.1.0"></label>
+              <label>Username: <input type="text" name="laptop_username[]" placeholder="e.g. admin"></label>
+              <label>Password: <input type="password" name="laptop_password[]" placeholder="Password"></label>
+              <button type="button" class="remove-laptop-set" style="display:none;">Remove</button>
+            </div>
+            <button type="button" id="add-laptop-set">Add Another Laptop</button>
           </fieldset>
 
           <fieldset>
@@ -316,5 +344,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   updateRemoveButtons();
+
+  // Laptops dynamic add/remove
+  const laptopsContainer = document.getElementById('laptops-container');
+  const addLaptopSetBtn = document.getElementById('add-laptop-set');
+  addLaptopSetBtn.addEventListener('click', function() {
+    const firstLaptopSet = laptopsContainer.querySelector('.laptop-set');
+    const newLaptopSet = firstLaptopSet.cloneNode(true);
+    newLaptopSet.querySelectorAll('input, select').forEach(el => el.value = '');
+    newLaptopSet.querySelector('.remove-laptop-set').style.display = 'inline-block';
+    laptopsContainer.insertBefore(newLaptopSet, addLaptopSetBtn);
+    updateRemoveLaptopButtons();
+  });
+  function updateRemoveLaptopButtons() {
+    const laptopSets = laptopsContainer.querySelectorAll('.laptop-set');
+    laptopSets.forEach((set, idx) => {
+      const removeBtn = set.querySelector('.remove-laptop-set');
+      removeBtn.onclick = function() {
+        if (laptopSets.length > 1) {
+          set.remove();
+          updateRemoveLaptopButtons();
+        }
+      };
+      removeBtn.style.display = laptopSets.length > 1 ? 'inline-block' : 'none';
+    });
+  }
+  updateRemoveLaptopButtons();
 });
 </script>
