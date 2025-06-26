@@ -408,7 +408,7 @@ body {
         $hasEquipment = false;
         // Debug: Output interface box values to browser console
         if (!empty($reg['interface_boxes']) && is_array($reg['interface_boxes'])) {
-          json_encode($reg['interface_boxes']);
+          json_encode($reg);
           foreach ($reg['interface_boxes'] as $box) {
             echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars($box['type']), ", interface_qty: ", htmlspecialchars($box['qty']), "');</script>\n";
           }
