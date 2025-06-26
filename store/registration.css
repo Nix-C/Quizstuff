@@ -2,9 +2,19 @@ fieldset label {
     margin: 10px;
     font-weight: bold;
     display: flex;
-    gap: 50px;
+    gap: 10px;
 }
 fieldset input[type="text"] {
     width: auto;
     padding: 4px 8px;
+}
+fieldset select, fieldset select option {
+    width: auto;
+    padding: 4px 8px;
+}
+fieldset {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    gap: 20px;
 }
