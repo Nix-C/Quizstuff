@@ -246,6 +246,7 @@ body {
   <table id="equipment-table">
     <thead>
       <tr>
+        <th id="itemid-header" style="cursor:pointer; user-select:none;">Item ID</th>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
@@ -271,7 +272,11 @@ body {
         // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
         // $item_data: array of fields for the item, or null for empty
         // Output a <tr> with only the relevant item column filled
+        $row_index = isset($item_data['row_index']) ? $item_data['row_index'] : 0;
+        $item_id = $reg['id'] . '_' . $item_type . '_' . $row_index;
         echo "<tr>\n";
+        // Item ID
+        echo "  <td>" . htmlspecialchars($item_id) . "</td>\n";
         // ID
         echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
         // Contact
