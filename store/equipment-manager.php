@@ -221,7 +221,7 @@ body {
       <tr>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Name &#8597;</th>
-        <th>Contact</th>
+        <th id="contact-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
         <th id="interface-header" style="cursor:pointer; user-select:none;">Interface Box &#8597;</th>
@@ -243,7 +243,11 @@ body {
         $registrations as $reg): ?>
         <tr>
           <td><?= htmlspecialchars($reg['id']) ?></td>
-          <td><?= htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) ?></td>
+          <td>
+            <strong>Name:</strong> <?= htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) ?><br>
+            <?php if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>'; ?>
+            <?php if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']); ?>
+          </td>
           <td>
             <?php if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br><br>'; ?>
             <?php if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']); ?>
@@ -258,7 +262,7 @@ body {
             <?php if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']); ?>
           </td>
           <td>
-            <?php if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br>'; ?>
+            <?php if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br'; ?>
             <?php if ($reg['interface_qty'] !== null && $reg['interface_qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($reg['interface_qty']); ?>
           </td>
           <td class="pad-list">
@@ -339,6 +343,7 @@ body {
       const table = document.getElementById('equipment-table');
       const idHeader = document.getElementById('id-header');
       const nameHeader = document.getElementById('name-header');
+      const contactHeader = document.getElementById('contact-header');
       const districtHeader = document.getElementById('district-header');
       const laptopHeader = document.getElementById('laptop-header');
       const interfaceHeader = document.getElementById('interface-header');
@@ -347,6 +352,7 @@ body {
       const horizontal = document.getElementById('horizontal');
       let ascId = false;
       let ascName = false;
+      let ascContact = false;
       let ascDistrict = false;
       let ascLaptop = false;
       let ascInterface = false;
@@ -403,6 +409,7 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         idHeader.innerHTML = ascId ? 'ID &#8593;' : 'ID &#8595;';
         nameHeader.innerHTML = 'Name &#8597;';
+        contactHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -421,6 +428,26 @@ body {
         rows.forEach(row => tbody.appendChild(row));
         nameHeader.innerHTML = ascName ? 'Name &#8593;' : 'Name &#8595;';
         idHeader.innerHTML = 'ID &#8597;';
+        contactHeader.innerHTML = 'Contact &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
+      // Contact header click event
+      contactHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          const contactA = a.children[2].textContent.trim().toLowerCase();
+          const contactB = b.children[2].textContent.trim().toLowerCase();
+          if (contactA < contactB) return ascContact ? -1 : 1;
+          if (contactA > contactB) return ascContact ? 1 : -1;
+          return 0;
+        });
+        ascContact = !ascContact;
+        rows.forEach(row => tbody.appendChild(row));
+        contactHeader.innerHTML = ascContact ? 'Contact &#8593;' : 'Contact &#8595;';
+        idHeader.innerHTML = 'ID &#8597;';
+        nameHeader.innerHTML = 'Name &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
