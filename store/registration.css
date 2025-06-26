@@ -42,8 +42,9 @@ h1 {
     margin-bottom: 20px;
 }
 hr {
-    border: 0;
+    border: solid white 2.5px;
     height: 1px;
     background: linear-gradient(90deg, #004b78, #431235);
     margin: 20px 0;
+    width: 60%;
 }

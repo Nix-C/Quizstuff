@@ -129,7 +129,7 @@
         <?php endif; ?>
         <form id="equipment-registration-form" method="post">
           <fieldset class="above">
-            <h1>Personal Info</h1>
+            <h2>Personal Info</h2>
             <label for="first_name">First Name
               <input type="text" name="first_name" id="first_name" required value="<?= htmlspecialchars($_POST['first_name'] ?? '') ?>">
             </label>
@@ -147,7 +147,7 @@
             </label>
           </fieldset>
 
-          <h1>Equipment</h1>
+          <h2>Equipment</h2>
           <fieldset>
             <legend>Laptop</legend>
             <label>Brand: <input type="text" name="laptop_brand" placeholder="e.g. Dell"></label>
