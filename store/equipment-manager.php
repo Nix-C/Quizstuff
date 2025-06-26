@@ -283,7 +283,21 @@ body {
         // Pads
         echo "  <td class=\"pad-list\">";
         if ($item_type === 'pad' && $item_data) {
-          echo '<ul style="margin:0; padding-left:18px;"><li>' . htmlspecialchars($item_data['color']) . ' (1)</li></ul>';
+          // Map color names to CSS color values
+          $colorMap = [
+            'red' => 'red',
+            'green' => 'green',
+            'blue' => 'blue',
+            'yellow' => '#e6e600',
+            'orange' => 'orange',
+            'purple' => 'purple',
+            'black' => 'black',
+            'white' => 'white',
+            // Add more as needed
+          ];
+          $padColor = strtolower(trim($item_data['color']));
+          $fontColor = isset($colorMap[$padColor]) ? $colorMap[$padColor] : 'inherit';
+          echo '<ul style="margin:0; padding-left:18px;"><li style="color:' . htmlspecialchars($fontColor) . '; font-weight:bold;">' . htmlspecialchars($item_data['color']) . ' (1)</li></ul>';
         } else {
           echo '—';
         }
