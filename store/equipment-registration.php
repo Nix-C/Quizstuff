@@ -199,18 +199,6 @@
           </fieldset>
 
           <fieldset>
-            <legend>Interface Box</legend>
-            <label>Type:
-              <select name="interface_type">
-                <option value="">Select</option>
-                <option value="USB">USB</option>
-                <option value="Parallel">Parallel</option>
-              </select>
-            </label>
-            <label>Quantity: <input type="number" name="interface_qty" min="0" placeholder="e.g. 1"></label>
-          </fieldset>
-
-          <fieldset>
             <legend>Pads</legend>
             <div id="pads-container">
               <div class="pad-set">
@@ -229,6 +217,19 @@
             </div>
             <button type="button" id="add-pad-set">Add Another Set of Pads</button>
           </fieldset>
+          
+          <fieldset>
+            <legend>Interface Box</legend>
+            <label>Type:
+              <select name="interface_type">
+                <option value="">Select</option>
+                <option value="USB">USB</option>
+                <option value="Parallel">Parallel</option>
+              </select>
+            </label>
+            <label>Quantity: <input type="number" name="interface_qty" min="0" placeholder="e.g. 1"></label>
+          </fieldset>
+
 
           <fieldset>
             <legend>Monitor</legend>
