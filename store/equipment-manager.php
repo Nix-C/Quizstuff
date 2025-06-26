@@ -24,10 +24,10 @@ if ($result && $result->num_rows > 0) {
       $registrations[$reg_id]['pads'] = [];
       $registrations[$reg_id]['notes'] = isset($row['notes']) ? $row['notes'] : '';
     } else {
-      // Only set interface fields if not already set (prevents overwriting with nulls from pad join)
+      // Always set interface fields if the current row has a non-null value
       $interface_fields = ['interface_type','interface_qty'];
       foreach ($interface_fields as $field) {
-        if (!isset($registrations[$reg_id][$field]) || $registrations[$reg_id][$field] === null) {
+        if ($row[$field] !== null) {
           $registrations[$reg_id][$field] = $row[$field];
         }
       }
