@@ -48,3 +48,14 @@ hr {
     margin: 20px 0;
     width: 60%;
 }
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: monospace;
+    font-size: 1em;
+    color: #333;
+    background: blur(5px);
+}
