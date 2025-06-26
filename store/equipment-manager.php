@@ -2,37 +2,41 @@
 include 'config/database.php';
 $page_title = "Equipment Registration Overview";
 
-// Fetch all registrations with details and pads
-$sql = "SELECT er.*, ed.*, p.pad_color, p.pad_qty
-FROM equipment_registration er
-LEFT JOIN equipment_details ed ON er.id = ed.registration_id
-LEFT JOIN pads p ON er.id = p.registration_id
-ORDER BY er.id DESC, p.pad_color";
-$result = $conn->query($sql);
-
-// Build a multi-dimensional array to group pads by registration
+// Fetch all registrations
 $registrations = [];
+$sql = "SELECT * FROM equipment_registration ORDER BY id DESC";
+$result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $reg_id = $row['id'];
-    if (!is_numeric($reg_id) || $reg_id === null || $reg_id === '') {
-      continue; // Skip rows with missing or invalid id
-    }
-    if (!isset($registrations[$reg_id])) {
-      // Only set all fields the first time
-      $registrations[$reg_id] = $row;
-      $registrations[$reg_id]['pads'] = [];
-      $registrations[$reg_id]['notes'] = isset($row['notes']) ? $row['notes'] : '';
-    } else {
-      // Always set interface fields if the current row has a non-null value
-      $interface_fields = ['interface_type','interface_qty'];
-      foreach ($interface_fields as $field) {
-        if ($row[$field] !== null) {
-          $registrations[$reg_id][$field] = $row[$field];
-        }
+    $registrations[$reg_id] = $row;
+    $registrations[$reg_id]['pads'] = [];
+    $registrations[$reg_id]['notes'] = isset($row['notes']) ? $row['notes'] : '';
+  }
+}
+
+// Fetch all equipment_details and merge into registrations
+$sql = "SELECT * FROM equipment_details";
+$result = $conn->query($sql);
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $reg_id = $row['registration_id'];
+    if (!isset($registrations[$reg_id])) continue;
+    foreach ($row as $key => $val) {
+      if ($key !== 'registration_id' && $val !== null) {
+        $registrations[$reg_id][$key] = $val;
       }
     }
-    // Only add pads, do not overwrite any other fields
+  }
+}
+
+// Fetch all pads and merge into registrations
+$sql = "SELECT * FROM pads";
+$result = $conn->query($sql);
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $reg_id = $row['registration_id'];
+    if (!isset($registrations[$reg_id])) continue;
     if ($row['pad_color'] !== null) {
       $registrations[$reg_id]['pads'][] = [
         'pad_color' => $row['pad_color'],
@@ -40,13 +44,6 @@ if ($result && $result->num_rows > 0) {
       ];
     }
   }
-  // After building, ensure notes is set for all registrations (in case of missing notes in some join rows)
-  foreach ($registrations as $id => &$reg) {
-    if (!isset($reg['notes'])) {
-      $reg['notes'] = '';
-    }
-  }
-  unset($reg);
 }
 ?>
 <!DOCTYPE html>
@@ -320,7 +317,8 @@ body {
         if ($item_type === 'monitor' && $item_data) {
           if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
           if ($item_data['size']) echo '<strong>Size:</strong> ' . htmlspecialchars($item_data['size']) . '<br><br>';
-          if ($item_data['resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($item_data['resolution']);
+          if ($item_data['resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($item_data['resolution']) . '<br><br>';
+          if ($item_data['connection']) echo '<strong>Connection:</strong> ' . htmlspecialchars($item_data['connection']);
         }
         echo "</td>\n";
         // Projector
@@ -436,11 +434,12 @@ body {
         }
         // Monitor (qty rows)
         $monitor_qty = 1; // Only one monitor per registration assumed
-        if ($reg['monitor_brand'] || $reg['monitor_size'] || $reg['monitor_resolution']) {
+        if ($reg['monitor_brand'] || $reg['monitor_size'] || $reg['monitor_resolution'] || $reg['monitor_connection']) {
           output_item_row($reg, 'monitor', [
             'brand' => $reg['monitor_brand'],
             'size' => $reg['monitor_size'],
-            'resolution' => $reg['monitor_resolution']
+            'resolution' => $reg['monitor_resolution'],
+            'connection' => $reg['monitor_connection']
           ], $statuses);
         }
         // Projector (qty rows)
