@@ -168,7 +168,7 @@ body {
       text-align: left;
     }
     td{
-      line-height: 1.4;
+      line-height: 1.8;
     }
     th {
       background: #23272b;
