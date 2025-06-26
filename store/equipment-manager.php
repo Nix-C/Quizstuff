@@ -880,14 +880,14 @@ body {
     // Status save AJAX
     document.querySelectorAll('.status-dropdown').forEach(function(drop) {
       drop.addEventListener('change', function() {
-        const id = this.getAttribute('data-id');
+        const itemkey = this.getAttribute('data-itemkey');
         const status = this.value;
         const msg = this.parentElement.querySelector('.status-save-msg');
         msg.textContent = 'Saving...';
         fetch('save-status.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: 'id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status)
+          body: 'itemkey=' + encodeURIComponent(itemkey) + '&status=' + encodeURIComponent(status)
         })
         .then(res => res.json())
         .then(data => {
