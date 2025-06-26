@@ -163,7 +163,7 @@ body {
       overflow: hidden;
     }
     th, td {
-      border: 1px solidrgb(119, 154, 198);
+      border: 1px solid rgb(104, 135, 173);
       padding: 10px 14px;
       text-align: left;
     }
