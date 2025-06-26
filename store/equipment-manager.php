@@ -394,6 +394,7 @@ body {
       foreach (
         $registrations as $reg
       ) {
+        $hasEquipment = false;
         // Debug: Output interface box values to browser console
         echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars(isset($reg['interface_type']) ? $reg['interface_type'] : ''), ", interface_qty: ", htmlspecialchars(isset($reg['interface_qty']) ? $reg['interface_qty'] : ''), "');</script>\n";
         // Laptops (always 1 row if present)
@@ -405,6 +406,7 @@ body {
           (isset($reg['laptop_username']) && $reg['laptop_username']) ||
           (isset($reg['laptop_password']) && $reg['laptop_password'])
         ) {
+          $hasEquipment = true;
           output_item_row($reg, 'laptop', [
             'brand' => isset($reg['laptop_brand']) ? $reg['laptop_brand'] : '',
             'os' => isset($reg['laptop_os']) ? $reg['laptop_os'] : '',
@@ -417,6 +419,7 @@ body {
         // Interface boxes (qty rows)
         $interface_qty = (int)(isset($reg['interface_qty']) ? $reg['interface_qty'] : 0);
         if (isset($reg['interface_type']) && $reg['interface_type'] && $interface_qty > 0) {
+          $hasEquipment = true;
           for ($i = 0; $i < $interface_qty; $i++) {
             output_item_row($reg, 'interface', [
               'type' => $reg['interface_type'],
@@ -424,7 +427,7 @@ body {
             ], $statuses);
           }
         } elseif (isset($reg['interface_type']) && $reg['interface_type']) {
-          // If qty not set, still show one row
+          $hasEquipment = true;
           output_item_row($reg, 'interface', [
             'type' => $reg['interface_type'],
             'qty' => isset($reg['interface_qty']) ? $reg['interface_qty'] : ''
@@ -435,6 +438,7 @@ body {
           foreach ($reg['pads'] as $pad) {
             $pad_qty = (int)(isset($pad['pad_qty']) ? $pad['pad_qty'] : 0);
             for ($i = 0; $i < $pad_qty; $i++) {
+              $hasEquipment = true;
               output_item_row($reg, 'pad', [
                 'color' => isset($pad['pad_color']) ? $pad['pad_color'] : ''
               ], $statuses);
@@ -448,6 +452,7 @@ body {
           (isset($reg['monitor_resolution']) && $reg['monitor_resolution']) ||
           (isset($reg['monitor_connection']) && $reg['monitor_connection'])
         ) {
+          $hasEquipment = true;
           output_item_row($reg, 'monitor', [
             'brand' => isset($reg['monitor_brand']) ? $reg['monitor_brand'] : '',
             'size' => isset($reg['monitor_size']) ? $reg['monitor_size'] : '',
@@ -458,6 +463,7 @@ body {
         // Projector (qty rows)
         $projector_qty = (int)(isset($reg['projector_qty']) ? $reg['projector_qty'] : 0);
         if (isset($reg['projector_brand']) && $reg['projector_brand'] && $projector_qty > 0) {
+          $hasEquipment = true;
           for ($i = 0; $i < $projector_qty; $i++) {
             output_item_row($reg, 'projector', [
               'brand' => $reg['projector_brand'],
@@ -467,6 +473,7 @@ body {
             ], $statuses);
           }
         } elseif (isset($reg['projector_brand']) && $reg['projector_brand']) {
+          $hasEquipment = true;
           output_item_row($reg, 'projector', [
             'brand' => $reg['projector_brand'],
             'lumens' => isset($reg['projector_lumens']) ? $reg['projector_lumens'] : '',
@@ -481,6 +488,7 @@ body {
           (isset($reg['powerstrip_color']) && $reg['powerstrip_color']) ||
           (isset($reg['powerstrip_outlets']) && $reg['powerstrip_outlets'])
         ) {
+          $hasEquipment = true;
           output_item_row($reg, 'powerstrip', [
             'make' => isset($reg['powerstrip_make']) ? $reg['powerstrip_make'] : '',
             'model' => isset($reg['powerstrip_model']) ? $reg['powerstrip_model'] : '',
@@ -493,6 +501,7 @@ body {
           (isset($reg['extension_color']) && $reg['extension_color']) ||
           (isset($reg['extension_length']) && $reg['extension_length'])
         ) {
+          $hasEquipment = true;
           output_item_row($reg, 'extension', [
             'color' => isset($reg['extension_color']) ? $reg['extension_color'] : '',
             'length' => isset($reg['extension_length']) ? $reg['extension_length'] : ''
@@ -501,6 +510,7 @@ body {
         // Microphone/Recorder (qty rows)
         $mic_qty = (int)(isset($reg['mic_qty']) ? $reg['mic_qty'] : 0);
         if (isset($reg['mic_type']) && $reg['mic_type'] && $mic_qty > 0) {
+          $hasEquipment = true;
           for ($i = 0; $i < $mic_qty; $i++) {
             output_item_row($reg, 'mic', [
               'type' => $reg['mic_type'],
@@ -510,6 +520,7 @@ body {
             ], $statuses);
           }
         } elseif (isset($reg['mic_type']) && $reg['mic_type']) {
+          $hasEquipment = true;
           output_item_row($reg, 'mic', [
             'type' => $reg['mic_type'],
             'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
@@ -520,6 +531,7 @@ body {
         // Other (qty rows)
         $other_qty = (int)(isset($reg['other_qty']) ? $reg['other_qty'] : 0);
         if (isset($reg['other_desc']) && $reg['other_desc'] && $other_qty > 0) {
+          $hasEquipment = true;
           for ($i = 0; $i < $other_qty; $i++) {
             output_item_row($reg, 'other', [
               'desc' => $reg['other_desc'],
@@ -527,10 +539,15 @@ body {
             ], $statuses);
           }
         } elseif (isset($reg['other_desc']) && $reg['other_desc']) {
+          $hasEquipment = true;
           output_item_row($reg, 'other', [
             'desc' => $reg['other_desc'],
             'qty' => isset($reg['other_qty']) ? $reg['other_qty'] : ''
           ], $statuses);
+        }
+        // If no equipment or pads, show a blank row for this registration
+        if (!$hasEquipment) {
+          output_item_row($reg, '', [], $statuses);
         }
       }
       ?>
@@ -969,7 +986,7 @@ body {
           body: 'itemkey=' + encodeURIComponent(itemkey) + '&notes=' + encodeURIComponent(notes)
         })
         .then(res => res.json())
-        .then(data => {
+        .then data => {
           if (data.success) {
             status.textContent = 'Saved!';
             setTimeout(() => { status.textContent = ''; }, 1500);
