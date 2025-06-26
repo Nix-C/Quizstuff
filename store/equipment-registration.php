@@ -217,7 +217,7 @@
             </div>
             <button type="button" id="add-pad-set">Add Another Set of Pads</button>
           </fieldset>
-          
+
           <fieldset>
             <legend>Interface Box</legend>
             <label>Type:
@@ -289,7 +289,7 @@
             <label>Model: <input type="text" name="mic_model" placeholder="e.g. SM58"></label>
             <label>Quantity: <input type="number" name="mic_qty" min="0" placeholder="e.g. 1"></label>
           </fieldset>
-        </div>
+
           <fieldset>
             <legend>Other</legend>
             <label>Description:
@@ -297,7 +297,8 @@
             </label>
             <label>Quantity: <input type="number" name="other_qty" min="0" placeholder="e.g. 1"></label>
           </fieldset>
-
+        </div>
+        
           <div id="agreement" style="display: flex; gap: 10px; margin-top: 20px;">
             <input type="checkbox" name="agree" id="agree" required>
             <p>I confirm that the above information is accurate and I am authorized to register this equipment.</p>
