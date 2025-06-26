@@ -164,6 +164,7 @@
             </label>
           </fieldset>
 
+        <div id="wrap">
           <h2>Equipment</h2>
           <fieldset id="laptops-container">
             <legend>Laptop(s)</legend>
@@ -287,7 +288,7 @@
             <label>Model: <input type="text" name="mic_model" placeholder="e.g. SM58"></label>
             <label>Quantity: <input type="number" name="mic_qty" min="0" placeholder="e.g. 1"></label>
           </fieldset>
-
+        </div>
           <fieldset>
             <legend>Other</legend>
             <label>Description:
