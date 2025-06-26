@@ -518,7 +518,7 @@ body {
         // Sort rows: those with the color first (alphabetically by color), then the rest (alphabetically by color or blank)
         rows.sort((a, b) => {
           const getPadColor = (row) => {
-            const padCell = row.children[6];
+            const padCell = row.children[5]; // Pads column is index 5
             const li = padCell.querySelector('li');
             if (!li) return '';
             // Extract color name before first space or parenthesis
