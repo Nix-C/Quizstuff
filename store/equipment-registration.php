@@ -164,8 +164,8 @@
             </label>
           </fieldset>
 
-        <div id="wrap">
           <h2>Equipment</h2>
+        <div id="wrap">
           <fieldset id="laptops-container">
             <legend>Laptop(s)</legend>
             <div class="laptop-set">
