@@ -10,6 +10,15 @@ LEFT JOIN pads p ON er.id = p.registration_id
 ORDER BY er.id DESC, p.pad_color";
 $result = $conn->query($sql);
 
+// Fetch all per-item statuses
+$status_map = [];
+$status_result = $conn->query("SELECT itemkey, status FROM equipment_item_status");
+if ($status_result && $status_result->num_rows > 0) {
+  while ($row = $status_result->fetch_assoc()) {
+    $status_map[$row['itemkey']] = $row['status'];
+  }
+}
+
 // Build a multi-dimensional array to group pads by registration
 $registrations = [];
 if ($result && $result->num_rows > 0) {
@@ -241,6 +250,7 @@ body {
       <?php
       // Helper to output a row for a single item, now with per-row status
       function output_item_row($reg, $item_type, $item_data, $show_notes_status = false, $item_index = 0) {
+        global $status_map;
         $item_key = $reg['id'] . '_' . $item_type . '_' . $item_index;
         echo "<tr>";
         // ID
@@ -332,8 +342,8 @@ body {
           'Broken (In Inventory)',
           'Other'
         ];
-        // For now, default to blank status; backend can be extended to store per-item status
-        $currentStatus = '';
+        // Use per-item status if available
+        $currentStatus = isset($status_map[$item_key]) ? $status_map[$item_key] : '';
         echo '<select class="status-dropdown" data-itemkey="' . htmlspecialchars($item_key) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
         foreach ($statuses as $status) {
           $selected = ($currentStatus === $status) ? 'selected' : '';
