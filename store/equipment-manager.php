@@ -22,8 +22,17 @@ if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $reg_id = $row['registration_id'];
     if (!isset($registrations[$reg_id])) continue;
+    // Aggregate interface boxes
+    if (isset($row['interface_type']) && $row['interface_type']) {
+      if (!isset($registrations[$reg_id]['interface_boxes'])) $registrations[$reg_id]['interface_boxes'] = [];
+      $registrations[$reg_id]['interface_boxes'][] = [
+        'type' => $row['interface_type'],
+        'qty' => isset($row['interface_qty']) ? (int)$row['interface_qty'] : 0
+      ];
+    }
+    // Merge other fields as before
     foreach ($row as $key => $val) {
-      if ($key !== 'registration_id' && $val !== null) {
+      if ($key !== 'registration_id' && $val !== null && $key !== 'interface_type' && $key !== 'interface_qty') {
         $registrations[$reg_id][$key] = $val;
       }
     }
@@ -396,14 +405,20 @@ body {
       ) {
         $hasEquipment = false;
         // Debug: Output interface box values to browser console
-        echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars(isset($reg['interface_type']) ? $reg['interface_type'] : ''), ", interface_qty: ", htmlspecialchars(isset($reg['interface_qty']) ? $reg['interface_qty'] : ''), "');</script>\n";
+        if (isset($reg['interface_boxes'])) {
+          foreach ($reg['interface_boxes'] as $box) {
+            echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: ", htmlspecialchars($box['type']), ", interface_qty: ", htmlspecialchars($box['qty']), "');</script>\n";
+          }
+        } else {
+          echo "<script>console.log('ID: ", htmlspecialchars($reg['id']), ", interface_type: none, interface_qty: none');</script>\n";
+        }
         // Laptops (always 1 row if present)
         if (
-          (isset($reg['laptop_brand']) && $reg['laptop_brand']) ||
-          (isset($reg['laptop_os']) && $reg['laptop_os']) ||
-          (isset($reg['laptop_parallel_port']) && $reg['laptop_parallel_port']) ||
-          (isset($reg['laptop_qm_version']) && $reg['laptop_qm_version']) ||
-          (isset($reg['laptop_username']) && $reg['laptop_username']) ||
+          (isset($reg['laptop_brand']) && $reg['laptop_brand']) || 
+          (isset($reg['laptop_os']) && $reg['laptop_os']) || 
+          (isset($reg['laptop_parallel_port']) && $reg['laptop_parallel_port']) || 
+          (isset($reg['laptop_qm_version']) && $reg['laptop_qm_version']) || 
+          (isset($reg['laptop_username']) && $reg['laptop_username']) || 
           (isset($reg['laptop_password']) && $reg['laptop_password'])
         ) {
           $hasEquipment = true;
@@ -416,22 +431,25 @@ body {
             'password' => isset($reg['laptop_password']) ? $reg['laptop_password'] : '',
           ], $statuses);
         }
-        // Interface boxes (qty rows)
-        $interface_qty = (int)(isset($reg['interface_qty']) ? $reg['interface_qty'] : 0);
-        if (isset($reg['interface_type']) && $reg['interface_type'] && $interface_qty > 0) {
-          $hasEquipment = true;
-          for ($i = 0; $i < $interface_qty; $i++) {
-            output_item_row($reg, 'interface', [
-              'type' => $reg['interface_type'],
-              'qty' => 1
-            ], $statuses);
+        // Interface boxes (multiple types/qty)
+        if (isset($reg['interface_boxes']) && is_array($reg['interface_boxes'])) {
+          foreach ($reg['interface_boxes'] as $box) {
+            if ($box['type'] && $box['qty'] > 0) {
+              $hasEquipment = true;
+              for ($i = 0; $i < $box['qty']; $i++) {
+                output_item_row($reg, 'interface', [
+                  'type' => $box['type'],
+                  'qty' => 1
+                ], $statuses);
+              }
+            } elseif ($box['type']) {
+              $hasEquipment = true;
+              output_item_row($reg, 'interface', [
+                'type' => $box['type'],
+                'qty' => $box['qty']
+              ], $statuses);
+            }
           }
-        } elseif (isset($reg['interface_type']) && $reg['interface_type']) {
-          $hasEquipment = true;
-          output_item_row($reg, 'interface', [
-            'type' => $reg['interface_type'],
-            'qty' => isset($reg['interface_qty']) ? $reg['interface_qty'] : ''
-          ], $statuses);
         }
         // Pads (each pad color/qty as separate rows)
         if (!empty($reg['pads'])) {
