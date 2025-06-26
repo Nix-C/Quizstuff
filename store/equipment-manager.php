@@ -247,7 +247,6 @@ body {
     <thead>
       <tr>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
-        <th id="productid-header">Product ID</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
@@ -272,33 +271,9 @@ body {
         // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
         // $item_data: array of fields for the item, or null for empty
         // Output a <tr> with only the relevant item column filled
-        $row_index = isset($item_data['row_index']) ? $item_data['row_index'] : 0;
-        // Generate a unique product ID for each item
-        $product_id = $reg['id'] . '_' . $item_type . '_' . $row_index;
-        if ($item_type === 'pad' && isset($item_data['color'])) {
-          $product_id = $reg['id'] . '_pad_' . strtolower($item_data['color']) . '_' . $row_index;
-        } else if ($item_type === 'interface' && isset($item_data['type'])) {
-          $product_id = $reg['id'] . '_interface_' . strtolower($item_data['type']) . '_' . $row_index;
-        } else if ($item_type === 'monitor' && isset($item_data['brand'])) {
-          $product_id = $reg['id'] . '_monitor_' . strtolower($item_data['brand']) . '_' . $row_index;
-        } else if ($item_type === 'laptop' && isset($item_data['brand'])) {
-          $product_id = $reg['id'] . '_laptop_' . strtolower($item_data['brand']) . '_' . $row_index;
-        } else if ($item_type === 'projector' && isset($item_data['brand'])) {
-          $product_id = $reg['id'] . '_projector_' . strtolower($item_data['brand']) . '_' . $row_index;
-        } else if ($item_type === 'powerstrip' && isset($item_data['make'])) {
-          $product_id = $reg['id'] . '_powerstrip_' . strtolower($item_data['make']) . '_' . $row_index;
-        } else if ($item_type === 'extension' && isset($item_data['color'])) {
-          $product_id = $reg['id'] . '_extension_' . strtolower($item_data['color']) . '_' . $row_index;
-        } else if ($item_type === 'mic' && isset($item_data['type'])) {
-          $product_id = $reg['id'] . '_mic_' . strtolower($item_data['type']) . '_' . $row_index;
-        } else if ($item_type === 'other' && isset($item_data['desc'])) {
-          $product_id = $reg['id'] . '_other_' . $row_index;
-        }
         echo "<tr>\n";
         // ID
         echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
-        // Product ID
-        echo "  <td>" . htmlspecialchars($product_id) . "</td>\n";
         // Contact
         echo "  <td><strong>Name:</strong> " . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . "<br>";
         if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>';
