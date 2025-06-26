@@ -10,17 +10,6 @@ LEFT JOIN pads p ON er.id = p.registration_id
 ORDER BY er.id DESC, p.pad_color";
 $result = $conn->query($sql);
 
-// Fetch all per-item statuses and notes
-$status_map = [];
-$notes_map = [];
-$status_result = $conn->query("SELECT itemkey, status, notes FROM equipment_item_status");
-if ($status_result && $status_result->num_rows > 0) {
-  while ($row = $status_result->fetch_assoc()) {
-    $status_map[$row['itemkey']] = $row['status'];
-    $notes_map[$row['itemkey']] = $row['notes'];
-  }
-}
-
 // Build a multi-dimensional array to group pads by registration
 $registrations = [];
 if ($result && $result->num_rows > 0) {
@@ -250,203 +239,240 @@ body {
     </thead>
     <tbody>
       <?php
-      // Helper to output a row for a single item, now with per-row status and notes
-      function output_item_row($reg, $item_type, $item_data, $show_notes_status = false, $item_index = 0) {
-        global $status_map, $notes_map;
-        $item_key = $reg['id'] . '_' . $item_type . '_' . $item_index;
-        echo "<tr>";
+      // Helper to output a row for a single item
+      function output_item_row($reg, $item_type, $item_data, $statuses) {
+        // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
+        // $item_data: array of fields for the item, or null for empty
+        // Output a <tr> with only the relevant item column filled
+        echo "<tr>\n";
         // ID
-        echo '<td>' . htmlspecialchars($reg['id']) . '</td>';
+        echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
         // Contact
-        echo '<td><strong>Name:</strong> ' . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . '<br>';
+        echo "  <td><strong>Name:</strong> " . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . "<br>";
         if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>';
         if ($reg['email']) echo '<strong>Email: </strong>' . htmlspecialchars($reg['email']);
-        echo '</td>';
+        echo "</td>\n";
         // District
-        echo '<td>' . htmlspecialchars($reg['district']) . '</td>';
+        echo "  <td>" . htmlspecialchars($reg['district']) . "</td>\n";
         // Laptop
-        echo '<td>';
-        if ($item_type === 'laptop') {
-          if ($reg['laptop_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['laptop_brand']) . '<br><br>';
-          if ($reg['laptop_os']) echo '<strong>OS:</strong> ' . htmlspecialchars($reg['laptop_os']) . '<br><br>';
-          if ($reg['laptop_parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($reg['laptop_parallel_port']) . '<br><br>';
-          if ($reg['laptop_qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($reg['laptop_qm_version']) . '<br><br>';
-          if ($reg['laptop_username']) echo '<strong>User:</strong> ' . htmlspecialchars($reg['laptop_username']) . '<br><br>';
-          if ($reg['laptop_password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($reg['laptop_password']);
+        echo "  <td>";
+        if ($item_type === 'laptop' && $item_data) {
+          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
+          if ($item_data['os']) echo '<strong>OS:</strong> ' . htmlspecialchars($item_data['os']) . '<br><br>';
+          if ($item_data['parallel_port']) echo '<strong>Parallel:</strong> ' . htmlspecialchars($item_data['parallel_port']) . '<br><br>';
+          if ($item_data['qm_version']) echo '<strong>QM Ver:</strong> ' . htmlspecialchars($item_data['qm_version']) . '<br><br>';
+          if ($item_data['username']) echo '<strong>User:</strong> ' . htmlspecialchars($item_data['username']) . '<br><br>';
+          if ($item_data['password']) echo '<strong>Pass:</strong> ' . htmlspecialchars($item_data['password']);
         }
-        echo '</td>';
+        echo "</td>\n";
         // Interface Box
-        echo '<td>';
-        if ($item_type === 'interface') {
-          if ($reg['interface_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['interface_type']) . '<br><br>';
-          if ($item_data !== null) echo '<strong>Qty:</strong> 1';
+        echo "  <td>";
+        if ($item_type === 'interface' && $item_data) {
+          if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
+          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> ' . htmlspecialchars($item_data['qty']);
         }
-        echo '</td>';
+        echo "</td>\n";
         // Pads
-        echo '<td class="pad-list">';
+        echo "  <td class=\"pad-list\">";
         if ($item_type === 'pad' && $item_data) {
-          echo '<ul style="margin:0; padding-left:18px;"><li>' . htmlspecialchars($item_data['pad_color']) . ' (1)</li></ul>';
+          echo '<ul style="margin:0; padding-left:18px;"><li>' . htmlspecialchars($item_data['color']) . ' (1)</li></ul>';
+        } else {
+          echo '—';
         }
-        echo '</td>';
+        echo "</td>\n";
         // Monitor
-        echo '<td>';
-        if ($item_type === 'monitor') {
-          if ($reg['monitor_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['monitor_brand']) . '<br><br>';
-          if ($reg['monitor_size']) echo '<strong>Size:</strong> ' . htmlspecialchars($reg['monitor_size']) . '<br><br>';
-          if ($reg['monitor_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['monitor_resolution']);
-          echo '<br><strong>Qty:</strong> 1';
+        echo "  <td>";
+        if ($item_type === 'monitor' && $item_data) {
+          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
+          if ($item_data['size']) echo '<strong>Size:</strong> ' . htmlspecialchars($item_data['size']) . '<br><br>';
+          if ($item_data['resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($item_data['resolution']);
         }
-        echo '</td>';
+        echo "</td>\n";
         // Projector
-        echo '<td>';
-        if ($item_type === 'projector') {
-          if ($reg['projector_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['projector_brand']) . '<br><br>';
-          if ($reg['projector_lumens'] !== null && $reg['projector_lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($reg['projector_lumens']) . '<br><br>';
-          if ($reg['projector_resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($reg['projector_resolution']) . '<br><br>';
-          echo '<strong>Qty:</strong> 1';
+        echo "  <td>";
+        if ($item_type === 'projector' && $item_data) {
+          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
+          if ($item_data['lumens'] !== null && $item_data['lumens'] !== '') echo '<strong>Lumens:</strong> ' . htmlspecialchars($item_data['lumens']) . '<br><br>';
+          if ($item_data['resolution']) echo '<strong>Res:</strong> ' . htmlspecialchars($item_data['resolution']) . '<br><br>';
+          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> 1';
         }
-        echo '</td>';
+        echo "</td>\n";
         // Powerstrip
-        echo '<td>';
-        if ($item_type === 'powerstrip') {
-          if ($reg['powerstrip_make']) echo '<strong>Make:</strong> ' . htmlspecialchars($reg['powerstrip_make']) . '<br><br>';
-          if ($reg['powerstrip_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['powerstrip_model']) . '<br><br>';
-          if ($reg['powerstrip_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['powerstrip_color']) . '<br><br>';
-          if ($reg['powerstrip_outlets'] !== null && $reg['powerstrip_outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($reg['powerstrip_outlets']);
-          echo '<br><strong>Qty:</strong> 1';
+        echo "  <td>";
+        if ($item_type === 'powerstrip' && $item_data) {
+          if ($item_data['make']) echo '<strong>Make:</strong> ' . htmlspecialchars($item_data['make']) . '<br><br>';
+          if ($item_data['model']) echo '<strong>Model:</strong> ' . htmlspecialchars($item_data['model']) . '<br><br>';
+          if ($item_data['color']) echo '<strong>Color:</strong> ' . htmlspecialchars($item_data['color']) . '<br><br>';
+          if ($item_data['outlets'] !== null && $item_data['outlets'] !== '') echo '<strong>Plugs:</strong> ' . htmlspecialchars($item_data['outlets']);
         }
-        echo '</td>';
+        echo "</td>\n";
         // Extension Cord
-        echo '<td>';
-        if ($item_type === 'extension') {
-          if ($reg['extension_color']) echo '<strong>Color:</strong> ' . htmlspecialchars($reg['extension_color']) . '<br><br>';
-          if ($reg['extension_length'] !== null && $reg['extension_length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($reg['extension_length']);
-          echo '<br><strong>Qty:</strong> 1';
+        echo "  <td>";
+        if ($item_type === 'extension' && $item_data) {
+          if ($item_data['color']) echo '<strong>Color:</strong> ' . htmlspecialchars($item_data['color']) . '<br><br>';
+          if ($item_data['length'] !== null && $item_data['length'] !== '') echo '<strong>Length:</strong> ' . htmlspecialchars($item_data['length']);
         }
-        echo '</td>';
+        echo "</td>\n";
         // Microphone/Recorder
-        echo '<td>';
-        if ($item_type === 'mic') {
-          if ($reg['mic_type']) echo '<strong>Type:</strong> ' . htmlspecialchars($reg['mic_type']) . '<br><br>';
-          if ($reg['mic_brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($reg['mic_brand']) . '<br><br>';
-          if ($reg['mic_model']) echo '<strong>Model:</strong> ' . htmlspecialchars($reg['mic_model']) . '<br><br>';
-          echo '<strong>Qty:</strong> 1';
+        echo "  <td>";
+        if ($item_type === 'mic' && $item_data) {
+          if ($item_data['type']) echo '<strong>Type:</strong> ' . htmlspecialchars($item_data['type']) . '<br><br>';
+          if ($item_data['brand']) echo '<strong>Brand:</strong> ' . htmlspecialchars($item_data['brand']) . '<br><br>';
+          if ($item_data['model']) echo '<strong>Model:</strong> ' . htmlspecialchars($item_data['model']) . '<br><br>';
+          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> 1';
         }
-        echo '</td>';
+        echo "</td>\n";
         // Other
-        echo '<td>';
-        if ($item_type === 'other') {
-          if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br><br>';
-          echo '<strong>Qty:</strong> 1';
+        echo "  <td>";
+        if ($item_type === 'other' && $item_data) {
+          if ($item_data['desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($item_data['desc'])) . '<br><br>';
+          if ($item_data['qty'] !== null && $item_data['qty'] !== '') echo '<strong>Qty:</strong> 1';
         }
-        echo '</td>';
-        // Status (per row)
-        echo '<td>';
-        $statuses = [
-          '',
-          'In Room',
-          'In Inventory',
-          'Used in Tech Room',
-          'Broken (In Inventory)',
-          'Other'
-        ];
-        // Use per-item status if available
-        $currentStatus = isset($status_map[$item_key]) ? $status_map[$item_key] : '';
-        echo '<select class="status-dropdown" data-itemkey="' . htmlspecialchars($item_key) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
+        echo "</td>\n";
+        // Status
+        echo "  <td>";
+        $currentStatus = isset($reg['status']) ? $reg['status'] : '';
+        echo '<select class="status-dropdown" data-id="' . htmlspecialchars($reg['id']) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
         foreach ($statuses as $status) {
           $selected = ($currentStatus === $status) ? 'selected' : '';
           $label = $status === '' ? '-- Select --' : $status;
-          echo '<option value="' . htmlspecialchars($status) . '" ' . $selected . '>' . $label . '</option>';
+          echo "<option value=\"" . htmlspecialchars($status) . "\" $selected>$label</option>";
         }
         echo '</select>';
         echo '<span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>';
-        echo '</td>';
-        // Notes (now on every row, per itemkey)
-        echo '<td>';
-        $currentNotes = isset($notes_map[$item_key]) ? $notes_map[$item_key] : '';
-        echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-itemkey="' . htmlspecialchars($item_key) . '">' . htmlspecialchars($currentNotes) . '</textarea>';
-        echo '<button class="save-notes-btn" data-itemkey="' . htmlspecialchars($item_key) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
+        echo "</td>\n";
+        // Notes
+        echo "  <td>";
+        echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="' . htmlspecialchars($reg['id']) . '">' . (isset($reg['notes']) ? htmlspecialchars($reg['notes']) : '') . '</textarea>';
+        echo '<button class="save-notes-btn" data-id="' . htmlspecialchars($reg['id']) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
         echo '<span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>';
-        echo '</td>';
+        echo "</td>\n";
         echo "</tr>\n";
       }
+      $statuses = [
+        '',
+        'In Room',
+        'In Inventory',
+        'Used in Tech Room',
+        'Broken (In Inventory)',
+        'Other'
+      ];
       foreach ($registrations as $reg) {
-        $output_any = false;
-        $item_index = 0;
-        // Laptops (1 row if present)
+        // Laptops (always 1 row if present)
         if ($reg['laptop_brand'] || $reg['laptop_os'] || $reg['laptop_parallel_port'] || $reg['laptop_qm_version'] || $reg['laptop_username'] || $reg['laptop_password']) {
-          output_item_row($reg, 'laptop', null, !$output_any, $item_index++);
-          $output_any = true;
+          output_item_row($reg, 'laptop', [
+            'brand' => $reg['laptop_brand'],
+            'os' => $reg['laptop_os'],
+            'parallel_port' => $reg['laptop_parallel_port'],
+            'qm_version' => $reg['laptop_qm_version'],
+            'username' => $reg['laptop_username'],
+            'password' => $reg['laptop_password'],
+          ], $statuses);
         }
-        // Interface boxes (one row per quantity)
-        $interface_qty = isset($reg['interface_qty']) ? intval($reg['interface_qty']) : 0;
-        if ($interface_qty > 0) {
+        // Interface boxes (qty rows)
+        $interface_qty = (int)($reg['interface_qty'] ?? 0);
+        if ($reg['interface_type'] && $interface_qty > 0) {
           for ($i = 0; $i < $interface_qty; $i++) {
-            output_item_row($reg, 'interface', 1, !$output_any, $item_index++);
-            $output_any = true;
+            output_item_row($reg, 'interface', [
+              'type' => $reg['interface_type'],
+              'qty' => 1
+            ], $statuses);
           }
+        } elseif ($reg['interface_type']) {
+          // If qty not set, still show one row
+          output_item_row($reg, 'interface', [
+            'type' => $reg['interface_type'],
+            'qty' => $reg['interface_qty']
+          ], $statuses);
         }
-        // Pads (one row per pad, per quantity)
+        // Pads (each pad color/qty as separate rows)
         if (!empty($reg['pads'])) {
           foreach ($reg['pads'] as $pad) {
-            $pad_qty = isset($pad['pad_qty']) ? intval($pad['pad_qty']) : 0;
+            $pad_qty = (int)($pad['pad_qty'] ?? 0);
             for ($i = 0; $i < $pad_qty; $i++) {
-              output_item_row($reg, 'pad', $pad, !$output_any, $item_index++);
-              $output_any = true;
+              output_item_row($reg, 'pad', [
+                'color' => $pad['pad_color']
+              ], $statuses);
             }
           }
         }
-        // Monitors (one row per quantity)
-        $monitor_qty = isset($reg['monitor_qty']) ? intval($reg['monitor_qty']) : 0;
-        if ($monitor_qty > 0) {
-          for ($i = 0; $i < $monitor_qty; $i++) {
-            output_item_row($reg, 'monitor', 1, !$output_any, $item_index++);
-            $output_any = true;
-          }
+        // Monitor (qty rows)
+        $monitor_qty = 1; // Only one monitor per registration assumed
+        if ($reg['monitor_brand'] || $reg['monitor_size'] || $reg['monitor_resolution']) {
+          output_item_row($reg, 'monitor', [
+            'brand' => $reg['monitor_brand'],
+            'size' => $reg['monitor_size'],
+            'resolution' => $reg['monitor_resolution']
+          ], $statuses);
         }
-        // Projectors (one row per quantity)
-        $projector_qty = isset($reg['projector_qty']) ? intval($reg['projector_qty']) : 0;
-        if ($projector_qty > 0) {
+        // Projector (qty rows)
+        $projector_qty = (int)($reg['projector_qty'] ?? 0);
+        if ($reg['projector_brand'] && $projector_qty > 0) {
           for ($i = 0; $i < $projector_qty; $i++) {
-            output_item_row($reg, 'projector', 1, !$output_any, $item_index++);
-            $output_any = true;
+            output_item_row($reg, 'projector', [
+              'brand' => $reg['projector_brand'],
+              'lumens' => $reg['projector_lumens'],
+              'resolution' => $reg['projector_resolution'],
+              'qty' => 1
+            ], $statuses);
           }
+        } elseif ($reg['projector_brand']) {
+          output_item_row($reg, 'projector', [
+            'brand' => $reg['projector_brand'],
+            'lumens' => $reg['projector_lumens'],
+            'resolution' => $reg['projector_resolution'],
+            'qty' => $reg['projector_qty']
+          ], $statuses);
         }
-        // Powerstrips (one row per quantity)
-        $powerstrip_qty = isset($reg['powerstrip_qty']) ? intval($reg['powerstrip_qty']) : 0;
-        if ($powerstrip_qty > 0) {
-          for ($i = 0; $i < $powerstrip_qty; $i++) {
-            output_item_row($reg, 'powerstrip', 1, !$output_any, $item_index++);
-            $output_any = true;
-          }
+        // Powerstrip (always 1 row if present)
+        if ($reg['powerstrip_make'] || $reg['powerstrip_model'] || $reg['powerstrip_color'] || $reg['powerstrip_outlets']) {
+          output_item_row($reg, 'powerstrip', [
+            'make' => $reg['powerstrip_make'],
+            'model' => $reg['powerstrip_model'],
+            'color' => $reg['powerstrip_color'],
+            'outlets' => $reg['powerstrip_outlets']
+          ], $statuses);
         }
-        // Extension cords (one row per quantity)
-        $extension_qty = isset($reg['extension_qty']) ? intval($reg['extension_qty']) : 0;
-        if ($extension_qty > 0) {
-          for ($i = 0; $i < $extension_qty; $i++) {
-            output_item_row($reg, 'extension', 1, !$output_any, $item_index++);
-            $output_any = true;
-          }
+        // Extension cord (always 1 row if present)
+        if ($reg['extension_color'] || $reg['extension_length']) {
+          output_item_row($reg, 'extension', [
+            'color' => $reg['extension_color'],
+            'length' => $reg['extension_length']
+          ], $statuses);
         }
-        // Microphone/Recorder (one row per quantity)
-        $mic_qty = isset($reg['mic_qty']) ? intval($reg['mic_qty']) : 0;
-        if ($mic_qty > 0) {
+        // Microphone/Recorder (qty rows)
+        $mic_qty = (int)($reg['mic_qty'] ?? 0);
+        if ($reg['mic_type'] && $mic_qty > 0) {
           for ($i = 0; $i < $mic_qty; $i++) {
-            output_item_row($reg, 'mic', 1, !$output_any, $item_index++);
-            $output_any = true;
+            output_item_row($reg, 'mic', [
+              'type' => $reg['mic_type'],
+              'brand' => $reg['mic_brand'],
+              'model' => $reg['mic_model'],
+              'qty' => 1
+            ], $statuses);
           }
+        } elseif ($reg['mic_type']) {
+          output_item_row($reg, 'mic', [
+            'type' => $reg['mic_type'],
+            'brand' => $reg['mic_brand'],
+            'model' => $reg['mic_model'],
+            'qty' => $reg['mic_qty']
+          ], $statuses);
         }
-        // Other (one row per quantity)
-        $other_qty = isset($reg['other_qty']) ? intval($reg['other_qty']) : 0;
-        if ($other_qty > 0) {
+        // Other (qty rows)
+        $other_qty = (int)($reg['other_qty'] ?? 0);
+        if ($reg['other_desc'] && $other_qty > 0) {
           for ($i = 0; $i < $other_qty; $i++) {
-            output_item_row($reg, 'other', 1, !$output_any, $item_index++);
-            $output_any = true;
+            output_item_row($reg, 'other', [
+              'desc' => $reg['other_desc'],
+              'qty' => 1
+            ], $statuses);
           }
-        }
-        // If no items at all, output a blank row with notes/status
-        if (!$output_any) {
-          output_item_row($reg, '', null, true, $item_index++);
+        } elseif ($reg['other_desc']) {
+          output_item_row($reg, 'other', [
+            'desc' => $reg['other_desc'],
+            'qty' => $reg['other_qty']
+          ], $statuses);
         }
       }
       ?>
@@ -869,10 +895,10 @@ body {
         rows.forEach(row => tbody.appendChild(row));
       });
     });
-    // Notes save AJAX (update to use itemkey)
+    // Notes save AJAX
     document.querySelectorAll('.save-notes-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        const itemkey = this.getAttribute('data-itemkey');
+        const id = this.getAttribute('data-id');
         const textarea = this.parentElement.querySelector('textarea');
         const status = this.parentElement.querySelector('.notes-status');
         const notes = textarea.value;
@@ -880,7 +906,7 @@ body {
         fetch('save-notes.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: 'itemkey=' + encodeURIComponent(itemkey) + '&notes=' + encodeURIComponent(notes)
+          body: 'id=' + encodeURIComponent(id) + '&notes=' + encodeURIComponent(notes)
         })
         .then(res => res.json())
         .then(data => {
@@ -897,14 +923,14 @@ body {
     // Status save AJAX
     document.querySelectorAll('.status-dropdown').forEach(function(drop) {
       drop.addEventListener('change', function() {
-        const itemkey = this.getAttribute('data-itemkey');
+        const id = this.getAttribute('data-id');
         const status = this.value;
         const msg = this.parentElement.querySelector('.status-save-msg');
         msg.textContent = 'Saving...';
         fetch('save-status.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: 'itemkey=' + encodeURIComponent(itemkey) + '&status=' + encodeURIComponent(status)
+          body: 'id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status)
         })
         .then(res => res.json())
         .then(data => {
