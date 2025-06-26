@@ -239,8 +239,9 @@ body {
     </thead>
     <tbody>
       <?php
-      // Helper to output a row for a single item
-      function output_item_row($reg, $item_type, $item_data, $show_notes_status = false) {
+      // Helper to output a row for a single item, now with per-row status
+      function output_item_row($reg, $item_type, $item_data, $show_notes_status = false, $item_index = 0) {
+        $item_key = $reg['id'] . '_' . $item_type . '_' . $item_index;
         echo "<tr>";
         // ID
         echo '<td>' . htmlspecialchars($reg['id']) . '</td>';
@@ -321,29 +322,28 @@ body {
           if ($reg['other_desc']) echo '<strong>Desc:</strong> ' . nl2br(htmlspecialchars($reg['other_desc'])) . '<br><br>';
         }
         echo '</td>';
-        // Status
+        // Status (per row)
         echo '<td>';
-        if ($show_notes_status) {
-          $statuses = [
-            '',
-            'In Room',
-            'In Inventory',
-            'Used in Tech Room',
-            'Broken (In Inventory)',
-            'Other'
-          ];
-          $currentStatus = isset($reg['status']) ? $reg['status'] : '';
-          echo '<select class="status-dropdown" data-id="' . htmlspecialchars($reg['id']) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
-          foreach ($statuses as $status) {
-            $selected = ($currentStatus === $status) ? 'selected' : '';
-            $label = $status === '' ? '-- Select --' : $status;
-            echo '<option value="' . htmlspecialchars($status) . '" ' . $selected . '>' . $label . '</option>';
-          }
-          echo '</select>';
-          echo '<span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>';
+        $statuses = [
+          '',
+          'In Room',
+          'In Inventory',
+          'Used in Tech Room',
+          'Broken (In Inventory)',
+          'Other'
+        ];
+        // For now, default to blank status; backend can be extended to store per-item status
+        $currentStatus = '';
+        echo '<select class="status-dropdown" data-itemkey="' . htmlspecialchars($item_key) . '" style="width: 150px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px;">';
+        foreach ($statuses as $status) {
+          $selected = ($currentStatus === $status) ? 'selected' : '';
+          $label = $status === '' ? '-- Select --' : $status;
+          echo '<option value="' . htmlspecialchars($status) . '" ' . $selected . '>' . $label . '</option>';
         }
+        echo '</select>';
+        echo '<span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>';
         echo '</td>';
-        // Notes
+        // Notes (still only on first row per registration)
         echo '<td>';
         if ($show_notes_status) {
           echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="' . htmlspecialchars($reg['id']) . '">' . (isset($reg['notes']) ? htmlspecialchars($reg['notes']) : '') . '</textarea>';
@@ -355,80 +355,81 @@ body {
       }
       foreach ($registrations as $reg) {
         $output_any = false;
+        $item_index = 0;
         // Laptops (1 row if present)
         if ($reg['laptop_brand'] || $reg['laptop_os'] || $reg['laptop_parallel_port'] || $reg['laptop_qm_version'] || $reg['laptop_username'] || $reg['laptop_password']) {
-          output_item_row($reg, 'laptop', null, !$output_any);
+          output_item_row($reg, 'laptop', null, !$output_any, $item_index++);
           $output_any = true;
         }
         // Interface boxes (one row per quantity)
-        $interface_qty = intval($reg['interface_qty']);
+        $interface_qty = isset($reg['interface_qty']) ? intval($reg['interface_qty']) : 0;
         if ($interface_qty > 0) {
           for ($i = 0; $i < $interface_qty; $i++) {
-            output_item_row($reg, 'interface', 1, !$output_any);
+            output_item_row($reg, 'interface', 1, !$output_any, $item_index++);
             $output_any = true;
           }
         }
         // Pads (one row per pad, per quantity)
         if (!empty($reg['pads'])) {
           foreach ($reg['pads'] as $pad) {
-            $pad_qty = intval($pad['pad_qty']);
+            $pad_qty = isset($pad['pad_qty']) ? intval($pad['pad_qty']) : 0;
             for ($i = 0; $i < $pad_qty; $i++) {
-              output_item_row($reg, 'pad', $pad, !$output_any);
+              output_item_row($reg, 'pad', $pad, !$output_any, $item_index++);
               $output_any = true;
             }
           }
         }
         // Monitors (one row per quantity)
-        $monitor_qty = intval($reg['monitor_qty']);
+        $monitor_qty = isset($reg['monitor_qty']) ? intval($reg['monitor_qty']) : 0;
         if ($monitor_qty > 0) {
           for ($i = 0; $i < $monitor_qty; $i++) {
-            output_item_row($reg, 'monitor', 1, !$output_any);
+            output_item_row($reg, 'monitor', 1, !$output_any, $item_index++);
             $output_any = true;
           }
         }
         // Projectors (one row per quantity)
-        $projector_qty = intval($reg['projector_qty']);
+        $projector_qty = isset($reg['projector_qty']) ? intval($reg['projector_qty']) : 0;
         if ($projector_qty > 0) {
           for ($i = 0; $i < $projector_qty; $i++) {
-            output_item_row($reg, 'projector', 1, !$output_any);
+            output_item_row($reg, 'projector', 1, !$output_any, $item_index++);
             $output_any = true;
           }
         }
         // Powerstrips (one row per quantity)
-        $powerstrip_qty = intval($reg['powerstrip_qty']);
+        $powerstrip_qty = isset($reg['powerstrip_qty']) ? intval($reg['powerstrip_qty']) : 0;
         if ($powerstrip_qty > 0) {
           for ($i = 0; $i < $powerstrip_qty; $i++) {
-            output_item_row($reg, 'powerstrip', 1, !$output_any);
+            output_item_row($reg, 'powerstrip', 1, !$output_any, $item_index++);
             $output_any = true;
           }
         }
         // Extension cords (one row per quantity)
-        $extension_qty = intval($reg['extension_qty']);
+        $extension_qty = isset($reg['extension_qty']) ? intval($reg['extension_qty']) : 0;
         if ($extension_qty > 0) {
           for ($i = 0; $i < $extension_qty; $i++) {
-            output_item_row($reg, 'extension', 1, !$output_any);
+            output_item_row($reg, 'extension', 1, !$output_any, $item_index++);
             $output_any = true;
           }
         }
         // Microphone/Recorder (one row per quantity)
-        $mic_qty = intval($reg['mic_qty']);
+        $mic_qty = isset($reg['mic_qty']) ? intval($reg['mic_qty']) : 0;
         if ($mic_qty > 0) {
           for ($i = 0; $i < $mic_qty; $i++) {
-            output_item_row($reg, 'mic', 1, !$output_any);
+            output_item_row($reg, 'mic', 1, !$output_any, $item_index++);
             $output_any = true;
           }
         }
         // Other (one row per quantity)
-        $other_qty = intval($reg['other_qty']);
+        $other_qty = isset($reg['other_qty']) ? intval($reg['other_qty']) : 0;
         if ($other_qty > 0) {
           for ($i = 0; $i < $other_qty; $i++) {
-            output_item_row($reg, 'other', 1, !$output_any);
+            output_item_row($reg, 'other', 1, !$output_any, $item_index++);
             $output_any = true;
           }
         }
         // If no items at all, output a blank row with notes/status
         if (!$output_any) {
-          output_item_row($reg, '', null, true);
+          output_item_row($reg, '', null, true, $item_index++);
         }
       }
       ?>
