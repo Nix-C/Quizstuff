@@ -146,11 +146,11 @@
             <label>Operating System:
               <select name="laptop_os">
                 <option value="">Select</option>
-                <option value="Windows">Windows</option>
-                <option value="macOS">macOS</option>
+                <option value="Win11+">Win11+</option>
+                <option value="Win10">Win10</option>
+                <option value="Win7/8">Win7/8</option>
+                <option value="older than Win7">older than Win7</option>
                 <option value="Linux">Linux</option>
-                <option value="ChromeOS">ChromeOS</option>
-                <option value="Other">Other</option>
               </select>
             </label>
             <label>Parallel Port Type:

@@ -167,6 +167,9 @@ body {
       padding: 10px 14px;
       text-align: left;
     }
+    td{
+      line-height: 1.4;
+    }
     th {
       background: #23272b;
       color: #7fd7ff;
@@ -230,7 +233,7 @@ body {
         <th>Microphone/Recorder</th>
         <th>Other</th>
         <th id="status-header" style="cursor:pointer; user-select:none; position:relative;">Status
-          <button id="status-filter-btn" title="Group by Status" style="margin-left:6px; font-size:1em; background:none; border:none; color:#7fd7ff; cursor:pointer; vertical-align:middle;">&#128269;</button>
+          <button id="status-filter-btn" title="Group by Status" style="margin-left:6px; font-size:1em; background:none; border:none; color:#7fd7ff; cursor:pointer; vertical-align:middle;"></button>
         </th>
         <th>Notes</th>
       </tr>
