@@ -34,20 +34,19 @@
         $extension_length = int_or_null($_POST['extension_length']);
         $mic_qty = int_or_null($_POST['mic_qty']);
         $other_qty = int_or_null($_POST['other_qty']);
-        // Insert into equipment_details table (excluding pads)
+        // Insert into equipment_details table (excluding interface_type/interface_qty and pads)
         $stmt2 = $conn->prepare("INSERT INTO equipment_details (
           registration_id,
           laptop_brand, laptop_os, laptop_parallel_port, laptop_qm_version, laptop_username, laptop_password,
-          interface_type, interface_qty,
           monitor_brand, monitor_size, monitor_resolution, monitor_connection,
           projector_brand, projector_lumens, projector_resolution, projector_qty,
           powerstrip_make, powerstrip_model, powerstrip_color, powerstrip_outlets,
           extension_color, extension_length,
           mic_type, mic_brand, mic_model, mic_qty,
           other_desc, other_qty
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" );
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" );
         $stmt2->bind_param(
-          'issssssissssssissssssissssssi',
+          'issssssssssissssssissssssi',
           $registration_id,
           $_POST['laptop_brand'],
           $_POST['laptop_os'],
@@ -55,8 +54,6 @@
           $_POST['laptop_qm_version'],
           $_POST['laptop_username'],
           $_POST['laptop_password'],
-          $_POST['interface_type'],
-          $interface_qty,
           $_POST['monitor_brand'],
           $_POST['monitor_size'],
           $_POST['monitor_resolution'],
@@ -80,6 +77,14 @@
         );
         $stmt2->execute();
         $stmt2->close();
+
+        // Insert interface box into interface_boxes table
+        if (!empty($_POST['interface_type']) && $interface_qty !== null && $interface_qty > 0) {
+          $interface_stmt = $conn->prepare("INSERT INTO interface_boxes (registration_id, interface_type, interface_qty) VALUES (?, ?, ?)");
+          $interface_stmt->bind_param('isi', $registration_id, $_POST['interface_type'], $interface_qty);
+          $interface_stmt->execute();
+          $interface_stmt->close();
+        }
 
         // Insert multiple pads
         if (!empty($_POST['pad_color']) && is_array($_POST['pad_color'])) {

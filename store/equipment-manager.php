@@ -16,26 +16,34 @@ if ($result && $result->num_rows > 0) {
 }
 
 // Fetch all equipment_details and merge into registrations
+// (No longer aggregate interface boxes here)
 $sql = "SELECT * FROM equipment_details";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $reg_id = $row['registration_id'];
     if (!isset($registrations[$reg_id])) continue;
-    // Aggregate interface boxes
-    if (isset($row['interface_type']) && $row['interface_type']) {
-      if (!isset($registrations[$reg_id]['interface_boxes'])) $registrations[$reg_id]['interface_boxes'] = [];
-      $registrations[$reg_id]['interface_boxes'][] = [
-        'type' => $row['interface_type'],
-        'qty' => isset($row['interface_qty']) ? (int)$row['interface_qty'] : 0
-      ];
-    }
-    // Merge other fields as before
+    // Merge other fields as before (skip interface_type/interface_qty)
     foreach ($row as $key => $val) {
       if ($key !== 'registration_id' && $val !== null && $key !== 'interface_type' && $key !== 'interface_qty') {
         $registrations[$reg_id][$key] = $val;
       }
     }
+  }
+}
+
+// Fetch all interface_boxes and merge into registrations
+$sql = "SELECT * FROM interface_boxes";
+$result = $conn->query($sql);
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $reg_id = $row['registration_id'];
+    if (!isset($registrations[$reg_id])) continue;
+    if (!isset($registrations[$reg_id]['interface_boxes'])) $registrations[$reg_id]['interface_boxes'] = [];
+    $registrations[$reg_id]['interface_boxes'][] = [
+      'type' => $row['interface_type'],
+      'qty' => isset($row['interface_qty']) ? (int)$row['interface_qty'] : 0
+    ];
   }
 }
 
