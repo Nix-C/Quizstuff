@@ -10,12 +10,14 @@ LEFT JOIN pads p ON er.id = p.registration_id
 ORDER BY er.id DESC, p.pad_color";
 $result = $conn->query($sql);
 
-// Fetch all per-item statuses
+// Fetch all per-item statuses and notes
 $status_map = [];
-$status_result = $conn->query("SELECT itemkey, status FROM equipment_item_status");
+$notes_map = [];
+$status_result = $conn->query("SELECT itemkey, status, notes FROM equipment_item_status");
 if ($status_result && $status_result->num_rows > 0) {
   while ($row = $status_result->fetch_assoc()) {
     $status_map[$row['itemkey']] = $row['status'];
+    $notes_map[$row['itemkey']] = $row['notes'];
   }
 }
 
@@ -248,9 +250,9 @@ body {
     </thead>
     <tbody>
       <?php
-      // Helper to output a row for a single item, now with per-row status
+      // Helper to output a row for a single item, now with per-row status and notes
       function output_item_row($reg, $item_type, $item_data, $show_notes_status = false, $item_index = 0) {
-        global $status_map;
+        global $status_map, $notes_map;
         $item_key = $reg['id'] . '_' . $item_type . '_' . $item_index;
         echo "<tr>";
         // ID
@@ -353,13 +355,12 @@ body {
         echo '</select>';
         echo '<span class="status-save-msg" style="font-size:0.9em; margin-left:6px;"></span>';
         echo '</td>';
-        // Notes (still only on first row per registration)
+        // Notes (now on every row, per itemkey)
         echo '<td>';
-        if ($show_notes_status) {
-          echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-id="' . htmlspecialchars($reg['id']) . '">' . (isset($reg['notes']) ? htmlspecialchars($reg['notes']) : '') . '</textarea>';
-          echo '<button class="save-notes-btn" data-id="' . htmlspecialchars($reg['id']) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
-          echo '<span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>';
-        }
+        $currentNotes = isset($notes_map[$item_key]) ? $notes_map[$item_key] : '';
+        echo '<textarea style="width: 160px; min-height: 40px; background: #181c22; color: #fff; border: 1px solid #444; border-radius: 4px; resize: vertical;" data-itemkey="' . htmlspecialchars($item_key) . '">' . htmlspecialchars($currentNotes) . '</textarea>';
+        echo '<button class="save-notes-btn" data-itemkey="' . htmlspecialchars($item_key) . '" style="margin-top: 4px; background: #23272b; color: #7fd7ff; border: 1px solid #7fd7ff; border-radius: 4px; cursor: pointer;">Save</button>';
+        echo '<span class="notes-status" style="font-size:0.9em; margin-left:6px;"></span>';
         echo '</td>';
         echo "</tr>\n";
       }
@@ -862,10 +863,10 @@ body {
         rows.forEach(row => tbody.appendChild(row));
       });
     });
-    // Notes save AJAX
+    // Notes save AJAX (update to use itemkey)
     document.querySelectorAll('.save-notes-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        const id = this.getAttribute('data-id');
+        const itemkey = this.getAttribute('data-itemkey');
         const textarea = this.parentElement.querySelector('textarea');
         const status = this.parentElement.querySelector('.notes-status');
         const notes = textarea.value;
@@ -873,7 +874,7 @@ body {
         fetch('save-notes.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: 'id=' + encodeURIComponent(id) + '&notes=' + encodeURIComponent(notes)
+          body: 'itemkey=' + encodeURIComponent(itemkey) + '&notes=' + encodeURIComponent(notes)
         })
         .then(res => res.json())
         .then(data => {

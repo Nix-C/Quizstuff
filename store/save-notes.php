@@ -2,17 +2,28 @@
 include 'config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['id'] ?? 0);
+    $itemkey = $_POST['itemkey'] ?? '';
     $notes = $_POST['notes'] ?? '';
 
-    if ($id > 0) {
-        $stmt = $conn->prepare("UPDATE equipment_registration SET notes = ? WHERE id = ?");
-        $stmt->bind_param("si", $notes, $id);
-        $success = $stmt->execute();
-        $stmt->close();
+    if ($itemkey !== '') {
+        // Try to update first
+        $stmt = $conn->prepare("UPDATE equipment_item_status SET notes = ? WHERE itemkey = ?");
+        $stmt->bind_param("ss", $notes, $itemkey);
+        $stmt->execute();
+        if ($stmt->affected_rows === 0) {
+            // No row updated, insert new (with blank status)
+            $stmt->close();
+            $stmt = $conn->prepare("INSERT INTO equipment_item_status (itemkey, notes) VALUES (?, ?)");
+            $stmt->bind_param("ss", $itemkey, $notes);
+            $success = $stmt->execute();
+            $stmt->close();
+        } else {
+            $success = true;
+            $stmt->close();
+        }
         echo json_encode(['success' => $success]);
     } else {
-        echo json_encode(['success' => false, 'error' => 'Invalid ID']);
+        echo json_encode(['success' => false, 'error' => 'Invalid itemkey']);
     }
 } else {
     echo json_encode(['success' => false, 'error' => 'Invalid request']);
