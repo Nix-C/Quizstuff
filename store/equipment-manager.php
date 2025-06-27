@@ -605,7 +605,8 @@ body {
     // Table sort by ID (ascending/descending) and Name (A-Z/Z-A)
     document.addEventListener('DOMContentLoaded', function() {
       const table = document.getElementById('equipment-table');
-      const idHeader = document.getElementById('id-header');
+      const regIdHeader = document.getElementById('regid-header');
+      const itemIdHeader = document.getElementById('itemid-header');
       const nameHeader = document.getElementById('name-header');
       const districtHeader = document.getElementById('district-header');
       const laptopHeader = document.getElementById('laptop-header');
@@ -613,7 +614,8 @@ body {
       const padsHeader = document.getElementById('pads-header');
       const statusHeader = document.getElementById('status-header');
       const horizontal = document.getElementById('horizontal');
-      let ascId = false;
+      let ascRegId = false;
+      let ascItemId = false;
       let ascName = false;
       let ascDistrict = false;
       let ascLaptop = false;
@@ -660,22 +662,48 @@ body {
           filterPadsByColor(pc.color);
         });
       });
-      // ID header click event
-      idHeader.addEventListener('click', function() {
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        rows.sort((a, b) => {
-          const idA = parseInt(a.children[0].textContent, 10);
-          const idB = parseInt(b.children[0].textContent, 10);
-          return ascId ? idA - idB : idB - idA;
+      // Reg ID header click event
+      if (regIdHeader) {
+        regIdHeader.addEventListener('click', function() {
+          const tbody = table.querySelector('tbody');
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+          rows.sort((a, b) => {
+            const idA = parseInt(a.children[0].textContent, 10);
+            const idB = parseInt(b.children[0].textContent, 10);
+            return ascRegId ? idA - idB : idB - idA;
+          });
+          ascRegId = !ascRegId;
+          rows.forEach(row => tbody.appendChild(row));
+          regIdHeader.innerHTML = ascRegId ? 'Reg ID &#8593;' : 'Reg ID &#8595;';
+          itemIdHeader.innerHTML = 'Item ID &#8597;';
+          nameHeader.innerHTML = 'Contact &#8597;';
+          districtHeader.innerHTML = 'District &#8597;';
+          laptopHeader.innerHTML = 'Laptop &#8597;';
         });
-        ascId = !ascId;
-        rows.forEach(row => tbody.appendChild(row));
-        idHeader.innerHTML = ascId ? 'ID &#8593;' : 'ID &#8595;';
-        nameHeader.innerHTML = 'Contact &#8597;';
-        districtHeader.innerHTML = 'District &#8597;';
-        laptopHeader.innerHTML = 'Laptop &#8597;';
-      });
+      }
+      // Item ID header click event
+      if (itemIdHeader) {
+        itemIdHeader.addEventListener('click', function() {
+          const tbody = table.querySelector('tbody');
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+          rows.sort((a, b) => {
+            const idA = parseInt(a.children[1].textContent, 10);
+            const idB = parseInt(b.children[1].textContent, 10);
+            // Empty or non-numeric IDs go last
+            if (isNaN(idA) && !isNaN(idB)) return 1;
+            if (!isNaN(idA) && isNaN(idB)) return -1;
+            if (isNaN(idA) && isNaN(idB)) return 0;
+            return ascItemId ? idA - idB : idB - idA;
+          });
+          ascItemId = !ascItemId;
+          rows.forEach(row => tbody.appendChild(row));
+          itemIdHeader.innerHTML = ascItemId ? 'Item ID &#8593;' : 'Item ID &#8595;';
+          regIdHeader.innerHTML = 'Reg ID &#8597;';
+          nameHeader.innerHTML = 'Contact &#8597;';
+          districtHeader.innerHTML = 'District &#8597;';
+          laptopHeader.innerHTML = 'Laptop &#8597;';
+        });
+      }
       // Name header click event
       nameHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
@@ -690,7 +718,7 @@ body {
         ascName = !ascName;
         rows.forEach(row => tbody.appendChild(row));
         nameHeader.innerHTML = ascName ? 'Contact &#8593;' : 'Contact &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -708,7 +736,7 @@ body {
         ascDistrict = !ascDistrict;
         rows.forEach(row => tbody.appendChild(row));
         districtHeader.innerHTML = ascDistrict ? 'District &#8593;' : 'District &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -738,7 +766,7 @@ body {
         ascLaptop = !ascLaptop;
         rows.forEach(row => tbody.appendChild(row));
         laptopHeader.innerHTML = ascLaptop ? 'Laptop &#8593;' : 'Laptop &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
       });
@@ -764,7 +792,7 @@ body {
         ascInterface = !ascInterface;
         rows.forEach(row => tbody.appendChild(row));
         interfaceHeader.innerHTML = ascInterface ? 'Interface Box &#8593;' : 'Interface Box &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -796,7 +824,7 @@ body {
         ascMonitor = !ascMonitor;
         rows.forEach(row => tbody.appendChild(row));
         monitorHeader.innerHTML = ascMonitor ? 'Monitor &#8593;' : 'Monitor &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -830,7 +858,7 @@ body {
         ascProjectorRes = !ascProjectorRes;
         rows.forEach(row => tbody.appendChild(row));
         projectorHeader.innerHTML = ascProjectorRes ? 'Projector &#8593;' : 'Projector &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -863,7 +891,7 @@ body {
         ascPowerstripPlugs = !ascPowerstripPlugs;
         rows.forEach(row => tbody.appendChild(row));
         powerstripHeader.innerHTML = ascPowerstripPlugs ? 'Powerstrip &#8593;' : 'Powerstrip &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -897,7 +925,7 @@ body {
         ascExtensionLength = !ascExtensionLength;
         rows.forEach(row => tbody.appendChild(row));
         extensionHeader.innerHTML = ascExtensionLength ? 'Extension Cord &#8593;' : 'Extension Cord &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -932,7 +960,7 @@ body {
         ascMicQty = !ascMicQty;
         rows.forEach(row => tbody.appendChild(row));
         micHeader.innerHTML = ascMicQty ? 'Microphone/Recorder &#8593;' : 'Microphone/Recorder &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -968,7 +996,7 @@ body {
         ascOtherQty = !ascOtherQty;
         rows.forEach(row => tbody.appendChild(row));
         otherHeader.innerHTML = ascOtherQty ? 'Other &#8593;' : 'Other &#8595;';
-        idHeader.innerHTML = 'ID &#8597;';
+        regIdHeader.innerHTML = 'Reg ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
