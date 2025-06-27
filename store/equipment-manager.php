@@ -81,38 +81,6 @@ if ($result && $result->num_rows > 0) {
     ];
   }
 }
-
-// Fetch all microphones and merge into registrations
-$sql = "SELECT * FROM microphones";
-$result = $conn->query($sql);
-if ($result && $result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $reg_id = $row['registration_id'];
-    if (!isset($registrations[$reg_id])) continue;
-    if (!isset($registrations[$reg_id]['microphones'])) $registrations[$reg_id]['microphones'] = [];
-    $registrations[$reg_id]['microphones'][] = [
-      'id' => $row['id'],
-      'type' => $row['mic_type'],
-      'brand' => $row['mic_brand'],
-      'model' => $row['mic_model']
-    ];
-  }
-}
-
-// Fetch all other_items and merge into registrations
-$sql = "SELECT * FROM other_items";
-$result = $conn->query($sql);
-if ($result && $result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $reg_id = $row['registration_id'];
-    if (!isset($registrations[$reg_id])) continue;
-    if (!isset($registrations[$reg_id]['other_items'])) $registrations[$reg_id]['other_items'] = [];
-    $registrations[$reg_id]['other_items'][] = [
-      'id' => $row['id'],
-      'desc' => $row['description']
-    ];
-  }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -305,7 +273,8 @@ body {
   <table id="equipment-table">
     <thead>
       <tr>
-        <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
+        <th id="regid-header" style="cursor:pointer; user-select:none;">Reg ID &#8597;</th>
+        <th id="itemid-header" style="cursor:pointer; user-select:none;">Item ID &#8597;</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
@@ -327,12 +296,11 @@ body {
       <?php
       // Helper to output a row for a single item
       function output_item_row($reg, $item_type, $item_data, $statuses) {
-        // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
-        // $item_data: array of fields for the item, or null for empty
-        // Output a <tr> with only the relevant item column filled
         echo "<tr>\n";
-        // ID
-        $item_id = isset($item_data['id']) ? $item_data['id'] : $reg['id'];
+        // Registration ID
+        echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
+        // Item ID
+        $item_id = isset($item_data['id']) ? $item_data['id'] : '';
         echo "  <td>" . htmlspecialchars($item_id) . "</td>\n";
         // Contact
         echo "  <td><strong>Name:</strong> " . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . "<br>";
@@ -480,7 +448,14 @@ body {
         if (isset($reg['laptops']) && is_array($reg['laptops']) && count($reg['laptops']) > 0) {
           foreach ($reg['laptops'] as $laptop) {
             $hasEquipment = true;
-            output_item_row($reg, 'laptop', array_merge(['id' => isset($laptop['id']) ? $laptop['id'] : ''], $laptop), $statuses);
+            output_item_row($reg, 'laptop', [
+              'brand' => $laptop['brand'],
+              'os' => $laptop['os'],
+              'parallel_port' => $laptop['parallel_port'],
+              'qm_version' => $laptop['qm_version'],
+              'username' => $laptop['username'],
+              'password' => $laptop['password'],
+            ], $statuses);
           }
         }
         // Interface boxes (multiple types/qty)
@@ -491,7 +466,6 @@ body {
               $hasEquipment = true;
               for ($i = 0; $i < $box['qty']; $i++) {
                 output_item_row($reg, 'interface', [
-                  'id' => isset($box['ids'][$i]) ? $box['ids'][$i] : '',
                   'type' => $box['type'],
                   'qty' => 1,
                   'row_index' => $interface_row_index++
@@ -500,7 +474,6 @@ body {
             } elseif ($box['type']) {
               $hasEquipment = true;
               output_item_row($reg, 'interface', [
-                'id' => isset($box['ids'][0]) ? $box['ids'][0] : '',
                 'type' => $box['type'],
                 'qty' => $box['qty'],
                 'row_index' => $interface_row_index++
@@ -515,7 +488,6 @@ body {
             for ($i = 0; $i < $pad_qty; $i++) {
               $hasEquipment = true;
               output_item_row($reg, 'pad', [
-                'id' => isset($pad['id']) ? $pad['id'] : '',
                 'color' => isset($pad['pad_color']) ? $pad['pad_color'] : ''
               ], $statuses);
             }
@@ -583,29 +555,43 @@ body {
             'length' => isset($reg['extension_length']) ? $reg['extension_length'] : ''
           ], $statuses);
         }
-        // Microphone/Recorder (one row per mic)
-        if (isset($reg['microphones']) && is_array($reg['microphones'])) {
-          foreach ($reg['microphones'] as $mic) {
-            $hasEquipment = true;
+        // Microphone/Recorder (qty rows)
+        $mic_qty = (int)(isset($reg['mic_qty']) ? $reg['mic_qty'] : 0);
+        if (isset($reg['mic_type']) && $reg['mic_type'] && $mic_qty > 0) {
+          $hasEquipment = true;
+          for ($i = 0; $i < $mic_qty; $i++) {
             output_item_row($reg, 'mic', [
-              'id' => $mic['id'],
-              'type' => $mic['type'],
-              'brand' => $mic['brand'],
-              'model' => $mic['model'],
+              'type' => $reg['mic_type'],
+              'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
+              'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
               'qty' => 1
             ], $statuses);
           }
+        } elseif (isset($reg['mic_type']) && $reg['mic_type']) {
+          $hasEquipment = true;
+          output_item_row($reg, 'mic', [
+            'type' => $reg['mic_type'],
+            'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
+            'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
+            'qty' => isset($reg['mic_qty']) ? $reg['mic_qty'] : ''
+          ], $statuses);
         }
-        // Other (one row per item)
-        if (isset($reg['other_items']) && is_array($reg['other_items'])) {
-          foreach ($reg['other_items'] as $other) {
-            $hasEquipment = true;
+        // Other (qty rows)
+        $other_qty = (int)(isset($reg['other_qty']) ? $reg['other_qty'] : 0);
+        if (isset($reg['other_desc']) && $reg['other_desc'] && $other_qty > 0) {
+          $hasEquipment = true;
+          for ($i = 0; $i < $other_qty; $i++) {
             output_item_row($reg, 'other', [
-              'id' => $other['id'],
-              'desc' => $other['desc'],
+              'desc' => $reg['other_desc'],
               'qty' => 1
             ], $statuses);
           }
+        } elseif (isset($reg['other_desc']) && $reg['other_desc']) {
+          $hasEquipment = true;
+          output_item_row($reg, 'other', [
+            'desc' => $reg['other_desc'],
+            'qty' => isset($reg['other_qty']) ? $reg['other_qty'] : ''
+          ], $statuses);
         }
         // If no equipment or pads, show a blank row for this registration
         if (!$hasEquipment) {
