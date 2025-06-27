@@ -1112,16 +1112,18 @@ if ($event_result && $event_result->num_rows > 0) {
 
 
 
+
+
 <!-- 
 
 
 TO DO:
 
-Number Rows
-status fix
-note fix
-event filtering
-Search 
+Number Rows - each item should have a unique id
+status fix - when filtering
+note fix - when filtering
+event filtering - only display items assigned to a specific event
+Search - search anything on the page
 
 
 -->
