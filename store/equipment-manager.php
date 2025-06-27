@@ -270,6 +270,28 @@ body {
       <div id="radial-2"></div>
     </div>
   <h1><?= htmlspecialchars($page_title) ?></h1>
+<?php
+// Fetch unique event values from the equipment_registration table
+$event_options = [];
+$event_sql = "SELECT DISTINCT event FROM equipment_registration ORDER BY event";
+$event_result = $conn->query($event_sql);
+if ($event_result && $event_result->num_rows > 0) {
+  while ($row = $event_result->fetch_assoc()) {
+    if ($row['event'] !== null && $row['event'] !== '') {
+      $event_options[] = $row['event'];
+    }
+  }
+}
+?>
+<div style="text-align:center; margin-bottom: 18px;">
+  <label for="event-filter" style="font-weight:bold; color:#7fd7ff; margin-right:8px;">Event:</label>
+  <select id="event-filter" style="font-size:1em; padding:4px 10px; border-radius:4px; border:1px solid #7fd7ff; background:#181c22; color:#fff;">
+    <option value="">All Events</option>
+    <?php foreach ($event_options as $event): ?>
+      <option value="<?= htmlspecialchars($event) ?>"><?= htmlspecialchars($event) ?></option>
+    <?php endforeach; ?>
+  </select>
+</div>
   <table id="equipment-table">
     <thead>
       <tr>
@@ -298,7 +320,7 @@ body {
         // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
         // $item_data: array of fields for the item, or null for empty
         // Output a <tr> with only the relevant item column filled
-        echo "<tr>\n";
+        echo "<tr data-event='" . htmlspecialchars(isset($reg['event']) ? $reg['event'] : '') . "'>\n";
         // ID
         echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
         // Contact
