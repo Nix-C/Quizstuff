@@ -11,14 +11,15 @@
     $phone = trim($_POST['phone'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $district = trim($_POST['district'] ?? '');
+    $event = trim($_POST['event'] ?? '');
     $agree = isset($_POST['agree']);
 
-    if ($first_name === '' || $last_name === '' || $phone === '' || $email === '' || $district === '' || !$agree) {
+    if ($first_name === '' || $last_name === '' || $phone === '' || $email === '' || $district === '' || $event === '' || !$agree) {
       $error = "All fields are required and you must agree to the terms.";
     } else {
       // Insert into equipment_registration table
-      $stmt = $conn->prepare("INSERT INTO equipment_registration (first_name, last_name, phone, email, district) VALUES (?, ?, ?, ?, ?)");
-      $stmt->bind_param('sssss', $first_name, $last_name, $phone, $email, $district);
+      $stmt = $conn->prepare("INSERT INTO equipment_registration (first_name, last_name, phone, email, district, event) VALUES (?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param('ssssss', $first_name, $last_name, $phone, $email, $district, $event);
       if ($stmt->execute()) {
         $success = "Equipment registered successfully.";
         $registration_id = $conn->insert_id;
@@ -188,6 +189,14 @@
             </label>
             <label for="district">District & Field
               <input type="text" name="district" id="district" required value="<?= htmlspecialchars($_POST['district'] ?? '') ?>">
+            </label>
+            <label for="event">Event
+              <select name="event" id="event" required>
+                <option value="">Select Event</option>
+                <option value="Quizfest" <?= (isset($_POST['event']) && $_POST['event'] === 'Quizfest') ? 'selected' : '' ?>>Quizfest</option>
+                <option value="South Bend" <?= (isset($_POST['event']) && $_POST['event'] === 'South Bend') ? 'selected' : '' ?>>South Bend</option>
+                <option value="Q2025" <?= (isset($_POST['event']) && $_POST['event'] === 'Q2025') ? 'selected' : '' ?>>Q2025</option>
+              </select>
             </label>
           </fieldset>
 
