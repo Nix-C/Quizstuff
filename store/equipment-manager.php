@@ -1040,6 +1040,22 @@ if ($event_result && $event_result->num_rows > 0) {
         }
         rows.forEach(row => tbody.appendChild(row));
       });
+      // Event filter logic
+      const eventFilter = document.getElementById('event-filter');
+      eventFilter.addEventListener('change', function() {
+        const selected = this.value;
+        const table = document.getElementById('equipment-table');
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        rows.forEach(row => {
+          // Get event from data-event attribute
+          const eventVal = row.getAttribute('data-event');
+          if (selected === '' || eventVal === selected) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
     });
     // Notes save AJAX
     document.querySelectorAll('.save-notes-btn').forEach(function(btn) {
