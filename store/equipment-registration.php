@@ -73,29 +73,35 @@
 
         // Insert interface box into interface_boxes table
         if (!empty($_POST['interface_type']) && $interface_qty !== null && $interface_qty > 0) {
-          $interface_stmt = $conn->prepare("INSERT INTO interface_boxes (registration_id, interface_type, interface_qty) VALUES (?, ?, ?)");
-          $interface_stmt->bind_param('isi', $registration_id, $_POST['interface_type'], $interface_qty);
-          $interface_stmt->execute();
+          $interface_stmt = $conn->prepare("INSERT INTO interface_boxes (registration_id, interface_type) VALUES (?, ?)");
+          for ($i = 0; $i < $interface_qty; $i++) {
+            $interface_stmt->bind_param('is', $registration_id, $_POST['interface_type']);
+            $interface_stmt->execute();
+            // $interface_stmt->insert_id is the unique ID for this interface box
+          }
           $interface_stmt->close();
         }
 
-        // Insert multiple pads
+        // Insert multiple pads (one row per pad)
         if (!empty($_POST['pad_color']) && is_array($_POST['pad_color'])) {
           $pad_colors = $_POST['pad_color'];
           $pad_qtys = $_POST['pad_qty'];
-          $pad_stmt = $conn->prepare("INSERT INTO pads (registration_id, pad_color, pad_qty) VALUES (?, ?, ?)");
+          $pad_stmt = $conn->prepare("INSERT INTO pads (registration_id, pad_color) VALUES (?, ?)");
           for ($i = 0; $i < count($pad_colors); $i++) {
             $color = $pad_colors[$i];
             $qty = int_or_null($pad_qtys[$i]);
-            if ($color !== '' && $qty !== null) {
-              $pad_stmt->bind_param('isi', $registration_id, $color, $qty);
-              $pad_stmt->execute();
+            if ($color !== '' && $qty !== null && $qty > 0) {
+              for ($j = 0; $j < $qty; $j++) {
+                $pad_stmt->bind_param('is', $registration_id, $color);
+                $pad_stmt->execute();
+                // $pad_stmt->insert_id is the unique ID for this pad
+              }
             }
           }
           $pad_stmt->close();
         }
 
-        // Insert multiple laptops
+        // Insert multiple laptops (already one row per laptop)
         if (!empty($_POST['laptop_brand']) && is_array($_POST['laptop_brand'])) {
           $laptop_brands = $_POST['laptop_brand'];
           $laptop_oss = $_POST['laptop_os'];
@@ -114,9 +120,30 @@
             if ($brand !== '' || $os !== '' || $port !== '' || $qm !== '' || $user !== '' || $pass !== '') {
               $laptop_stmt->bind_param('issssss', $registration_id, $brand, $os, $port, $qm, $user, $pass);
               $laptop_stmt->execute();
+              // $laptop_stmt->insert_id is the unique ID for this laptop
             }
           }
           $laptop_stmt->close();
+        }
+
+        // Insert multiple microphones (one row per item)
+        if (!empty($_POST['mic_type']) && $mic_qty !== null && $mic_qty > 0) {
+          $mic_stmt = $conn->prepare("INSERT INTO microphones (registration_id, mic_type, mic_brand, mic_model) VALUES (?, ?, ?, ?)");
+          for ($i = 0; $i < $mic_qty; $i++) {
+            $mic_stmt->bind_param('isss', $registration_id, $_POST['mic_type'], $_POST['mic_brand'], $_POST['mic_model']);
+            $mic_stmt->execute();
+          }
+          $mic_stmt->close();
+        }
+
+        // Insert multiple 'other' items (one row per item)
+        if (!empty($_POST['other_desc']) && $other_qty !== null && $other_qty > 0) {
+          $other_stmt = $conn->prepare("INSERT INTO other_items (registration_id, description) VALUES (?, ?)");
+          for ($i = 0; $i < $other_qty; $i++) {
+            $other_stmt->bind_param('is', $registration_id, $_POST['other_desc']);
+            $other_stmt->execute();
+          }
+          $other_stmt->close();
         }
       } else {
         $error = "Database error: " . $conn->error;
