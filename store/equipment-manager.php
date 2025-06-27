@@ -273,8 +273,8 @@ body {
   <table id="equipment-table">
     <thead>
       <tr>
-        <th id="regid-header" style="cursor:pointer; user-select:none;">Reg ID &#8597;</th>
-        <th id="itemid-header" style="cursor:pointer; user-select:none;">Item ID &#8597;</th>
+        <th id="rownum-header">Row #</th>
+        <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
         <th id="laptop-header" style="cursor:pointer; user-select:none;">Laptop &#8597;</th>
@@ -294,14 +294,15 @@ body {
     </thead>
     <tbody>
       <?php
+      // Row number counter
+      $rownum = 1;
       // Helper to output a row for a single item
-      function output_item_row($reg, $item_type, $item_data, $statuses) {
+      function output_item_row($reg, $item_type, $item_data, $statuses, &$rownum) {
         echo "<tr>\n";
-        // Registration ID
+        // Row #
+        echo "  <td>" . $rownum++ . "</td>\n";
+        // ID
         echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
-        // Item ID
-        $item_id = isset($item_data['id']) ? $item_data['id'] : '';
-        echo "  <td>" . htmlspecialchars($item_id) . "</td>\n";
         // Contact
         echo "  <td><strong>Name:</strong> " . htmlspecialchars($reg['first_name'] . ' ' . $reg['last_name']) . "<br>";
         if ($reg['phone']) echo '<strong>Phone: </strong>' . htmlspecialchars($reg['phone']) . '<br>';
@@ -455,7 +456,7 @@ body {
               'qm_version' => $laptop['qm_version'],
               'username' => $laptop['username'],
               'password' => $laptop['password'],
-            ], $statuses);
+            ], $statuses, $rownum);
           }
         }
         // Interface boxes (multiple types/qty)
@@ -469,7 +470,7 @@ body {
                   'type' => $box['type'],
                   'qty' => 1,
                   'row_index' => $interface_row_index++
-                ], $statuses);
+                ], $statuses, $rownum);
               }
             } elseif ($box['type']) {
               $hasEquipment = true;
@@ -477,7 +478,7 @@ body {
                 'type' => $box['type'],
                 'qty' => $box['qty'],
                 'row_index' => $interface_row_index++
-              ], $statuses);
+              ], $statuses, $rownum);
             }
           }
         }
@@ -489,7 +490,7 @@ body {
               $hasEquipment = true;
               output_item_row($reg, 'pad', [
                 'color' => isset($pad['pad_color']) ? $pad['pad_color'] : ''
-              ], $statuses);
+              ], $statuses, $rownum);
             }
           }
         }
@@ -506,7 +507,7 @@ body {
             'size' => isset($reg['monitor_size']) ? $reg['monitor_size'] : '',
             'resolution' => isset($reg['monitor_resolution']) ? $reg['monitor_resolution'] : '',
             'connection' => isset($reg['monitor_connection']) ? $reg['monitor_connection'] : ''
-          ], $statuses);
+          ], $statuses, $rownum);
         }
         // Projector (qty rows)
         $projector_qty = (int)(isset($reg['projector_qty']) ? $reg['projector_qty'] : 0);
@@ -518,7 +519,7 @@ body {
               'lumens' => isset($reg['projector_lumens']) ? $reg['projector_lumens'] : '',
               'resolution' => isset($reg['projector_resolution']) ? $reg['projector_resolution'] : '',
               'qty' => 1
-            ], $statuses);
+            ], $statuses, $rownum);
           }
         } elseif (isset($reg['projector_brand']) && $reg['projector_brand']) {
           $hasEquipment = true;
@@ -527,7 +528,7 @@ body {
             'lumens' => isset($reg['projector_lumens']) ? $reg['projector_lumens'] : '',
             'resolution' => isset($reg['projector_resolution']) ? $reg['projector_resolution'] : '',
             'qty' => isset($reg['projector_qty']) ? $reg['projector_qty'] : ''
-          ], $statuses);
+          ], $statuses, $rownum);
         }
         // Powerstrip (always 1 row if present)
         if (
@@ -542,7 +543,7 @@ body {
             'model' => isset($reg['powerstrip_model']) ? $reg['powerstrip_model'] : '',
             'color' => isset($reg['powerstrip_color']) ? $reg['powerstrip_color'] : '',
             'outlets' => isset($reg['powerstrip_outlets']) ? $reg['powerstrip_outlets'] : ''
-          ], $statuses);
+          ], $statuses, $rownum);
         }
         // Extension cord (always 1 row if present)
         if (
@@ -553,7 +554,7 @@ body {
           output_item_row($reg, 'extension', [
             'color' => isset($reg['extension_color']) ? $reg['extension_color'] : '',
             'length' => isset($reg['extension_length']) ? $reg['extension_length'] : ''
-          ], $statuses);
+          ], $statuses, $rownum);
         }
         // Microphone/Recorder (qty rows)
         $mic_qty = (int)(isset($reg['mic_qty']) ? $reg['mic_qty'] : 0);
@@ -565,7 +566,7 @@ body {
               'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
               'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
               'qty' => 1
-            ], $statuses);
+            ], $statuses, $rownum);
           }
         } elseif (isset($reg['mic_type']) && $reg['mic_type']) {
           $hasEquipment = true;
@@ -574,7 +575,7 @@ body {
             'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
             'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
             'qty' => isset($reg['mic_qty']) ? $reg['mic_qty'] : ''
-          ], $statuses);
+          ], $statuses, $rownum);
         }
         // Other (qty rows)
         $other_qty = (int)(isset($reg['other_qty']) ? $reg['other_qty'] : 0);
@@ -584,18 +585,18 @@ body {
             output_item_row($reg, 'other', [
               'desc' => $reg['other_desc'],
               'qty' => 1
-            ], $statuses);
+            ], $statuses, $rownum);
           }
         } elseif (isset($reg['other_desc']) && $reg['other_desc']) {
           $hasEquipment = true;
           output_item_row($reg, 'other', [
             'desc' => $reg['other_desc'],
             'qty' => isset($reg['other_qty']) ? $reg['other_qty'] : ''
-          ], $statuses);
+          ], $statuses, $rownum);
         }
         // If no equipment or pads, show a blank row for this registration
         if (!$hasEquipment) {
-          output_item_row($reg, '', [], $statuses);
+          output_item_row($reg, '', [], $statuses, $rownum);
         }
       }
       ?>
@@ -605,8 +606,7 @@ body {
     // Table sort by ID (ascending/descending) and Name (A-Z/Z-A)
     document.addEventListener('DOMContentLoaded', function() {
       const table = document.getElementById('equipment-table');
-      const regIdHeader = document.getElementById('regid-header');
-      const itemIdHeader = document.getElementById('itemid-header');
+      const idHeader = document.getElementById('id-header');
       const nameHeader = document.getElementById('name-header');
       const districtHeader = document.getElementById('district-header');
       const laptopHeader = document.getElementById('laptop-header');
@@ -614,8 +614,7 @@ body {
       const padsHeader = document.getElementById('pads-header');
       const statusHeader = document.getElementById('status-header');
       const horizontal = document.getElementById('horizontal');
-      let ascRegId = false;
-      let ascItemId = false;
+      let ascId = false;
       let ascName = false;
       let ascDistrict = false;
       let ascLaptop = false;
@@ -662,48 +661,22 @@ body {
           filterPadsByColor(pc.color);
         });
       });
-      // Reg ID header click event
-      if (regIdHeader) {
-        regIdHeader.addEventListener('click', function() {
-          const tbody = table.querySelector('tbody');
-          const rows = Array.from(tbody.querySelectorAll('tr'));
-          rows.sort((a, b) => {
-            const idA = parseInt(a.children[0].textContent, 10);
-            const idB = parseInt(b.children[0].textContent, 10);
-            return ascRegId ? idA - idB : idB - idA;
-          });
-          ascRegId = !ascRegId;
-          rows.forEach(row => tbody.appendChild(row));
-          regIdHeader.innerHTML = ascRegId ? 'Reg ID &#8593;' : 'Reg ID &#8595;';
-          itemIdHeader.innerHTML = 'Item ID &#8597;';
-          nameHeader.innerHTML = 'Contact &#8597;';
-          districtHeader.innerHTML = 'District &#8597;';
-          laptopHeader.innerHTML = 'Laptop &#8597;';
+      // ID header click event
+      idHeader.addEventListener('click', function() {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+          const idA = parseInt(a.children[0].textContent, 10);
+          const idB = parseInt(b.children[0].textContent, 10);
+          return ascId ? idA - idB : idB - idA;
         });
-      }
-      // Item ID header click event
-      if (itemIdHeader) {
-        itemIdHeader.addEventListener('click', function() {
-          const tbody = table.querySelector('tbody');
-          const rows = Array.from(tbody.querySelectorAll('tr'));
-          rows.sort((a, b) => {
-            const idA = parseInt(a.children[1].textContent, 10);
-            const idB = parseInt(b.children[1].textContent, 10);
-            // Empty or non-numeric IDs go last
-            if (isNaN(idA) && !isNaN(idB)) return 1;
-            if (!isNaN(idA) && isNaN(idB)) return -1;
-            if (isNaN(idA) && isNaN(idB)) return 0;
-            return ascItemId ? idA - idB : idB - idA;
-          });
-          ascItemId = !ascItemId;
-          rows.forEach(row => tbody.appendChild(row));
-          itemIdHeader.innerHTML = ascItemId ? 'Item ID &#8593;' : 'Item ID &#8595;';
-          regIdHeader.innerHTML = 'Reg ID &#8597;';
-          nameHeader.innerHTML = 'Contact &#8597;';
-          districtHeader.innerHTML = 'District &#8597;';
-          laptopHeader.innerHTML = 'Laptop &#8597;';
-        });
-      }
+        ascId = !ascId;
+        rows.forEach(row => tbody.appendChild(row));
+        idHeader.innerHTML = ascId ? 'ID &#8593;' : 'ID &#8595;';
+        nameHeader.innerHTML = 'Contact &#8597;';
+        districtHeader.innerHTML = 'District &#8597;';
+        laptopHeader.innerHTML = 'Laptop &#8597;';
+      });
       // Name header click event
       nameHeader.addEventListener('click', function() {
         const tbody = table.querySelector('tbody');
@@ -718,7 +691,7 @@ body {
         ascName = !ascName;
         rows.forEach(row => tbody.appendChild(row));
         nameHeader.innerHTML = ascName ? 'Contact &#8593;' : 'Contact &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -736,7 +709,7 @@ body {
         ascDistrict = !ascDistrict;
         rows.forEach(row => tbody.appendChild(row));
         districtHeader.innerHTML = ascDistrict ? 'District &#8593;' : 'District &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
       });
@@ -766,7 +739,7 @@ body {
         ascLaptop = !ascLaptop;
         rows.forEach(row => tbody.appendChild(row));
         laptopHeader.innerHTML = ascLaptop ? 'Laptop &#8593;' : 'Laptop &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
       });
@@ -792,7 +765,7 @@ body {
         ascInterface = !ascInterface;
         rows.forEach(row => tbody.appendChild(row));
         interfaceHeader.innerHTML = ascInterface ? 'Interface Box &#8593;' : 'Interface Box &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -824,7 +797,7 @@ body {
         ascMonitor = !ascMonitor;
         rows.forEach(row => tbody.appendChild(row));
         monitorHeader.innerHTML = ascMonitor ? 'Monitor &#8593;' : 'Monitor &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -858,7 +831,7 @@ body {
         ascProjectorRes = !ascProjectorRes;
         rows.forEach(row => tbody.appendChild(row));
         projectorHeader.innerHTML = ascProjectorRes ? 'Projector &#8593;' : 'Projector &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -891,7 +864,7 @@ body {
         ascPowerstripPlugs = !ascPowerstripPlugs;
         rows.forEach(row => tbody.appendChild(row));
         powerstripHeader.innerHTML = ascPowerstripPlugs ? 'Powerstrip &#8593;' : 'Powerstrip &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -925,7 +898,7 @@ body {
         ascExtensionLength = !ascExtensionLength;
         rows.forEach(row => tbody.appendChild(row));
         extensionHeader.innerHTML = ascExtensionLength ? 'Extension Cord &#8593;' : 'Extension Cord &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -960,7 +933,7 @@ body {
         ascMicQty = !ascMicQty;
         rows.forEach(row => tbody.appendChild(row));
         micHeader.innerHTML = ascMicQty ? 'Microphone/Recorder &#8593;' : 'Microphone/Recorder &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
@@ -996,7 +969,7 @@ body {
         ascOtherQty = !ascOtherQty;
         rows.forEach(row => tbody.appendChild(row));
         otherHeader.innerHTML = ascOtherQty ? 'Other &#8593;' : 'Other &#8595;';
-        regIdHeader.innerHTML = 'Reg ID &#8597;';
+        idHeader.innerHTML = 'ID &#8597;';
         nameHeader.innerHTML = 'Contact &#8597;';
         districtHeader.innerHTML = 'District &#8597;';
         laptopHeader.innerHTML = 'Laptop &#8597;';
