@@ -273,7 +273,6 @@ body {
   <table id="equipment-table">
     <thead>
       <tr>
-        <th id="rownum-header">Row #</th>
         <th id="id-header" style="cursor:pointer; user-select:none;">ID &#8597;</th>
         <th id="name-header" style="cursor:pointer; user-select:none;">Contact &#8597;</th>
         <th id="district-header" style="cursor:pointer; user-select:none;">District &#8597;</th>
@@ -294,13 +293,12 @@ body {
     </thead>
     <tbody>
       <?php
-      // Row number counter
-      $rownum = 1;
       // Helper to output a row for a single item
-      function output_item_row($reg, $item_type, $item_data, $statuses, &$rownum) {
+      function output_item_row($reg, $item_type, $item_data, $statuses) {
+        // $item_type: string, e.g. 'laptop', 'interface', 'pad', etc.
+        // $item_data: array of fields for the item, or null for empty
+        // Output a <tr> with only the relevant item column filled
         echo "<tr>\n";
-        // Row #
-        echo "  <td>" . $rownum++ . "</td>\n";
         // ID
         echo "  <td>" . htmlspecialchars($reg['id']) . "</td>\n";
         // Contact
@@ -456,7 +454,7 @@ body {
               'qm_version' => $laptop['qm_version'],
               'username' => $laptop['username'],
               'password' => $laptop['password'],
-            ], $statuses, $rownum);
+            ], $statuses);
           }
         }
         // Interface boxes (multiple types/qty)
@@ -470,7 +468,7 @@ body {
                   'type' => $box['type'],
                   'qty' => 1,
                   'row_index' => $interface_row_index++
-                ], $statuses, $rownum);
+                ], $statuses);
               }
             } elseif ($box['type']) {
               $hasEquipment = true;
@@ -478,7 +476,7 @@ body {
                 'type' => $box['type'],
                 'qty' => $box['qty'],
                 'row_index' => $interface_row_index++
-              ], $statuses, $rownum);
+              ], $statuses);
             }
           }
         }
@@ -490,7 +488,7 @@ body {
               $hasEquipment = true;
               output_item_row($reg, 'pad', [
                 'color' => isset($pad['pad_color']) ? $pad['pad_color'] : ''
-              ], $statuses, $rownum);
+              ], $statuses);
             }
           }
         }
@@ -507,7 +505,7 @@ body {
             'size' => isset($reg['monitor_size']) ? $reg['monitor_size'] : '',
             'resolution' => isset($reg['monitor_resolution']) ? $reg['monitor_resolution'] : '',
             'connection' => isset($reg['monitor_connection']) ? $reg['monitor_connection'] : ''
-          ], $statuses, $rownum);
+          ], $statuses);
         }
         // Projector (qty rows)
         $projector_qty = (int)(isset($reg['projector_qty']) ? $reg['projector_qty'] : 0);
@@ -519,7 +517,7 @@ body {
               'lumens' => isset($reg['projector_lumens']) ? $reg['projector_lumens'] : '',
               'resolution' => isset($reg['projector_resolution']) ? $reg['projector_resolution'] : '',
               'qty' => 1
-            ], $statuses, $rownum);
+            ], $statuses);
           }
         } elseif (isset($reg['projector_brand']) && $reg['projector_brand']) {
           $hasEquipment = true;
@@ -528,7 +526,7 @@ body {
             'lumens' => isset($reg['projector_lumens']) ? $reg['projector_lumens'] : '',
             'resolution' => isset($reg['projector_resolution']) ? $reg['projector_resolution'] : '',
             'qty' => isset($reg['projector_qty']) ? $reg['projector_qty'] : ''
-          ], $statuses, $rownum);
+          ], $statuses);
         }
         // Powerstrip (always 1 row if present)
         if (
@@ -543,7 +541,7 @@ body {
             'model' => isset($reg['powerstrip_model']) ? $reg['powerstrip_model'] : '',
             'color' => isset($reg['powerstrip_color']) ? $reg['powerstrip_color'] : '',
             'outlets' => isset($reg['powerstrip_outlets']) ? $reg['powerstrip_outlets'] : ''
-          ], $statuses, $rownum);
+          ], $statuses);
         }
         // Extension cord (always 1 row if present)
         if (
@@ -554,7 +552,7 @@ body {
           output_item_row($reg, 'extension', [
             'color' => isset($reg['extension_color']) ? $reg['extension_color'] : '',
             'length' => isset($reg['extension_length']) ? $reg['extension_length'] : ''
-          ], $statuses, $rownum);
+          ], $statuses);
         }
         // Microphone/Recorder (qty rows)
         $mic_qty = (int)(isset($reg['mic_qty']) ? $reg['mic_qty'] : 0);
@@ -566,7 +564,7 @@ body {
               'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
               'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
               'qty' => 1
-            ], $statuses, $rownum);
+            ], $statuses);
           }
         } elseif (isset($reg['mic_type']) && $reg['mic_type']) {
           $hasEquipment = true;
@@ -575,7 +573,7 @@ body {
             'brand' => isset($reg['mic_brand']) ? $reg['mic_brand'] : '',
             'model' => isset($reg['mic_model']) ? $reg['mic_model'] : '',
             'qty' => isset($reg['mic_qty']) ? $reg['mic_qty'] : ''
-          ], $statuses, $rownum);
+          ], $statuses);
         }
         // Other (qty rows)
         $other_qty = (int)(isset($reg['other_qty']) ? $reg['other_qty'] : 0);
@@ -585,18 +583,18 @@ body {
             output_item_row($reg, 'other', [
               'desc' => $reg['other_desc'],
               'qty' => 1
-            ], $statuses, $rownum);
+            ], $statuses);
           }
         } elseif (isset($reg['other_desc']) && $reg['other_desc']) {
           $hasEquipment = true;
           output_item_row($reg, 'other', [
             'desc' => $reg['other_desc'],
             'qty' => isset($reg['other_qty']) ? $reg['other_qty'] : ''
-          ], $statuses, $rownum);
+          ], $statuses);
         }
         // If no equipment or pads, show a blank row for this registration
         if (!$hasEquipment) {
-          output_item_row($reg, '', [], $statuses, $rownum);
+          output_item_row($reg, '', [], $statuses);
         }
       }
       ?>
