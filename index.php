@@ -55,7 +55,7 @@
           glue for longer life). Cost is dependent on what needs to be done. A
           proposal for costs will be sent for approval.
           <br /><br />
-          <u>The cost is $75 per string</u>, shipping now added per string.
+          <u>The cost is $80 per string</u>, shipping now added per string.
           Place orders now by clicking on the view and order products button.
           These pads work with QuizMachine and the USB and parallel port
           interface boxes. We CANNOT guarantee the pads to work with any other
