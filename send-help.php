@@ -8,6 +8,7 @@
   require_once 'PHPMailer/src/PHPMailer.php';
   require_once 'PHPMailer/src/SMTP.php';
   require_once 'config.php';
+  
   $OK = true;
   $emailData = json_decode(file_get_contents('php://input')); 
   file_put_contents('debug.txt', file_get_contents('php://input'));

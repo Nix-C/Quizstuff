@@ -26,8 +26,9 @@
           <label for="message">Message:</label><br>
           <textarea id="message" name="message" rows="5" required></textarea><br><br>
 
-          <button value="Send Email">Send Message</button>
+          <button id="submit" value="Send Email">Send Message</button>
         </form>
+        <p id="submit-message"></p>
       </section>
     </main>
 

@@ -1,11 +1,27 @@
 const helpForm = document.getElementById("help-form");
+const submitButton = document.getElementById("submit");
+const submitMessage = document.getElementById("submit-message");
 
 helpForm.addEventListener("submit", async function (event) {
   event.preventDefault();
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending...";
   const formData = new FormData(event.target);
   await sendHelp(formDataToJson(formData)).then((response) => {
-    if (response.ok) console.log("Success!");
-    else console.warn("Failure");
+    if (response.ok) {
+      console.log("Success!");
+      const successElement = document.createElement("h2");
+      successElement.textContent = "Message Sent!";
+      helpForm.insertAdjacentElement("beforebegin", successElement);
+      helpForm.remove();
+    } else {
+      console.warn("Failure");
+      submitMessage.classList.add("failure");
+      submitMessage.textContent =
+        "Message could not be submitted. Please try again.";
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+    }
   });
 });
 
