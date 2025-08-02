@@ -11,6 +11,7 @@
   $OK = true;
   $emailData = json_decode(file_get_contents('php://input')); 
   file_put_contents('debug.txt', file_get_contents('php://input'));
+  $name = $emailData->name;
 
   if (!isset($emailData->name, $emailData->email, $emailData->message)) {
     http_response_code(400);
@@ -18,15 +19,15 @@
   }
 
 
-    $body = "
-      <p>Hello, $name!</p>
-      <p>Thank you for your message. We try to respond within 1–2 business days.</p>
-      <p>Feel free to reply with further questions!</p>
-      <p>Kind regards,<br>Quizstuff Team</p>
-      <hr>
-      <p><strong>Message:</strong></p>
-      <p>" . nl2br(htmlspecialchars($message)) . "</p>
-    ";
+  $body = "
+    <p>Hello, $name!</p>
+    <p>Thank you for your message. We try to respond within 1–2 business days.</p>
+    <p>Feel free to reply with further questions!</p>
+    <p>Kind regards,<br>Quizstuff Team</p>
+    <hr>
+    <p><strong>Message:</strong></p>
+    <p>" . nl2br(htmlspecialchars($emailData->$message)) . "</p>
+  ";
 
     $subject = "Quizstuff Help - ". $emailData->name;    
     $OK = sendMail($emailData->email, $subject, $body);
