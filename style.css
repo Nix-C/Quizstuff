@@ -492,7 +492,8 @@ label.above,
 }
 
 input,
-select {
+select,
+textarea {
   background: #ffffff0f;
   border: 1px solid currentColor;
   border-radius: 4px;
