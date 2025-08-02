@@ -17,12 +17,19 @@
     exit('Missing required fields.');
   }
 
-    $subject = "Quizstuff Help - ". $emailData->name;
-    $res = sendMail($emailData->email, $subject, $emailData->message);
-    
-    if($res) {
-      $OK = false;
-    }
+
+    $body = "
+      <p>Hello, $name!</p>
+      <p>Thank you for your message. We try to respond within 1–2 business days.</p>
+      <p>Feel free to reply with further questions!</p>
+      <p>Kind regards,<br>Quizstuff Team</p>
+      <hr>
+      <p><strong>Message:</strong></p>
+      <p>" . nl2br(htmlspecialchars($message)) . "</p>
+    ";
+
+    $subject = "Quizstuff Help - ". $emailData->name;    
+    $OK = sendMail($emailData->email, $subject, $body);
 
 
 
