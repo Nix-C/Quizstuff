@@ -156,7 +156,7 @@ function camelize(str) {
 }
 
 async function sendOrderData(orderData) {
-  const response = await fetch("/store/process-order.php", {
+  const response = await fetch("/store/process-order", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

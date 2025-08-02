@@ -27,7 +27,7 @@ helpForm.addEventListener("submit", async function (event) {
 
 // Accepts JSON-formatted form data
 async function sendHelp(formData) {
-  const response = await fetch("/send-help.php", {
+  const response = await fetch("/send-help", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
