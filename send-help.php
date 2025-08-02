@@ -26,7 +26,7 @@
     <p>Kind regards,<br>Quizstuff Team</p>
     <hr>
     <p><strong>Message:</strong></p>
-    <p>" . nl2br(htmlspecialchars($emailData->$message)) . "</p>
+    <p>" . nl2br(htmlspecialchars($emailData->message)) . "</p>
   ";
 
     $subject = "Quizstuff Help - ". $emailData->name;    
