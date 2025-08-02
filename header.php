@@ -13,7 +13,7 @@
             <!-- <h3 class="mobile-only nav-heading">General</h3> -->
             <li><a href="/">Overview</a></li>
             <li><a href="/downloads.php">Downloads</a></li>
-            <li><a href="/faqs.php">FAQs</a></li>
+            <li><a href="/faqs.php">FAQ</a></li>
             <!-- <h3 class="mobile-only nav-heading">Store</h3> -->
             <li class="dropdown">
               <button class="dropdown-toggle">
@@ -47,8 +47,11 @@
                   <a href="/store/shipping-info.php">Shipping policy</a>
                 </li> -->
               </ul>
+              
             </li>
+            
             <li><a href="/store/equipment-registration.php">Equipment Registration</a></li>
+            <li><a href="/contact.php">Contact Us</a></li>
           </ul>
         </div>
         <button class="icon mobile-only" onclick="toggleNavOpen()">

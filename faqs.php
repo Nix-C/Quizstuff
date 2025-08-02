@@ -126,8 +126,8 @@
           <br />
           9. &nbsp;&nbsp; Start the install process again (see notes above)
           <br /><br /><br />
-          For more support please contact us at <u>quizstuff@quizstuff.com</u>.
-          <br /><br /><br />
+<h2>For more support, please <a href="/contact.php">contact us</a>.</h2>
+
         </p>
       </section>
     </main>

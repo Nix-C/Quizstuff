@@ -14,8 +14,8 @@
 
     <main>
       <section class="container">
-        <h1 class="container-header">Need Help?</h1>
-        <p>Send us a message!</p>
+        <h1 class="container-header">Contact Us</h1>
+        <p style="max-width: 600px; text-align: center;">Need help with placing an order?<br>Have questions about equipment?<br>Let us help!</p>
         <form id="help-form">
           <label for="name">Your Name:</label><br>
           <input type="text" id="name" name="name" required><br><br>
