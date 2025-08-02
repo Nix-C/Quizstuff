@@ -1,0 +1,97 @@
+fieldset label {
+    margin: 10px;
+    font-weight: bold;
+    display: flex;
+    gap: 10px;
+    color: rgb(196, 196, 196);
+    font-size: 1rem;
+}
+fieldset input[type="text"], 
+fieldset input[type="number"], 
+fieldset input[type="email"], 
+fieldset input[type="tel"] {
+    width: auto;
+    padding: 4px 8px;
+}
+fieldset select, fieldset select option {
+    width: auto;
+    padding: 4px 8px;
+}
+fieldset {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+button {
+    padding: 10px 20px;
+    background: linear-gradient(15deg, #004b78, #431235); /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: fit-content;
+}
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+h1 {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+hr {
+    border: solid white 1px;
+    height: 1px;
+    background: white;
+    margin: 20px 0;
+    width: 60%;
+}
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: monospace;
+    font-size: 1em;
+    color: white;
+    background: transparent;
+    resize: vertical;
+}
+#wrap {
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0;
+    gap: 20px;
+}
+#wrap fieldset {
+    width: fit-content;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: solid 1px rgba(255, 255, 255, 0.8);
+    flex: 1 1;
+    flex-basis: 50%;
+}
+@media (max-width: 500px) {
+    #wrap {
+        flex-direction: column;
+        align-items: center;
+    }
+    #wrap fieldset {
+        /* width: 100%; */
+        /* max-width: 100%; */
+        word-wrap: break-word;
+    }
+    fieldset label {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

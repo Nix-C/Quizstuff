@@ -53,7 +53,7 @@ h1 {
 }
 
 /* Make icons inline */
-a,
+.logo-container,
 button {
   display: flex;
   align-items: center;
