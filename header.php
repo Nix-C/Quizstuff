@@ -49,8 +49,9 @@
               </ul>
               
             </li>
-            
-            <li><a href="/store/equipment-registration.php">Equipment Registration</a></li>
+            <?php
+                # <li><a href="/store/equipment-registration.php">Equipment Registration</a></li>
+             ?>
             <li><a href="/contact.php">Contact Us</a></li>
           </ul>
         </div>
