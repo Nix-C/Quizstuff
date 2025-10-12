@@ -51,7 +51,7 @@
         <img id="HIW" src="/assets/images/HIW.gif" alt="Hardware diagram." />
 
         <a
-          href="http://www.quizstuff.com/zencart/index.php?main_page=login&zenid=502e276d8dbff6ccf0d336295bd5ffdb"
+          href="/store/order-form.php"
           class="button"
           >Order Equippment</a
         >
@@ -77,7 +77,7 @@
         </p>
 
         <a
-          href="http://www.quizstuff.com/zencart/index.php?main_page=login&zenid=502e276d8dbff6ccf0d336295bd5ffdb"
+          href="/store/order-form.php"
           class="button"
           >Order Equippment</a
         >
