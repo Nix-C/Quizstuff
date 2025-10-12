@@ -73,7 +73,7 @@
         </p>
 
         <a
-          href="http://www.quizstuff.com/zencart/index.php?main_page=login"
+          href="/store/order-form.php"
           class="button"
           >Visit Store</a
         >
