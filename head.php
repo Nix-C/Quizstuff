@@ -13,5 +13,10 @@
   />
   <link rel="stylesheet" href="/style.css" />
   <script src="/script.js" defer></script>
+  <script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+  ></script>
   <title><?php echo $page_title ?></title>
 </head>

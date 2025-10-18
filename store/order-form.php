@@ -253,6 +253,7 @@
           <!-- <p id="est-total">Estimated Total: $<span id="est-total--value">0.00</span></p>
           <small>(Pre shipping) -->
           <p id="submit-message"></p>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAB7VJCAOCIRo1v9k"></div>
         </form>
       </section>
     </main>
