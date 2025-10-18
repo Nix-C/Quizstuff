@@ -10,8 +10,33 @@
 
   $shippingInfo = $orderData->shippingInfo;
   $lineItems = $orderData->lineItems;
+  $token = $orderData->token;
 
-  // Step 1 - Get item data
+  // Step 1 - Validate Turnstile Token
+    $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
+    $data = [
+        'secret' => $secret,
+        'response' => $token
+    ];
+
+    $options = [
+      'http' => [
+        'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+        'method' => 'POST',
+        'content' => http_build_query($data)
+      ]
+    ];
+
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+    if ($response === FALSE) {
+      $OK = FALSE;
+      http_response_code(403);
+      exit();
+    }
+
+  // Step 2 - Get item data
 
   // Get unique product ids
   $productIds = array_map(function($lineItem) {
@@ -118,7 +143,7 @@
   }
 
 
-  // Step 2 - Push order to DB (return order ID)
+  // Step 3 - Push order to DB (return order ID)
   $sql = "INSERT INTO orders (name_first, name_last, address_1, address_2, city, state, zip, phone, email, total_price) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -146,7 +171,7 @@
   // Get the order ID
   $orderId = $conn->insert_id;
 
-  // Step 3 - Push order items to DB (use order ID)
+  // Step 4 - Push order items to DB (use order ID)
   if(isset($orderId)){
     $sql_insert_items = "INSERT INTO order_items (order_id, product_id, variant_id, option_id, quantity, price, total_price) VALUES ";
     $values = [];
@@ -179,14 +204,14 @@
     $OK = false;
   }
 
-  // Step 4 - Call generate-invoice.php (pass $orderId)
+  // Step 5 - Call generate-invoice.php (pass $orderId)
   $invoice = generateInvoice($orderId);
   if(is_null($invoice)){
     echo "Error: Invoice could not be generated";
     $OK = false;
   }
 
-  // Step 5 - Send mail with invoice body
+  // Step 6 - Send mail with invoice body
   $qsEmail = "quizstuff@quizstuff.com";
   if(!sendOrderInvoice($invoice, $orderId, $qsEmail)){
     echo "Error: Invoice could not be sent to admin.";

@@ -2,7 +2,6 @@
 const orderForm = document.getElementById("order-form");
 const submitMessage = document.getElementById("submit-message");
 const submitButton = document.getElementById("button--submit");
-
 // // Track form changes to update total est price
 // orderForm.addEventListener("change", async function (event) {
 //   const [type, productId, variantId] = event.target.id.split("_");
@@ -15,6 +14,7 @@ orderForm.addEventListener("submit", async function (event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const orderData = formatOrderData(formData);
+
   console.log(orderData);
 
   if (orderData.lineItems.length > 0) {
@@ -38,7 +38,11 @@ orderForm.addEventListener("submit", async function (event) {
         } else {
           submitButton.disabled = false;
           submitButton.innerText = "Submit Order";
-          submitMessage.innerHTML = "Order failed to submit.";
+          if (response.status === 403) {
+            submitMessage.innerHTML = "Please prove you are human!";
+          } else {
+            submitMessage.innerHTML = "Order failed to submit.";
+          }
           submitMessage.classList = "failure";
         }
       })
@@ -95,8 +99,14 @@ function formatOrderData(formData) {
   const validLineItemTypes = ["product", "variant", "option"];
 
   // Empty orderData
-  let orderData = { shippingInfo: {}, lineItems: [] };
+  let orderData = { shippingInfo: {}, lineItems: [], token: "" };
 
+  // Set token data (if input exists, it may not)
+  try {
+    orderData.token = formData.get("cf-turnstile-response");
+  } catch {
+    console.error("Could not verify token: No turnstile response found.");
+  }
   // Process formData
   for (let [key, value] of formData.entries()) {
     /**
@@ -165,6 +175,7 @@ async function sendOrderData(orderData) {
   });
   return response;
 }
+
 /**
  * Example orderData
  {
