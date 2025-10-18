@@ -16,7 +16,7 @@
     $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
     $data = [
-        'secret' => $secret,
+        'secret' => CF_TURNSTILE_SECRET,
         'response' => $token
     ];
 
