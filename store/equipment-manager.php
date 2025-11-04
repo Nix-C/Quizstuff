@@ -265,10 +265,7 @@ body {
   </style>
 </head>
 <body>
-    <div id="canvas">
-      <div id="radial-1"></div>
-      <div id="radial-2"></div>
-    </div>
+
   <h1><?= htmlspecialchars($page_title) ?></h1>
 <?php
 // Fetch unique event values from the equipment_registration table

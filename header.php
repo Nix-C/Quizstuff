@@ -1,3 +1,7 @@
+<div id="canvas">
+  <div id="radial-1"></div>
+  <div id="radial-2"></div>
+</div>
 <header id="header">
       <nav>
         <a href="/" class="logo-container">

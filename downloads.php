@@ -27,10 +27,7 @@
 <html lang="en">
   <?php include 'head.php'; ?>
   <body>
-    <div id="canvas">
-      <div id="radial-1"></div>
-      <div id="radial-2"></div>
-    </div>
+
     <?php include 'header.php'; ?>
     <main>
       <section class="container">

@@ -315,13 +315,13 @@
             <label>Length (ft): <input type="number" name="extension_length" min="0" placeholder="e.g. 25"></label>
           </fieldset>
 
-          <fieldset>
+          <!-- <fieldset>
             <legend>Microphone/Recorder</legend>
             <label>Type: <input type="text" name="mic_type" placeholder="e.g. Handheld, Tabletop"></label>
             <label>Brand: <input type="text" name="mic_brand" placeholder="e.g. Shure"></label>
             <label>Model: <input type="text" name="mic_model" placeholder="e.g. SM58"></label>
             <label>Quantity: <input type="number" name="mic_qty" min="0" placeholder="e.g. 1"></label>
-          </fieldset>
+          </fieldset> -->
 
           <fieldset>
             <legend>Other</legend>
