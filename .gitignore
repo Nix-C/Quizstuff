@@ -10,3 +10,29 @@ qm-version.json
 installers/
 logs.txt
 debug.txt
+
+#equipment manager files
+# Logs
+./equipment-manager/./equipment-manager/logs
+./equipment-manager/*.log
+./equipment-manager/npm-debug.log*
+./equipment-manager/yarn-debug.log*
+./equipment-manager/yarn-error.log*
+./equipment-manager/pnpm-debug.log*
+./equipment-manager/lerna-debug.log*
+
+./equipment-manager/node_modules
+./equipment-manager/dist
+./equipment-manager/dist-ssr
+./equipment-manager/*.local
+
+# Editor directories and files
+./equipment-manager/.vscode/*
+./equipment-manager/!.vscode/extensions.json
+./equipment-manager/.idea
+./equipment-manager/.DS_Store
+./equipment-manager/*.suo
+./equipment-manager/*.ntvs*
+./equipment-manager/*.njsproj
+./equipment-manager/*.sln
+./equipment-manager/*.sw?
