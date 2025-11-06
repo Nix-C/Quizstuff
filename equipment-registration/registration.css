@@ -96,3 +96,7 @@ textarea {
     align-items: flex-start;
   }
 }
+
+label:has(*:required)::after {
+  content: "*";
+}

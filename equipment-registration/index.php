@@ -25,7 +25,7 @@
           <fieldset>
             <legend>Event</legend>
             <label for="event">
-              <select name="event"  >
+              <select name="event" required>
                 <option value="">Select Event</option>
                 <?php foreach($events as $event) :?>
                   <option value="<?= $event["event_id"] ?>"><?= $event["name"] ?></option>
@@ -61,11 +61,11 @@
             <fieldset id="laptop-1">
               <legend>Laptop <span id="laptop-i">1</span></legend>
               <label>Brand
-                  <input type="text" maxlenth="30" name="brand"  >
+                  <input type="text" maxlenth="30" name="laptop-brand-1"  >
               </label>
               <label>Operating System
                 <select name="laptop-operating_system-1">
-                  <option>Please Select</option>
+                  <option value="">Please Select</option>
                   <option value="Win 11+">Windows 11 (or newer)</option>
                   <option value="Win 10">Windows 10</option>
                   <option value="Win 7/8">Windows 7/8</option>
@@ -76,7 +76,7 @@
               </label>
               <label>Port Type
                 <select name="laptop-port_type-1">
-                  <option>Please Select</option>
+                  <option value="">Please Select</option>
                   <option value="None">None</option>
                   <option value="Built-in">Built-in</option>
                   <option value="PCMCIA">PCMCIA</option>
@@ -87,10 +87,10 @@
                 <input type="text" name="laptop-quizmachine_version-1" maxlenth="15">
               </label>
               <label>Username
-                <input type="text" name="username" maxlenth="30">
+                <input type="text" name="laptop-username-1" maxlenth="30">
               </label>
               <label>Password
-                <input type="password" name="password" maxlenth="30">
+                <input type="password" name="laptop-password-1" maxlenth="30">
               </label>
             </fieldset>
           </div>
@@ -108,7 +108,7 @@
                 </select>
               </label>
               <label>Quantity
-                <input type="number" name="pads-quantity-1" >
+                <input type="number" name="pads-qty-1" >
               </label>
             </fieldset>
           </div>
@@ -165,10 +165,14 @@
           <div>
             <fieldset>
               <legend>Projector</legend>
-              <label>Brand: <input type="text" name="projector_brand" placeholder="e.g. Epson"></label>
-              <label>Lumens: <input type="number" name="projector_lumens" min="0" placeholder="e.g. 3000"></label>
+              <label>Brand 
+                <input type="text" name="projector-brand-1" placeholder="e.g. Epson">
+              </label>
+              <label>Lumens
+                <input type="number" name="projector-lumens-1" min="0" placeholder="e.g. 3000">
+              </label>
               <label>Resolution:
-                <select name="projector_resolution">
+                <select name="projector-resolution-1">
                   <option value="">Select</option>
                   <option value="800x600">800x600</option>
                   <option value="1024x768">1024x768</option>
@@ -178,22 +182,22 @@
                   <option value="Other">Other</option>
                 </select>
               </label>
-              <label>Quantity: <input type="number" name="projector_qty" min="0" placeholder="e.g. 1"></label>
+              <label>Quantity: <input type="number" name="projector-qty-1" min="0" placeholder="e.g. 1"></label>
             </fieldset>
           </div>
           <div>
             <fieldset>
               <legend>Powerstrip</legend>
-              <label>Make: <input type="text" name="powerstrip_make" placeholder="e.g. Belkin"></label>
-              <label>Model: <input type="text" name="powerstrip_model" placeholder="e.g. F9H620-06"></label>
-              <label>Color: <input type="text" name="powerstrip_color" placeholder="e.g. White"></label>
-              <label>Number of Plugs: <input type="number" name="powerstrip_outlets" min="0" placeholder="e.g. 6"></label>
+              <label>Make: <input type="text" name="powerstrip-make-1" placeholder="e.g. Belkin"></label>
+              <label>Model: <input type="text" name="powerstrip-model-1" placeholder="e.g. F9H620-06"></label>
+              <label>Color: <input type="text" name="powerstrip-color-1" placeholder="e.g. White"></label>
+              <label>Number of Plugs: <input type="number" name="powerstrip-outlets-1" min="0" placeholder="e.g. 6"></label>
             </fieldset>
           </div>
           <fieldset>
             <legend>Extension Cord</legend>
-            <label>Color: <input type="text" name="extension_color" placeholder="e.g. Orange"></label>
-            <label>Length (ft): <input type="number" name="extension_length" min="0" placeholder="e.g. 25"></label>
+            <label>Color: <input type="text" name="extension-color-1" placeholder="e.g. Orange"></label>
+            <label>Length (ft): <input type="number" name="extension-length-1" min="0" placeholder="e.g. 25"></label>
           </fieldset>
           <!-- <fieldset>
             <legend>Microphone/Recorder</legend>
@@ -205,9 +209,9 @@
           <fieldset>
             <legend>Other</legend>
             <label>Description:
-              <textarea name="other_desc" placeholder="Describe other equipment" rows="3"></textarea>
+              <textarea name="other-desc-1" placeholder="Describe other equipment" rows="3"></textarea>
             </label>
-            <label>Quantity: <input type="number" name="other_qty" min="0" placeholder="e.g. 1"></label>
+            <label>Quantity: <input type="number" name="other-qty-1" min="0" placeholder="e.g. 1"></label>
           </fieldset>
           <div id="agreement" style="display: flex; gap: 10px; margin-top: 20px;">
             <input type="checkbox" name="agree" id="agree"  >
