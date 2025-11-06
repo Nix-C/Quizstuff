@@ -58,41 +58,6 @@
           <div>
             <h3>Laptops</h3>
             <!-- Laptop block -->
-            <fieldset id="laptop-1">
-              <legend>Laptop <span id="laptop-i">1</span></legend>
-              <label>Brand
-                  <input type="text" maxlenth="30" name="laptop-brand-1"  >
-              </label>
-              <label>Operating System
-                <select name="laptop-operating_system-1">
-                  <option value="">Please Select</option>
-                  <option value="Win 11+">Windows 11 (or newer)</option>
-                  <option value="Win 10">Windows 10</option>
-                  <option value="Win 7/8">Windows 7/8</option>
-                  <option value="Older Windows">Older Windows</option>
-                  <option value="Linux">Linux</option>
-                  <option value="Other">Other</option>
-                </select>
-              </label>
-              <label>Port Type
-                <select name="laptop-port_type-1">
-                  <option value="">Please Select</option>
-                  <option value="None">None</option>
-                  <option value="Built-in">Built-in</option>
-                  <option value="PCMCIA">PCMCIA</option>
-                  <option value="USB Adapter">USB Adapter</option>
-                </select>
-              </label>
-              <label>QuizMachine Version
-                <input type="text" name="laptop-quizmachine_version-1" maxlenth="15">
-              </label>
-              <label>Username
-                <input type="text" name="laptop-username-1" maxlenth="30">
-              </label>
-              <label>Password
-                <input type="password" name="laptop-password-1" maxlenth="30">
-              </label>
-            </fieldset>
           </div>
           <div>
             <fieldset>
@@ -220,6 +185,43 @@
           <button type="submit" id="button--submit" class="button" name="submit">Register Equipment</button>
         </form>
       </section>
+      <div id="templates" style="display: none">
+        <fieldset id="laptop-?">
+          <legend>Laptop <span id="laptop-i">1</span></legend>
+          <label>Brand
+              <input type="text" maxlenth="30" name="laptop-brand-?"  >
+          </label>
+          <label>Operating System
+            <select name="laptop-operating_system-?">
+              <option value="">Please Select</option>
+              <option value="Win 11+">Windows 11 (or newer)</option>
+              <option value="Win 10">Windows 10</option>
+              <option value="Win 7/8">Windows 7/8</option>
+              <option value="Older Windows">Older Windows</option>
+              <option value="Linux">Linux</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+          <label>Port Type
+            <select name="laptop-port_type-?">
+              <option value="">Please Select</option>
+              <option value="None">None</option>
+              <option value="Built-in">Built-in</option>
+              <option value="PCMCIA">PCMCIA</option>
+              <option value="USB Adapter">USB Adapter</option>
+            </select>
+          </label>
+          <label>QuizMachine Version
+            <input type="text" name="laptop-quizmachine_version-?" maxlenth="15">
+          </label>
+          <label>Username
+            <input type="text" name="laptop-username-?" maxlenth="30">
+          </label>
+          <label>Password
+            <input type="password" name="laptop-password-?" maxlenth="30">
+          </label>
+        </fieldset>
+      </div>
     </main>
     <?php include '../footer.php' ?>
   </body>
