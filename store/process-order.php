@@ -29,9 +29,10 @@
     ];
 
     $context = stream_context_create($options);
-    $response = file_get_contents($url, false, $context);
-    if ($response === FALSE) {
+    $response = json_decode(file_get_contents($url, false, $context));
+    if ($response->success === FALSE) {
       $OK = FALSE;
+      echo "Invalid token.";
       http_response_code(403);
       exit();
     }
