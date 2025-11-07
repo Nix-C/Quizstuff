@@ -27,4 +27,5 @@
   //   http_response_code(403);
   //   exit();
   // }
-  echo var_dump($cf_response);
+
+  // Step 2 - Sanitize and store data
