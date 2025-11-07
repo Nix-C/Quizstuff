@@ -101,6 +101,9 @@
             <input type="checkbox" name="agree" id="agree" required >
             <p>I confirm that the above information is accurate and I am authorized to register this equipment.</p>
           </label>
+          <!-- <div class="cf-turnstile" data-sitekey="0x4AAAAAAB7VJCAOCIRo1v9k"></div> -->
+          <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+          
           <button type="submit" id="button--submit" class="button" name="submit">Register Equipment</button>
         </form>
       </section>

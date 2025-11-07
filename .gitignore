@@ -1,8 +1,8 @@
 # Ignore the "Art files" folder
 Art files/
 Downloads/
-store/config/database.php
-config.php
+**/database.php
+**/config.php
 test.php
 .env
 downloads/
@@ -10,6 +10,7 @@ qm-version.json
 installers/
 logs.txt
 debug.txt
+
 
 #equipment manager files
 # Logs

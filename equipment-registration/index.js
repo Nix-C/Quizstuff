@@ -34,11 +34,24 @@ form.addEventListener("submit", async function (event) {
   console.log("Submit!");
   event.preventDefault();
   const formData = new FormData(event.target);
-  const formattedData = formatFormData(formData);
+  let formattedData;
+
+  try {
+    formattedData = formatFormData(formData);
+  } catch (error) {
+    console.error("Error parsing form;", error);
+  }
 
   // Send data
-  if (formattedData.equipment.length != {}) {
-    console.log(formattedData);
+  if (formattedData && formattedData.equipment.length != {}) {
+    sendData(formattedData)
+      .then((response) => {
+        if (response.ok) {
+        } else {
+          console.error("Server returned with an error;", response.error);
+        }
+      })
+      .catch((error) => console.error("Error sending data;", error));
   } else {
     console.error("No Equipment!", formattedData);
   }
@@ -85,6 +98,7 @@ function formatFormData(formData) {
       extensions: group("extension"),
       others: group("other"),
     },
+    token: formData.get("cf-turnstile-response"),
   };
 
   function group(type) {
@@ -104,4 +118,15 @@ function formatFormData(formData) {
     }
     return Object.values(grouped); // returns array instead of object
   }
+}
+
+async function sendData(data) {
+  const response = await fetch("/equipment-registration/submit.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return response;
 }
