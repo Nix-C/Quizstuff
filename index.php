@@ -41,7 +41,7 @@
         <h1 class="container-header">Are Your Clone Pads Falling Apart?</h1>
 
         <p class="container-text">
-          We can replace the pad over with new material and sew all 4 sides (no
+          We can replace the pad cover with new material and sew all 4 sides (no
           glue for longer life). Cost is dependent on what needs to be done. A
           proposal for costs will be sent for approval.
         </p>
@@ -51,7 +51,7 @@
         <h1 class="container-header">Pads Are Being Made As Fast As We Can</h1>
 
         <p class="container-text">
-          We can replace the pad over with new material and sew all 4 sides (no
+          We can replace the pad cover with new material and sew all 4 sides (no
           glue for longer life). Cost is dependent on what needs to be done. A
           proposal for costs will be sent for approval.
           <br /><br />
