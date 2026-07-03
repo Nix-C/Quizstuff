@@ -22,7 +22,7 @@
 
   $body = "
     <p>Hello, $name!</p>
-    <p>Thank you for your message. We try to respond within 1–2 business days.</p>
+    <p>Thank you for your message. We try to respond within 1&#45;2 business days.</p>
     <p>Feel free to reply with further questions!</p>
     <p>Kind regards,<br>Quizstuff Team</p>
     <hr>
