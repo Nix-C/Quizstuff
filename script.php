@@ -66,7 +66,7 @@
 
         // Send the email
         if(!$mail->send()){
-            return "Failed to submit form. Please try again. \n If the issue persists, please email quizstuff@quizstuff.com";
+            return "Failed to submit form. Please try again. \n If the issue persists, please email orders@quizstuff.com";
         } else {
             return "Success.";
         }

@@ -66,7 +66,7 @@
 
       // To
       $mail->AddAddress($to);
-      $mail->AddAddress("quizstuff@quizstuff.com");
+      $mail->AddAddress(SEND_FROM);
 
       // Reply info
       $mail->addReplyTo(REPLY_TO, REPLY_TO_NAME);

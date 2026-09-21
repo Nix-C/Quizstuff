@@ -33,7 +33,7 @@
             
             <!-- Payment instructions -->
             <p style="margin: 0 0 10px;">Please make the payment by check. We will contact you with more payment information and an updated invoice. <br> 
-                If you have any questions, feel free to contact us at <strong>quizstuff@quizstuff.com</strong>.
+                If you have any questions, feel free to contact us at <strong>orders@quizstuff.com</strong>.
             </p>
         </div>
         <!-- Footer -->

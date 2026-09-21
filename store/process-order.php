@@ -213,7 +213,7 @@
   }
 
   // Step 6 - Send mail with invoice body
-  $qsEmail = "quizstuff@quizstuff.com";
+  $qsEmail = "orders@quizstuff.com";
   if(!sendOrderInvoice($invoice, $orderId, $qsEmail)){
     echo "Error: Invoice could not be sent to admin.";
     $OK = false;

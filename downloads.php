@@ -139,7 +139,7 @@
 
         <p class="container-text">
           QuizMachine User Manual (PDF) Version 4.0.0 includes instructions for
-          QMServer; contact us at <u>quizstuff@quizstuff.com</u> for more
+          QMServer; contact us at <u>orders@quizstuff.com</u> for more
           information about using QMServer.
         </p>
 
