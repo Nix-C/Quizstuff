@@ -48,7 +48,7 @@
         </div>
 
         <a
-          href="/store/order-form.php"
+          href="https://www.quizstuff.com/store/order-form.php"
           class="button"
         >
         Purchase Key 
@@ -133,19 +133,20 @@
           <?php endif ?>
         </section>
       
-<!-- 
-      <section class="container">
-        <h1 class="container-header">Download a Free User Manual</h1>
+  <?php
+      // <section class="container">
+      //   <h1 class="container-header">Download a Free User Manual</h1>
 
-        <p class="container-text">
-          QuizMachine User Manual (PDF) Version 4.0.0 includes instructions for
-          QMServer; contact us at <u>orders@quizstuff.com</u> for more
-          information about using QMServer.
-        </p>
+      //   <p class="container-text">
+      //     QuizMachine User Manual (PDF) Version 4.0.0 includes instructions for
+      //     QMServer; contact us at <u>orders@quizstuff.com</u> for more
+      //     information about using QMServer.
+      //   </p>
 
-        <img src="/assets/images/pdf-file.png" alt="PDF icon." />
-        <a href="assets/downloads/Quizmachine Users Guide v.4.0.0.pdf" class="button">Download the User Manual</a>
-      </section> -->
+      //   <img src="/assets/images/pdf-file.png" alt="PDF icon." />
+      //   <a href="assets/downloads/Quizmachine Users Guide v.4.0.0.pdf" class="button">Download the User Manual</a>
+      // </section>
+  ?>
     </main>
 
     <?php include 'footer.php'; ?>
