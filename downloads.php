@@ -41,10 +41,12 @@
         <p>Not ready to buy? Download a version of QuizMachine to try with limited functionality.</p>
         <div class="downloads-container">
           <img class="download-card--icon--small" src="/assets/images/windows.png" alt="Microsoft Windows icon." />
-          <!-- <p>or</p> -->
-          <img class="download-card--icon--small" src="/assets/images/ubuntu-logo.svg" alt="Ubuntu icon." />
-          <!-- <p>or</p> -->
-          <img class="download-card--icon--small" src="/assets/images/raspberry-pi.svg" alt="Raspberry Pi icon." />
+          <?php
+          // <!-- <p>or</p> -->
+          // <img class="download-card--icon--small" src="/assets/images/ubuntu-logo.svg" alt="Ubuntu icon." />
+          // <!-- <p>or</p> -->
+          // <img class="download-card--icon--small" src="/assets/images/raspberry-pi.svg" alt="Raspberry Pi icon." />
+          ?>
         </div>
 
         <a
