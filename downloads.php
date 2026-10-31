@@ -48,7 +48,7 @@
         </div>
 
         <a
-          href="https://quizstuff.com/store/order-form.php"
+          href="/store/order-form.php"
           class="button"
         >
         Purchase Key 
